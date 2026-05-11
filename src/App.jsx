@@ -3,151 +3,160 @@ function App() {
   const whatsappMessage =
     "Hello Civil-Gineer Masta, I would like to request a quotation/consultation.";
 
+  const services = [
+    {
+      title: "Architectural Design",
+      text: "House plans, 3D concepts, renovations, extensions and council submission drawings.",
+    },
+    {
+      title: "Structural Engineering",
+      text: "Structural reports, assessments, design checks, foundations, slabs and safe building solutions.",
+    },
+    {
+      title: "Project Management",
+      text: "Site supervision, quality control, procurement coordination, budgeting and contractor management.",
+    },
+  ];
+
   return (
     <div style={page}>
       <header style={header}>
         <div>
-          <h1 style={{ margin: 0 }}>Civil-Gineer Masta (Pty) Ltd</h1>
-          <p style={{ margin: "5px 0 0", fontWeight: "bold" }}>
-            Building the Future, Mastering the Present
-          </p>
+          <h1 style={logo}>Civil-Gineer Masta</h1>
+          <p style={tagline}>Building the Future, Mastering the Present</p>
         </div>
 
         <nav style={nav}>
+          <a href="#home" style={navLink}>Home</a>
           <a href="#services" style={navLink}>Services</a>
+          <a href="#projects" style={navLink}>Projects</a>
           <a href="#about" style={navLink}>About</a>
-          <a href="#compliance" style={navLink}>Compliance</a>
           <a href="#contact" style={navLink}>Contact</a>
         </nav>
       </header>
 
-      <section style={hero}>
-        <h2 style={heroTitle}>
-          Engineering • Design • Construction
-        </h2>
+      <section id="home" style={hero}>
+        <h2 style={heroTitle}>Engineering • Design • Project Delivery</h2>
 
         <p style={heroText}>
-          A youth-led Botswana-based civil engineering firm delivering innovative,
-          high-quality and sustainable engineering solutions for residential,
-          commercial and infrastructure projects.
+          Professional architectural design, structural engineering and project
+          management solutions for residential and commercial projects in Botswana.
         </p>
 
-        <div style={{ marginTop: "30px" }}>
+        <div style={buttonRow}>
           <a
-            href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`}
+            href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+              whatsappMessage
+            )}`}
             target="_blank"
-            style={button}
+            style={primaryButton}
           >
-            WhatsApp Us
+            Get a Quote
+          </a>
+
+          <a href="#services" style={secondaryButton}>
+            View Services
           </a>
         </div>
       </section>
 
-      <section id="about" style={sectionDark}>
-        <h2 style={sectionTitle}>About Us</h2>
-        <p style={paragraph}>
-          Civil-Gineer Masta (Pty) Ltd specializes in civil engineering consulting,
-          infrastructure development, project management, architectural design,
-          technical reporting, maintenance and construction support.
-        </p>
+      <section id="services" style={darkSection}>
+        <p style={sectionLabel}>WHAT WE DO</p>
+        <h2 style={sectionTitle}>
+          Focused professional services for better building decisions.
+        </h2>
 
-        <div style={grid}>
-          <div style={card}>
-            <h3>Vision</h3>
-            <p>
-              To be Botswana’s leading civil engineering firm, recognized for
-              delivering innovative solutions that shape a sustainable and
-              prosperous future.
-            </p>
-          </div>
-
-          <div style={card}>
-            <h3>Mission</h3>
-            <p>
-              To provide world-class civil engineering services through technology,
-              expertise, reliable service, innovation, quality and community impact.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section id="services" style={sectionLight}>
-        <h2 style={{ ...sectionTitle, color: "#111" }}>Our Services</h2>
-
-        <div style={grid}>
-          {[
-            "Civil Engineering Consulting",
-            "Structural Analysis & Design",
-            "Geotechnical Engineering",
-            "Hydraulic Engineering",
-            "Road, Drainage & Water Systems Design",
-            "Project Management",
-            "Architectural Design",
-            "Renovation & Remodeling Design",
-            "Drafting & 3D Modeling",
-            "Real Estate Development",
-            "Solar Energy Solutions",
-            "Building Information Modeling using Revit, ArchiCAD & Prokon",
-            "Technical Report Writing",
-            "Quality Control & Assurance",
-            "Maintenance & Repairs",
-          ].map((item) => (
-            <div style={lightCard} key={item}>
-              {item}
+        <div style={threeGrid}>
+          {services.map((service) => (
+            <div style={card} key={service.title}>
+              <h3 style={cardTitle}>{service.title}</h3>
+              <p style={cardText}>{service.text}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section id="compliance" style={sectionDark}>
-        <h2 style={sectionTitle}>Compliance & Certification</h2>
+      <section id="projects" style={lightSection}>
+        <p style={{ ...sectionLabel, color: "#c00000" }}>PROJECT SUPPORT</p>
+        <h2 style={{ ...sectionTitle, color: "#111" }}>
+          From concept and approvals to site execution.
+        </h2>
 
-        <div style={grid}>
-          <div style={card}>
-            <h3>Company Details</h3>
-            <p><b>Company Name:</b> Civil-Gineer Masta (Pty) Ltd</p>
-            <p><b>UIN:</b> BW00006249530</p>
-            <p><b>TIN:</b> BW00006249530</p>
+        <div style={projectGrid}>
+          <div style={lightCard}>Residential houses</div>
+          <div style={lightCard}>Commercial buildings</div>
+          <div style={lightCard}>Renovations and extensions</div>
+          <div style={lightCard}>Structural inspections</div>
+          <div style={lightCard}>Council submission support</div>
+          <div style={lightCard}>Construction supervision</div>
+        </div>
+      </section>
+
+      <section id="about" style={darkSection}>
+        <p style={sectionLabel}>ABOUT US</p>
+        <h2 style={sectionTitle}>Professional. Practical. Reliable.</h2>
+
+        <p style={aboutText}>
+          Civil-Gineer Masta (Pty) Ltd helps clients move from idea to approval,
+          and from approval to completion. We combine technical design,
+          structural understanding and site-based project management to deliver
+          practical solutions that make sense on paper and on site.
+        </p>
+
+        <div style={threeGrid}>
+          <div style={infoCard}>
+            <h3 style={cardTitle}>Clear Communication</h3>
+            <p style={cardText}>
+              We explain the scope, process and requirements clearly so clients
+              understand what is being done and why.
+            </p>
           </div>
 
-          <div style={card}>
-            <h3>Registrations</h3>
-            <p>Tax Clearance Certificate obtained</p>
-            <p>Trade License obtained</p>
-            <p>PPADB registration obtained</p>
+          <div style={infoCard}>
+            <h3 style={cardTitle}>Technical Confidence</h3>
+            <p style={cardText}>
+              We support decisions with proper drawings, reports, assessments
+              and practical engineering judgement.
+            </p>
+          </div>
+
+          <div style={infoCard}>
+            <h3 style={cardTitle}>Reliable Delivery</h3>
+            <p style={cardText}>
+              We focus on quality, planning, accountability and professional
+              project coordination from start to finish.
+            </p>
           </div>
         </div>
       </section>
 
-      <section style={sectionLight}>
-        <h2 style={{ ...sectionTitle, color: "#111" }}>Why Choose Us</h2>
-        <p style={{ ...paragraph, color: "#333" }}>
-          We provide a personalized approach to every project, ensuring that each
-          client’s needs are handled with precision, efficiency and care. Our
-          strength lies in combining engineering knowledge, project management and
-          practical site experience.
+      <section id="contact" style={contactSection}>
+        <h2 style={contactTitle}>Let’s bring your project to life.</h2>
+
+        <p style={contactText}>
+          Need house plans, a structural report, design support or project
+          management? Contact Civil-Gineer Masta today.
         </p>
-      </section>
 
-      <section id="contact" style={contact}>
-        <h2 style={{ fontSize: "42px", marginTop: 0 }}>Contact Us</h2>
-
-        <p><b>Phone:</b> (+267) 71839730 / (+267) 77 008 234</p>
-        <p><b>Email:</b> makgolokk@outlook.com / modiseboago10@gmail.com</p>
-        <p><b>Physical Address:</b> Plot 31848, Gaborone North</p>
-        <p><b>Postal Address:</b> P.O Box 1142, ABG, Sebele</p>
+        <div style={contactBox}>
+          <p><b>Phone:</b> (+267) 71839730 / (+267) 77 008 234</p>
+          <p><b>Email:</b> makgolokk@outlook.com / modiseboago10@gmail.com</p>
+          <p><b>Location:</b> Plot 31848, Gaborone North</p>
+        </div>
 
         <a
-          href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`}
+          href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+            whatsappMessage
+          )}`}
           target="_blank"
-          style={{ ...button, display: "inline-block", marginTop: "20px" }}
+          style={blackButton}
         >
-          Request a Quotation
+          WhatsApp Us
         </a>
       </section>
 
       <footer style={footer}>
-        © 2026 Civil-Gineer Masta (Pty) Ltd | Red • Black • White
+        © 2026 Civil-Gineer Masta (Pty) Ltd. Architectural Design • Structural Engineering • Project Management.
       </footer>
     </div>
   );
@@ -162,18 +171,29 @@ const page = {
 
 const header = {
   background: "linear-gradient(90deg, #c00000, #ff3b1f)",
-  padding: "20px 30px",
+  padding: "25px 35px",
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
   flexWrap: "wrap",
   gap: "15px",
+};
+
+const logo = {
+  margin: 0,
+  fontSize: "36px",
   color: "#111",
+};
+
+const tagline = {
+  margin: "5px 0 0",
+  color: "#111",
+  fontWeight: "bold",
 };
 
 const nav = {
   display: "flex",
-  gap: "18px",
+  gap: "20px",
   flexWrap: "wrap",
 };
 
@@ -184,14 +204,14 @@ const navLink = {
 };
 
 const hero = {
-  padding: "100px 20px",
+  padding: "110px 20px",
   textAlign: "center",
   background:
-    "linear-gradient(rgba(0,0,0,0.78), rgba(0,0,0,0.9)), radial-gradient(circle at center, #333, #111)",
+    "linear-gradient(rgba(0,0,0,0.78), rgba(0,0,0,0.92)), radial-gradient(circle at center, #333, #111)",
 };
 
 const heroTitle = {
-  fontSize: "clamp(38px, 6vw, 70px)",
+  fontSize: "clamp(38px, 6vw, 72px)",
   color: "#d9d9d9",
   marginBottom: "20px",
 };
@@ -201,75 +221,163 @@ const heroText = {
   margin: "auto",
   fontSize: "20px",
   lineHeight: "1.7",
+  color: "#f1f1f1",
 };
 
-const button = {
+const buttonRow = {
+  marginTop: "35px",
+  display: "flex",
+  justifyContent: "center",
+  gap: "15px",
+  flexWrap: "wrap",
+};
+
+const primaryButton = {
   backgroundColor: "#ff3b1f",
   color: "white",
-  padding: "15px 28px",
-  borderRadius: "12px",
+  padding: "15px 32px",
+  borderRadius: "10px",
   textDecoration: "none",
   fontWeight: "bold",
 };
 
-const sectionDark = {
-  padding: "70px 25px",
+const secondaryButton = {
+  backgroundColor: "transparent",
+  color: "white",
+  padding: "15px 32px",
+  borderRadius: "10px",
+  textDecoration: "none",
+  fontWeight: "bold",
+  border: "2px solid white",
+};
+
+const darkSection = {
+  padding: "75px 25px",
   backgroundColor: "#181818",
 };
 
-const sectionLight = {
-  padding: "70px 25px",
+const lightSection = {
+  padding: "75px 25px",
   backgroundColor: "#fff",
   color: "#111",
 };
 
+const sectionLabel = {
+  textAlign: "center",
+  color: "#ff3b1f",
+  fontWeight: "bold",
+  letterSpacing: "2px",
+};
+
 const sectionTitle = {
+  maxWidth: "900px",
+  margin: "10px auto 35px",
   fontSize: "clamp(30px, 4vw, 46px)",
-  marginTop: 0,
+  textAlign: "center",
   color: "#d9d9d9",
 };
 
-const paragraph = {
-  maxWidth: "900px",
-  fontSize: "18px",
-  lineHeight: "1.7",
+const threeGrid = {
+  maxWidth: "1100px",
+  margin: "35px auto 0",
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+  gap: "22px",
 };
 
-const grid = {
+const projectGrid = {
+  maxWidth: "1100px",
+  margin: "35px auto 0",
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+  gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
   gap: "20px",
-  marginTop: "30px",
 };
 
 const card = {
   backgroundColor: "#222",
-  padding: "25px",
-  borderRadius: "18px",
+  padding: "30px",
+  borderRadius: "16px",
   border: "1px solid #333",
+};
+
+const infoCard = {
+  backgroundColor: "#222",
+  padding: "25px",
+  borderRadius: "16px",
+  border: "1px solid #333",
+};
+
+const cardTitle = {
+  color: "#ff3b1f",
+  marginTop: 0,
+};
+
+const cardText = {
+  color: "#ddd",
   lineHeight: "1.6",
 };
 
 const lightCard = {
   backgroundColor: "#f4f4f4",
-  padding: "22px",
-  borderRadius: "14px",
+  padding: "24px",
+  borderRadius: "15px",
   borderLeft: "5px solid #c00000",
   fontWeight: "bold",
 };
 
-const contact = {
-  padding: "70px 25px",
+const aboutText = {
+  maxWidth: "950px",
+  margin: "auto",
+  fontSize: "18px",
+  lineHeight: "1.8",
+  textAlign: "center",
+  color: "#ddd",
+};
+
+const contactSection = {
+  padding: "75px 25px",
   background: "linear-gradient(90deg, #c00000, #ff3b1f)",
   color: "#111",
+  textAlign: "center",
+};
+
+const contactTitle = {
+  fontSize: "clamp(32px, 4vw, 50px)",
+  marginTop: 0,
+};
+
+const contactText = {
+  maxWidth: "750px",
+  margin: "auto",
+  fontSize: "19px",
+  lineHeight: "1.7",
+  fontWeight: "bold",
+};
+
+const contactBox = {
+  maxWidth: "750px",
+  margin: "30px auto",
+  backgroundColor: "rgba(255,255,255,0.25)",
+  padding: "20px",
+  borderRadius: "15px",
   fontSize: "18px",
+};
+
+const blackButton = {
+  display: "inline-block",
+  backgroundColor: "#111",
+  color: "white",
+  padding: "15px 32px",
+  borderRadius: "10px",
+  textDecoration: "none",
+  fontWeight: "bold",
 };
 
 const footer = {
   backgroundColor: "#000",
-  padding: "25px",
-  textAlign: "center",
   color: "#aaa",
+  textAlign: "center",
+  padding: "25px",
 };
 
 export default App;
