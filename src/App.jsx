@@ -5,29 +5,47 @@ function App() {
 
   const services = [
     {
-      icon: "⌂",
+      image: "/images/architectural-design.png",
       title: "Architectural Design",
       text: "House plans, 3D concepts, renovations, extensions and council submission drawings.",
     },
     {
-      icon: "▥",
+      image: "/images/structural-engineering.png",
       title: "Structural Engineering",
       text: "Structural reports, assessments, design checks, foundations, slabs and safe building solutions.",
     },
     {
-      icon: "☑",
+      image: "/images/project-management.png",
       title: "Project Management",
       text: "Site supervision, quality control, procurement coordination, budgeting and contractor management.",
     },
   ];
 
   const projects = [
-    "Residential Houses",
-    "Commercial Buildings",
-    "Renovations & Extensions",
-    "Structural Inspections",
-    "Council Submission Support",
-    "Construction Supervision",
+    {
+      image: "/images/residential-houses.png",
+      title: "Residential Houses",
+    },
+    {
+      image: "/images/commercial-buildings.png",
+      title: "Commercial Buildings",
+    },
+    {
+      image: "/images/renovations-extensions.png",
+      title: "Renovations & Extensions",
+    },
+    {
+      image: "/images/structural-inspections.png",
+      title: "Structural Inspections",
+    },
+    {
+      image: "/images/structural-inspections.png",
+      title: "Council Submission Support",
+    },
+    {
+      image: "/images/project-management.png",
+      title: "Construction Supervision",
+    },
   ];
 
   return (
@@ -86,7 +104,7 @@ function App() {
         <div style={threeGrid}>
           {services.map((service) => (
             <div style={serviceCard} key={service.title}>
-              <div style={serviceIcon}>{service.icon}</div>
+              <img src={service.image} alt={service.title} style={serviceImage} />
               <div>
                 <h3 style={cardTitle}>{service.title}</h3>
                 <p style={cardText}>{service.text}</p>
@@ -104,9 +122,9 @@ function App() {
 
         <div style={projectGrid}>
           {projects.map((project) => (
-            <div style={projectItem} key={project}>
-              <div style={projectIcon}>⌂</div>
-              <p>{project}</p>
+            <div style={projectItem} key={project.title}>
+              <img src={project.image} alt={project.title} style={projectImage} />
+              <p>{project.title}</p>
             </div>
           ))}
         </div>
@@ -328,10 +346,11 @@ const serviceCard = {
   gap: "25px",
 };
 
-const serviceIcon = {
-  fontSize: "54px",
-  color: "#ff1f1f",
-  minWidth: "70px",
+const serviceImage = {
+  width: "72px",
+  height: "72px",
+  objectFit: "contain",
+  minWidth: "72px",
 };
 
 const cardTitle = {
@@ -367,8 +386,10 @@ const projectItem = {
   fontWeight: "bold",
 };
 
-const projectIcon = {
-  fontSize: "42px",
+const projectImage = {
+  width: "52px",
+  height: "52px",
+  objectFit: "contain",
   marginBottom: "8px",
 };
 
