@@ -1,560 +1,480 @@
-* {
-  box-sizing: border-box;
-}
+import "./App.css";
 
-html {
-  scroll-behavior: smooth;
-}
+function App() {
+  const whatsappNumber = "26771839730";
+  const whatsappMessage =
+    "Hello Civil-Gineer Masta, I would like to request a quotation/consultation.";
 
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #111;
-}
+  const services = [
+    {
+      image: "/images/architectural-design.png",
+      title: "Architectural Design",
+      text: "House plans, 3D concepts, renovations, extensions and council submission drawings.",
+    },
+    {
+      image: "/images/structural-engineering.png",
+      title: "Structural Engineering",
+      text: "Structural reports, assessments, design checks, foundations, slabs and safe building solutions.",
+    },
+    {
+      image: "/images/project-management.png",
+      title: "Project Management",
+      text: "Site supervision, quality control, procurement coordination, budgeting and contractor management.",
+    },
+  ];
 
-.page {
-  min-height: 100vh;
-  background: #111;
-  color: #fff;
-  overflow-x: hidden;
-}
+  const projects = [
+    {
+      image: "/images/residential-houses.png",
+      title: "Residential Houses",
+    },
+    {
+      image: "/images/commercial-buildings.png",
+      title: "Commercial Buildings",
+    },
+    {
+      image: "/images/renovations-extensions.png",
+      title: "Renovations & Extensions",
+    },
+    {
+      image: "/images/structural-inspections.png",
+      title: "Structural Inspections",
+    },
+    {
+      image: "/images/structural-inspections.png",
+      title: "Council Submission Support",
+    },
+    {
+      image: "/images/project-management.png",
+      title: "Construction Supervision",
+    },
+  ];
 
-/* HEADER */
+  return (
+    <div className="page" style={page}>
+      <header className="header" style={header}>
+        <div className="logoPanel" style={logoPanel}>
+          <img
+            className="logoImage"
+            src="/images/logo.png"
+            alt="Civil-Gineer Masta Logo"
+            style={logoImage}
+          />
+        </div>
 
-.header {
-  height: 110px;
-  background: linear-gradient(
-    90deg,
-    #ffffff 0%,
-    #ffffff 25%,
-    #c00000 25%,
-    #a80000 100%
+        <nav className="nav" style={nav}>
+          <a href="#home" style={navLink}>Home</a>
+          <a href="#services" style={navLink}>Services</a>
+          <a href="#projects" style={navLink}>Projects</a>
+          <a href="#about" style={navLink}>About</a>
+          <a href="#contact" style={navLink}>Contact</a>
+        </nav>
+      </header>
+
+      <section className="hero" id="home" style={hero}>
+        <div className="heroOverlay" style={heroOverlay}>
+          <div className="heroContent" style={heroContent}>
+            <h1 style={heroTitle}>
+              Engineering • Design •<br />Project Delivery
+            </h1>
+
+            <p style={heroText}>
+              Professional architectural design, structural engineering and project
+              management solutions for residential and commercial projects in Botswana.
+            </p>
+
+            <div className="buttonRow" style={buttonRow}>
+              <a
+                href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+                  whatsappMessage
+                )}`}
+                target="_blank"
+                className="primaryButton"
+                style={primaryButton}
+              >
+                WhatsApp Quote
+              </a>
+
+              <a className="secondaryButton" href="#services" style={secondaryButton}>
+                View Services
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="darkSection" id="services" style={darkSection}>
+        <p className="sectionLabel" style={sectionLabel}>WHAT WE DO</p>
+        <h2 className="sectionTitle" style={sectionTitle}>
+          Focused professional services for better building decisions.
+        </h2>
+
+        <div className="serviceGrid" style={threeGrid}>
+          {services.map((service) => (
+            <div className="serviceCard" style={serviceCard} key={service.title}>
+              <img
+                className="serviceIcon"
+                src={service.image}
+                alt={service.title}
+                style={serviceImage}
+              />
+              <div>
+                <h3 style={cardTitle}>{service.title}</h3>
+                <p style={cardText}>{service.text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="lightSection" id="projects" style={lightSection}>
+        <p className="sectionLabel red" style={{ ...sectionLabel, color: "#c00000" }}>PROJECT SUPPORT</p>
+        <h2 className="sectionTitle dark" style={{ ...sectionTitle, color: "#111" }}>
+          From concept and approvals to site execution.
+        </h2>
+
+        <div className="projectGrid" style={projectGrid}>
+          {projects.map((project) => (
+            <div className="projectItem" style={projectItem} key={project.title}>
+              <img
+                className="projectIcon"
+                src={project.image}
+                alt={project.title}
+                style={projectImage}
+              />
+              <p>{project.title}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="aboutContactWrap" id="about" style={aboutContactWrap}>
+        <div className="aboutPanel" style={aboutPanel}>
+          <p className="sectionLabel left" style={{ ...sectionLabel, textAlign: "left" }}>ABOUT US</p>
+          <h2 style={aboutTitle}>Professional. Practical. Reliable.</h2>
+
+          <p style={aboutText}>
+            Civil-Gineer Masta (Pty) Ltd helps clients move from idea to approval,
+            and from approval to completion. We combine technical design,
+            structural understanding and site-based project management to deliver
+            practical solutions that make sense on paper and on site.
+          </p>
+        </div>
+
+        <div className="valuePanel" style={valuePanel}>
+          <div className="valueCard" style={valueCard}>
+            <h3 style={cardTitle}>Clear Communication</h3>
+            <p style={cardText}>
+              We explain the scope, process and requirements clearly at every stage.
+            </p>
+          </div>
+
+          <div className="valueCard" style={valueCard}>
+            <h3 style={cardTitle}>Technical Confidence</h3>
+            <p style={cardText}>
+              We support decisions with proper drawings, reports and engineering judgement.
+            </p>
+          </div>
+
+          <div className="valueCard" style={valueCard}>
+            <h3 style={cardTitle}>Reliable Delivery</h3>
+            <p style={cardText}>
+              We focus on quality, planning, accountability and professional coordination.
+            </p>
+          </div>
+        </div>
+
+        <div className="contactPanel" id="contact" style={contactPanel}>
+          <h2 style={contactTitle}>Let’s bring your project to life.</h2>
+
+          <p style={contactText}>
+            Need house plans, a structural report, design support or project management?
+            Contact Civil-Gineer Masta today.
+          </p>
+
+          <p><b>Phone:</b> (+267) 71839730 / (+267) 77 008 234</p>
+          <p><b>Email:</b> makgolokk@outlook.com / modiseboago10@gmail.com</p>
+          <p><b>Location:</b> Plot 31848, Gaborone North</p>
+
+          <a
+            href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+              whatsappMessage
+            )}`}
+            target="_blank"
+            className="blackButton"
+            style={blackButton}
+          >
+            WhatsApp Us
+          </a>
+        </div>
+      </section>
+
+      <footer className="footer" style={footer}>
+        © 2026 Civil-Gineer Masta (Pty) Ltd. All Rights Reserved. | Engineering • Design • Project Delivery
+      </footer>
+    </div>
   );
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-right: 56px;
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.35);
 }
 
-.logoPanel {
-  width: 340px;
-  height: 110px;
-  background: #fff;
-  border-bottom-right-radius: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logoImage {
-  width: 265px;
-  height: 95px;
-  object-fit: contain;
-}
-
-.nav {
-  display: flex;
-  align-items: center;
-  gap: 42px;
-}
-
-.nav a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 15px;
-  font-weight: 800;
-  position: relative;
-  padding: 8px 0;
-}
-
-.nav a::after {
-  content: "";
-  width: 0;
-  height: 2px;
-  background: #fff;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  transition: 0.25s ease;
-}
-
-.nav a:hover::after {
-  width: 100%;
-}
-
-/* HERO */
-
-.hero {
-  min-height: 560px;
-  background-image: url("/images/hero.png");
-  background-size: cover;
-  background-position: center;
-}
-
-.heroOverlay {
-  min-height: 560px;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.97) 0%,
-    rgba(0, 0, 0, 0.78) 45%,
-    rgba(0, 0, 0, 0.28) 100%
-  );
-  display: flex;
-  align-items: center;
-}
-
-.heroContent {
-  width: min(680px, 90%);
-  margin-left: 7%;
-}
-
-.heroContent h1 {
-  margin: 0 0 24px;
-  font-size: clamp(44px, 5vw, 72px);
-  line-height: 1.05;
-  letter-spacing: -1.4px;
-  color: #f7f7f7;
-}
-
-.heroContent p {
-  margin: 0;
-  font-size: 20px;
-  line-height: 1.6;
-  color: #f1f1f1;
-}
-
-.buttonRow {
-  margin-top: 36px;
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-
-.primaryButton,
-.secondaryButton,
-.blackButton {
-  display: inline-block;
-  padding: 16px 34px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 800;
-  transition: 0.25s ease;
-}
-
-.primaryButton {
-  background: #c00000;
-  color: #fff;
-  box-shadow: 0 8px 24px rgba(192, 0, 0, 0.45);
-}
-
-.secondaryButton {
-  background: transparent;
-  color: #fff;
-  border: 2px solid #fff;
-}
-
-.primaryButton:hover,
-.secondaryButton:hover,
-.blackButton:hover {
-  transform: translateY(-2px);
-}
-
-/* SECTIONS */
-
-.darkSection {
-  padding: 56px 25px 66px;
-  background: linear-gradient(180deg, #171717, #0d0d0d);
-  border-top: 1px solid #333;
-}
-
-.lightSection {
-  padding: 52px 25px 58px;
-  background: #f7f7f7;
-  color: #111;
-}
-
-.sectionLabel {
-  margin: 0 0 8px;
-  text-align: center;
-  color: #ff1f1f;
-  font-size: 14px;
-  font-weight: 900;
-  letter-spacing: 1.5px;
-}
-
-.sectionLabel.red {
-  color: #c00000;
-}
-
-.sectionLabel.left {
-  text-align: left;
-}
-
-.sectionTitle {
-  max-width: 980px;
-  margin: 0 auto 36px;
-  text-align: center;
-  color: #f7f7f7;
-  font-size: clamp(25px, 3vw, 34px);
-  line-height: 1.2;
-}
-
-.sectionTitle.dark {
-  color: #111;
-}
-
-/* SERVICES */
-
-.serviceGrid {
-  max-width: 1180px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-}
-
-.serviceCard {
-  min-height: 170px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid #454545;
-  border-radius: 10px;
-  padding: 30px;
-  display: flex;
-  align-items: center;
-  gap: 28px;
-}
-
-.serviceIcon {
-  width: 92px;
-  height: 92px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-.serviceCard h3,
-.valueCard h3 {
-  margin: 0 0 10px;
-  color: #fff;
-  font-size: 20px;
-  line-height: 1.15;
-}
-
-.serviceCard p,
-.valueCard p {
-  margin: 0;
-  color: #d8d8d8;
-  line-height: 1.55;
-}
-
-/* PROJECT SUPPORT */
-
-.projectGrid {
-  max-width: 1180px;
-  margin: 30px auto 0;
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-}
-
-.projectItem {
-  min-height: 135px;
-  padding: 20px 16px;
-  text-align: center;
-  border-right: 1px solid #d0d0d0;
-  font-weight: 900;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.projectItem:last-child {
-  border-right: none;
-}
-
-.projectIcon {
-  width: 70px;
-  height: 70px;
-  object-fit: contain;
-  margin-bottom: 10px;
-}
-
-.projectItem p {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.25;
-}
-
-/* ABOUT + CONTACT */
-
-.aboutContactWrap {
-  display: grid;
-  grid-template-columns: 1.25fr 1.1fr 1.25fr;
-  background: #111;
-}
-
-.aboutPanel {
-  padding: 60px 50px;
-}
-
-.aboutPanel h2 {
-  margin: 0 0 22px;
-  font-size: 34px;
-  line-height: 1.15;
-}
-
-.aboutPanel p {
-  color: #d8d8d8;
-  line-height: 1.75;
-}
-
-.valuePanel {
-  padding: 55px 35px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-}
-
-.valueCard {
-  padding: 20px 5px;
-}
-
-.contactPanel {
-  background: linear-gradient(135deg, #d00000, #a80000);
-  color: #fff;
-  padding: 58px 50px;
-}
-
-.contactPanel h2 {
-  margin: 0 0 18px;
-  font-size: 32px;
-  line-height: 1.15;
-}
-
-.contactPanel p {
-  line-height: 1.6;
-}
-
-.contactDetails {
-  margin-top: 20px;
-}
-
-.blackButton {
-  margin-top: 18px;
-  background: #050505;
-  color: #fff;
-}
-
-/* FOOTER */
-
-footer {
-  background: #050505;
-  color: #aaa;
-  text-align: center;
-  padding: 22px;
-  font-size: 14px;
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-/* TABLET */
-
-@media (max-width: 1100px) {
-  .header {
-    height: 96px;
-    padding-right: 28px;
-  }
-
-  .logoPanel {
-    width: 245px;
-    height: 96px;
-    border-bottom-right-radius: 32px;
-  }
-
-  .logoImage {
-    width: 185px;
-    height: 78px;
-  }
-
-  .nav {
-    gap: 24px;
-  }
-
-  .serviceGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .serviceCard {
-    max-width: 760px;
-    margin: 0 auto;
-  }
-
-  .projectGrid {
-    grid-template-columns: repeat(3, 1fr);
-    row-gap: 22px;
-  }
-
-  .projectItem:nth-child(3) {
-    border-right: none;
-  }
-
-  .aboutContactWrap {
-    grid-template-columns: 1fr;
-  }
-
-  .valuePanel {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* MOBILE */
-
-@media (max-width: 700px) {
-  .header {
-    height: auto;
-    padding-right: 0;
-    flex-direction: column;
-    background: #b00000;
-  }
-
-  .logoPanel {
-    width: 100%;
-    height: 88px;
-    border-bottom-right-radius: 34px;
-  }
-
-  .logoImage {
-    width: 185px;
-    height: 76px;
-  }
-
-  .nav {
-    width: 100%;
-    justify-content: center;
-    gap: 18px;
-    padding: 14px 10px;
-    flex-wrap: wrap;
-  }
-
-  .nav a {
-    font-size: 12px;
-  }
-
-  .hero,
-  .heroOverlay {
-    min-height: 560px;
-  }
-
-  .heroOverlay {
-    text-align: center;
-    justify-content: center;
-    background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.72),
-      rgba(0, 0, 0, 0.96)
-    );
-  }
-
-  .heroContent {
-    width: 88%;
-    margin: 0 auto;
-  }
-
-  .heroContent h1 {
-    font-size: 34px;
-    line-height: 1.12;
-    letter-spacing: -0.5px;
-  }
-
-  .heroContent p {
-    font-size: 15px;
-    line-height: 1.65;
-  }
-
-  .buttonRow {
-    justify-content: center;
-  }
-
-  .primaryButton,
-  .secondaryButton,
-  .blackButton {
-    width: 100%;
-    max-width: 270px;
-    text-align: center;
-    padding: 15px 20px;
-  }
-
-  .darkSection,
-  .lightSection {
-    padding: 46px 18px;
-  }
-
-  .sectionTitle {
-    font-size: 24px;
-  }
-
-  .serviceCard {
-    min-height: 255px;
-    padding: 35px 24px;
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .serviceIcon {
-    width: 98px;
-    height: 98px;
-  }
-
-  .projectGrid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0;
-  }
-
-  .projectItem {
-    min-height: 150px;
-    border-right: none;
-    border-bottom: 1px solid #ddd;
-  }
-
-  .projectIcon {
-    width: 64px;
-    height: 64px;
-  }
-
-  .aboutPanel,
-  .contactPanel {
-    padding: 46px 25px;
-    text-align: center;
-  }
-
-  .sectionLabel.left {
-    text-align: center;
-  }
-
-  .aboutPanel h2,
-  .contactPanel h2 {
-    font-size: 28px;
-  }
-
-  .valuePanel {
-    padding: 38px 25px;
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  footer {
-    font-size: 12px;
-    line-height: 1.6;
-    gap: 6px;
-  }
-
-  .footerDivider {
-    display: none;
-  }
-}
+const page = {
+  fontFamily: "Arial, sans-serif",
+  backgroundColor: "#111",
+  color: "white",
+  minHeight: "100vh",
+};
+
+const header = {
+  height: "115px",
+  background: "linear-gradient(90deg, #ffffff 0%, #ffffff 24%, #c00000 24%, #b00000 100%)",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  paddingRight: "55px",
+  position: "sticky",
+  top: 0,
+  zIndex: 20,
+  boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
+};
+
+const logoPanel = {
+  height: "115px",
+  width: "330px",
+  backgroundColor: "white",
+  borderBottomRightRadius: "35px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
+
+const logoImage = {
+  width: "260px",
+  height: "95px",
+  objectFit: "contain",
+};
+
+const nav = {
+  display: "flex",
+  gap: "45px",
+  flexWrap: "wrap",
+};
+
+const navLink = {
+  color: "white",
+  fontWeight: "bold",
+  textDecoration: "none",
+  fontSize: "16px",
+};
+
+const hero = {
+  minHeight: "520px",
+  backgroundImage: "url('/images/hero.png')",
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+};
+
+const heroOverlay = {
+  minHeight: "520px",
+  background:
+    "linear-gradient(90deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.72) 42%, rgba(0,0,0,0.25) 100%)",
+  display: "flex",
+  alignItems: "center",
+};
+
+const heroContent = {
+  maxWidth: "650px",
+  marginLeft: "7%",
+};
+
+const heroTitle = {
+  fontSize: "clamp(42px, 5vw, 72px)",
+  lineHeight: "1.05",
+  color: "#f5f5f5",
+  marginBottom: "22px",
+};
+
+const heroText = {
+  fontSize: "20px",
+  lineHeight: "1.6",
+  color: "#f1f1f1",
+};
+
+const buttonRow = {
+  marginTop: "35px",
+  display: "flex",
+  gap: "18px",
+  flexWrap: "wrap",
+};
+
+const primaryButton = {
+  backgroundColor: "#c00000",
+  color: "white",
+  padding: "16px 34px",
+  borderRadius: "8px",
+  textDecoration: "none",
+  fontWeight: "bold",
+  boxShadow: "0 8px 20px rgba(192,0,0,0.35)",
+};
+
+const secondaryButton = {
+  backgroundColor: "transparent",
+  color: "white",
+  padding: "16px 34px",
+  borderRadius: "8px",
+  textDecoration: "none",
+  fontWeight: "bold",
+  border: "2px solid white",
+};
+
+const darkSection = {
+  padding: "45px 25px 55px",
+  background: "linear-gradient(180deg, #151515, #0e0e0e)",
+  borderTop: "1px solid #333",
+};
+
+const sectionLabel = {
+  textAlign: "center",
+  color: "#ff1f1f",
+  fontWeight: "bold",
+  letterSpacing: "1.5px",
+  marginBottom: "8px",
+};
+
+const sectionTitle = {
+  maxWidth: "950px",
+  margin: "0 auto 30px",
+  fontSize: "clamp(26px, 3vw, 34px)",
+  textAlign: "center",
+  color: "#f5f5f5",
+};
+
+const threeGrid = {
+  maxWidth: "1180px",
+  margin: "0 auto",
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(290px, 1fr))",
+  gap: "22px",
+};
+
+const serviceCard = {
+  backgroundColor: "rgba(255,255,255,0.04)",
+  border: "1px solid #444",
+  borderRadius: "8px",
+  padding: "28px",
+  display: "flex",
+  alignItems: "center",
+  gap: "25px",
+};
+
+const serviceImage = {
+  width: "72px",
+  height: "72px",
+  objectFit: "contain",
+  minWidth: "72px",
+};
+
+const cardTitle = {
+  color: "#fff",
+  marginTop: 0,
+  marginBottom: "10px",
+};
+
+const cardText = {
+  color: "#d8d8d8",
+  lineHeight: "1.55",
+  margin: 0,
+};
+
+const lightSection = {
+  padding: "45px 25px 50px",
+  backgroundColor: "#f7f7f7",
+  color: "#111",
+};
+
+const projectGrid = {
+  maxWidth: "1180px",
+  margin: "25px auto 0",
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+  gap: "10px",
+};
+
+const projectItem = {
+  textAlign: "center",
+  padding: "20px 15px",
+  borderRight: "1px solid #d0d0d0",
+  fontWeight: "bold",
+};
+
+const projectImage = {
+  width: "52px",
+  height: "52px",
+  objectFit: "contain",
+  marginBottom: "8px",
+};
+
+const aboutContactWrap = {
+  display: "grid",
+  gridTemplateColumns: "1.3fr 1fr 1.25fr",
+  backgroundColor: "#111",
+};
+
+const aboutPanel = {
+  padding: "55px 50px",
+};
+
+const aboutTitle = {
+  fontSize: "34px",
+  marginTop: 0,
+};
+
+const aboutText = {
+  color: "#d8d8d8",
+  lineHeight: "1.75",
+};
+
+const valuePanel = {
+  padding: "45px 35px",
+  display: "grid",
+  gridTemplateColumns: "repeat(3, 1fr)",
+  gap: "18px",
+};
+
+const valueCard = {
+  padding: "20px 10px",
+};
+
+const contactPanel = {
+  background: "linear-gradient(135deg, #d00000, #a80000)",
+  color: "white",
+  padding: "50px",
+};
+
+const contactTitle = {
+  fontSize: "32px",
+  marginTop: 0,
+};
+
+const contactText = {
+  lineHeight: "1.6",
+};
+
+const blackButton = {
+  display: "inline-block",
+  marginTop: "18px",
+  backgroundColor: "#050505",
+  color: "white",
+  padding: "14px 28px",
+  borderRadius: "8px",
+  textDecoration: "none",
+  fontWeight: "bold",
+};
+
+const footer = {
+  backgroundColor: "#050505",
+  color: "#aaa",
+  textAlign: "center",
+  padding: "22px",
+  fontSize: "14px",
+};
+
+export default App;
