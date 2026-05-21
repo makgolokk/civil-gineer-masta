@@ -8,55 +8,85 @@ html {
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #111;
 }
 
 .page {
-  background: #111;
-  color: white;
   min-height: 100vh;
+  background: #111;
+  color: #fff;
+  overflow-x: hidden;
 }
+
+/* HEADER */
 
 .header {
   height: 110px;
-  background: linear-gradient(90deg, #fff 0%, #fff 25%, #c00000 25%, #a80000 100%);
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #ffffff 25%,
+    #c00000 25%,
+    #a80000 100%
+  );
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding-right: 55px;
+  justify-content: space-between;
+  padding-right: 56px;
   position: sticky;
   top: 0;
   z-index: 50;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.35);
 }
 
 .logoPanel {
-  height: 110px;
   width: 340px;
+  height: 110px;
   background: #fff;
-  border-bottom-right-radius: 38px;
+  border-bottom-right-radius: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .logoImage {
-  width: 260px;
+  width: 265px;
   height: 95px;
   object-fit: contain;
 }
 
 .nav {
   display: flex;
+  align-items: center;
   gap: 42px;
 }
 
 .nav a {
-  color: white;
-  font-size: 15px;
-  font-weight: 700;
+  color: #fff;
   text-decoration: none;
+  font-size: 15px;
+  font-weight: 800;
+  position: relative;
+  padding: 8px 0;
 }
+
+.nav a::after {
+  content: "";
+  width: 0;
+  height: 2px;
+  background: #fff;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  transition: 0.25s ease;
+}
+
+.nav a:hover::after {
+  width: 100%;
+}
+
+/* HERO */
 
 .hero {
   min-height: 560px;
@@ -67,7 +97,12 @@ body {
 
 .heroOverlay {
   min-height: 560px;
-  background: linear-gradient(90deg, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.76) 45%, rgba(0,0,0,0.28) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.97) 0%,
+    rgba(0, 0, 0, 0.78) 45%,
+    rgba(0, 0, 0, 0.28) 100%
+  );
   display: flex;
   align-items: center;
 }
@@ -78,22 +113,24 @@ body {
 }
 
 .heroContent h1 {
+  margin: 0 0 24px;
   font-size: clamp(44px, 5vw, 72px);
   line-height: 1.05;
-  margin: 0 0 24px;
-  letter-spacing: -1px;
+  letter-spacing: -1.4px;
+  color: #f7f7f7;
 }
 
 .heroContent p {
+  margin: 0;
   font-size: 20px;
   line-height: 1.6;
   color: #f1f1f1;
-  margin: 0;
 }
 
 .buttonRow {
-  margin-top: 35px;
+  margin-top: 36px;
   display: flex;
+  align-items: center;
   gap: 18px;
   flex-wrap: wrap;
 }
@@ -105,19 +142,20 @@ body {
   padding: 16px 34px;
   border-radius: 8px;
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 800;
   transition: 0.25s ease;
 }
 
 .primaryButton {
   background: #c00000;
-  color: white;
-  box-shadow: 0 8px 22px rgba(192,0,0,0.4);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(192, 0, 0, 0.45);
 }
 
 .secondaryButton {
-  color: white;
-  border: 2px solid white;
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
 }
 
 .primaryButton:hover,
@@ -126,19 +164,27 @@ body {
   transform: translateY(-2px);
 }
 
+/* SECTIONS */
+
 .darkSection {
-  padding: 55px 25px 65px;
+  padding: 56px 25px 66px;
   background: linear-gradient(180deg, #171717, #0d0d0d);
   border-top: 1px solid #333;
 }
 
+.lightSection {
+  padding: 52px 25px 58px;
+  background: #f7f7f7;
+  color: #111;
+}
+
 .sectionLabel {
+  margin: 0 0 8px;
   text-align: center;
   color: #ff1f1f;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  margin: 0 0 8px;
   font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
 }
 
 .sectionLabel.red {
@@ -151,15 +197,18 @@ body {
 
 .sectionTitle {
   max-width: 980px;
-  margin: 0 auto 35px;
-  font-size: clamp(25px, 3vw, 34px);
+  margin: 0 auto 36px;
   text-align: center;
-  color: #f5f5f5;
+  color: #f7f7f7;
+  font-size: clamp(25px, 3vw, 34px);
+  line-height: 1.2;
 }
 
 .sectionTitle.dark {
   color: #111;
 }
+
+/* SERVICES */
 
 .serviceGrid {
   max-width: 1180px;
@@ -170,9 +219,9 @@ body {
 }
 
 .serviceCard {
-  min-height: 165px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid #444;
+  min-height: 170px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid #454545;
   border-radius: 10px;
   padding: 30px;
   display: flex;
@@ -181,31 +230,28 @@ body {
 }
 
 .serviceIcon {
-  width: 88px;
-  height: 88px;
+  width: 92px;
+  height: 92px;
   object-fit: contain;
   flex-shrink: 0;
 }
 
 .serviceCard h3,
 .valueCard h3 {
-  color: white;
   margin: 0 0 10px;
+  color: #fff;
   font-size: 20px;
+  line-height: 1.15;
 }
 
 .serviceCard p,
 .valueCard p {
+  margin: 0;
   color: #d8d8d8;
   line-height: 1.55;
-  margin: 0;
 }
 
-.lightSection {
-  padding: 50px 25px 55px;
-  background: #f7f7f7;
-  color: #111;
-}
+/* PROJECT SUPPORT */
 
 .projectGrid {
   max-width: 1180px;
@@ -215,10 +261,15 @@ body {
 }
 
 .projectItem {
-  text-align: center;
+  min-height: 135px;
   padding: 20px 16px;
+  text-align: center;
   border-right: 1px solid #d0d0d0;
-  font-weight: 800;
+  font-weight: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .projectItem:last-child {
@@ -226,8 +277,8 @@ body {
 }
 
 .projectIcon {
-  width: 68px;
-  height: 68px;
+  width: 70px;
+  height: 70px;
   object-fit: contain;
   margin-bottom: 10px;
 }
@@ -235,7 +286,10 @@ body {
 .projectItem p {
   margin: 0;
   font-size: 14px;
+  line-height: 1.25;
 }
+
+/* ABOUT + CONTACT */
 
 .aboutContactWrap {
   display: grid;
@@ -248,8 +302,9 @@ body {
 }
 
 .aboutPanel h2 {
-  font-size: 34px;
   margin: 0 0 22px;
+  font-size: 34px;
+  line-height: 1.15;
 }
 
 .aboutPanel p {
@@ -270,24 +325,31 @@ body {
 
 .contactPanel {
   background: linear-gradient(135deg, #d00000, #a80000);
-  color: white;
+  color: #fff;
   padding: 58px 50px;
 }
 
 .contactPanel h2 {
-  font-size: 32px;
   margin: 0 0 18px;
+  font-size: 32px;
+  line-height: 1.15;
 }
 
 .contactPanel p {
   line-height: 1.6;
 }
 
+.contactDetails {
+  margin-top: 20px;
+}
+
 .blackButton {
   margin-top: 18px;
   background: #050505;
-  color: white;
+  color: #fff;
 }
+
+/* FOOTER */
 
 footer {
   background: #050505;
@@ -295,28 +357,33 @@ footer {
   text-align: center;
   padding: 22px;
   font-size: 14px;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
 }
 
 /* TABLET */
-@media (max-width: 1024px) {
+
+@media (max-width: 1100px) {
   .header {
-    height: 92px;
-    padding-right: 25px;
+    height: 96px;
+    padding-right: 28px;
   }
 
   .logoPanel {
-    height: 92px;
-    width: 230px;
-    border-bottom-right-radius: 28px;
+    width: 245px;
+    height: 96px;
+    border-bottom-right-radius: 32px;
   }
 
   .logoImage {
-    width: 170px;
-    height: 75px;
+    width: 185px;
+    height: 78px;
   }
 
   .nav {
-    gap: 22px;
+    gap: 24px;
   }
 
   .serviceGrid {
@@ -324,13 +391,17 @@ footer {
   }
 
   .serviceCard {
-    max-width: 720px;
+    max-width: 760px;
     margin: 0 auto;
   }
 
   .projectGrid {
     grid-template-columns: repeat(3, 1fr);
-    row-gap: 25px;
+    row-gap: 22px;
+  }
+
+  .projectItem:nth-child(3) {
+    border-right: none;
   }
 
   .aboutContactWrap {
@@ -343,10 +414,11 @@ footer {
 }
 
 /* MOBILE */
-@media (max-width: 650px) {
+
+@media (max-width: 700px) {
   .header {
     height: auto;
-    padding: 0;
+    padding-right: 0;
     flex-direction: column;
     background: #b00000;
   }
@@ -354,12 +426,12 @@ footer {
   .logoPanel {
     width: 100%;
     height: 88px;
-    border-bottom-right-radius: 32px;
+    border-bottom-right-radius: 34px;
   }
 
   .logoImage {
     width: 185px;
-    height: 78px;
+    height: 76px;
   }
 
   .nav {
@@ -374,25 +446,30 @@ footer {
     font-size: 12px;
   }
 
-  .hero {
+  .hero,
+  .heroOverlay {
     min-height: 560px;
   }
 
   .heroOverlay {
-    min-height: 560px;
-    background: linear-gradient(180deg, rgba(0,0,0,0.72), rgba(0,0,0,0.95));
     text-align: center;
     justify-content: center;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.72),
+      rgba(0, 0, 0, 0.96)
+    );
   }
 
   .heroContent {
-    margin: 0 auto;
     width: 88%;
+    margin: 0 auto;
   }
 
   .heroContent h1 {
     font-size: 34px;
     line-height: 1.12;
+    letter-spacing: -0.5px;
   }
 
   .heroContent p {
@@ -408,14 +485,14 @@ footer {
   .secondaryButton,
   .blackButton {
     width: 100%;
-    max-width: 260px;
+    max-width: 270px;
     text-align: center;
     padding: 15px 20px;
   }
 
   .darkSection,
   .lightSection {
-    padding: 45px 18px;
+    padding: 46px 18px;
   }
 
   .sectionTitle {
@@ -423,15 +500,15 @@ footer {
   }
 
   .serviceCard {
+    min-height: 255px;
+    padding: 35px 24px;
     flex-direction: column;
     text-align: center;
-    padding: 35px 24px;
-    min-height: 255px;
   }
 
   .serviceIcon {
-    width: 95px;
-    height: 95px;
+    width: 98px;
+    height: 98px;
   }
 
   .projectGrid {
@@ -440,19 +517,19 @@ footer {
   }
 
   .projectItem {
+    min-height: 150px;
     border-right: none;
     border-bottom: 1px solid #ddd;
-    min-height: 150px;
   }
 
   .projectIcon {
-    width: 62px;
-    height: 62px;
+    width: 64px;
+    height: 64px;
   }
 
   .aboutPanel,
   .contactPanel {
-    padding: 45px 25px;
+    padding: 46px 25px;
     text-align: center;
   }
 
@@ -466,7 +543,7 @@ footer {
   }
 
   .valuePanel {
-    padding: 35px 25px;
+    padding: 38px 25px;
     grid-template-columns: 1fr;
     text-align: center;
   }
@@ -474,5 +551,10 @@ footer {
   footer {
     font-size: 12px;
     line-height: 1.6;
+    gap: 6px;
+  }
+
+  .footerDivider {
+    display: none;
   }
 }
