@@ -1,464 +1,478 @@
-function App() {
-  const whatsappNumber = "26771839730";
-  const whatsappMessage =
-    "Hello Civil-Gineer Masta, I would like to request a quotation/consultation.";
-
-  const services = [
-    {
-      image: "/images/architectural-design.png",
-      title: "Architectural Design",
-      text: "House plans, 3D concepts, renovations, extensions and council submission drawings.",
-    },
-    {
-      image: "/images/structural-engineering.png",
-      title: "Structural Engineering",
-      text: "Structural reports, assessments, design checks, foundations, slabs and safe building solutions.",
-    },
-    {
-      image: "/images/project-management.png",
-      title: "Project Management",
-      text: "Site supervision, quality control, procurement coordination, budgeting and contractor management.",
-    },
-  ];
-
-  const projects = [
-    {
-      image: "/images/residential-houses.png",
-      title: "Residential Houses",
-    },
-    {
-      image: "/images/commercial-buildings.png",
-      title: "Commercial Buildings",
-    },
-    {
-      image: "/images/renovations-extensions.png",
-      title: "Renovations & Extensions",
-    },
-    {
-      image: "/images/structural-inspections.png",
-      title: "Structural Inspections",
-    },
-    {
-      image: "/images/structural-inspections.png",
-      title: "Council Submission Support",
-    },
-    {
-      image: "/images/project-management.png",
-      title: "Construction Supervision",
-    },
-  ];
-
-  return (
-    <div style={page}>
-      <header style={header}>
-        <div style={logoPanel}>
-          <img src="/images/logo.png" alt="Civil-Gineer Masta Logo" style={logoImage} />
-        </div>
-
-        <nav style={nav}>
-          <a href="#home" style={navLink}>Home</a>
-          <a href="#services" style={navLink}>Services</a>
-          <a href="#projects" style={navLink}>Projects</a>
-          <a href="#about" style={navLink}>About</a>
-          <a href="#contact" style={navLink}>Contact</a>
-        </nav>
-      </header>
-
-      <section id="home" style={hero}>
-        <div style={heroOverlay}>
-          <div style={heroContent}>
-            <h1 style={heroTitle}>
-              Engineering • Design •<br />Project Delivery
-            </h1>
-
-            <p style={heroText}>
-              Professional architectural design, structural engineering and project
-              management solutions for residential and commercial projects in Botswana.
-            </p>
-
-            <div style={buttonRow}>
-              <a
-                href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-                  whatsappMessage
-                )}`}
-                target="_blank"
-                style={primaryButton}
-              >
-                WhatsApp Quote
-              </a>
-
-              <a href="#services" style={secondaryButton}>
-                View Services
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="services" style={darkSection}>
-        <p style={sectionLabel}>WHAT WE DO</p>
-        <h2 style={sectionTitle}>
-          Focused professional services for better building decisions.
-        </h2>
-
-        <div style={threeGrid}>
-          {services.map((service) => (
-            <div style={serviceCard} key={service.title}>
-              <img src={service.image} alt={service.title} style={serviceImage} />
-              <div>
-                <h3 style={cardTitle}>{service.title}</h3>
-                <p style={cardText}>{service.text}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section id="projects" style={lightSection}>
-        <p style={{ ...sectionLabel, color: "#c00000" }}>PROJECT SUPPORT</p>
-        <h2 style={{ ...sectionTitle, color: "#111" }}>
-          From concept and approvals to site execution.
-        </h2>
-
-        <div style={projectGrid}>
-          {projects.map((project) => (
-            <div style={projectItem} key={project.title}>
-              <img src={project.image} alt={project.title} style={projectImage} />
-              <p>{project.title}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section id="about" style={aboutContactWrap}>
-        <div style={aboutPanel}>
-          <p style={{ ...sectionLabel, textAlign: "left" }}>ABOUT US</p>
-          <h2 style={aboutTitle}>Professional. Practical. Reliable.</h2>
-
-          <p style={aboutText}>
-            Civil-Gineer Masta (Pty) Ltd helps clients move from idea to approval,
-            and from approval to completion. We combine technical design,
-            structural understanding and site-based project management to deliver
-            practical solutions that make sense on paper and on site.
-          </p>
-        </div>
-
-        <div style={valuePanel}>
-          <div style={valueCard}>
-            <h3 style={cardTitle}>Clear Communication</h3>
-            <p style={cardText}>
-              We explain the scope, process and requirements clearly at every stage.
-            </p>
-          </div>
-
-          <div style={valueCard}>
-            <h3 style={cardTitle}>Technical Confidence</h3>
-            <p style={cardText}>
-              We support decisions with proper drawings, reports and engineering judgement.
-            </p>
-          </div>
-
-          <div style={valueCard}>
-            <h3 style={cardTitle}>Reliable Delivery</h3>
-            <p style={cardText}>
-              We focus on quality, planning, accountability and professional coordination.
-            </p>
-          </div>
-        </div>
-
-        <div id="contact" style={contactPanel}>
-          <h2 style={contactTitle}>Let’s bring your project to life.</h2>
-
-          <p style={contactText}>
-            Need house plans, a structural report, design support or project management?
-            Contact Civil-Gineer Masta today.
-          </p>
-
-          <p><b>Phone:</b> (+267) 71839730 / (+267) 77 008 234</p>
-          <p><b>Email:</b> makgolokk@outlook.com / modiseboago10@gmail.com</p>
-          <p><b>Location:</b> Plot 31848, Gaborone North</p>
-
-          <a
-            href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-              whatsappMessage
-            )}`}
-            target="_blank"
-            style={blackButton}
-          >
-            WhatsApp Us
-          </a>
-        </div>
-      </section>
-
-      <footer style={footer}>
-        © 2026 Civil-Gineer Masta (Pty) Ltd. All Rights Reserved. | Engineering • Design • Project Delivery
-      </footer>
-    </div>
-  );
+* {
+  box-sizing: border-box;
 }
 
-const page = {
-  fontFamily: "Arial, sans-serif",
-  backgroundColor: "#111",
-  color: "white",
-  minHeight: "100vh",
-};
+html {
+  scroll-behavior: smooth;
+}
 
-const header = {
-  height: "115px",
-  background: "linear-gradient(90deg, #ffffff 0%, #ffffff 24%, #c00000 24%, #b00000 100%)",
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  paddingRight: "55px",
-  position: "sticky",
-  top: 0,
-  zIndex: 20,
-  boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
-};
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
 
-const logoPanel = {
-  height: "115px",
-  width: "330px",
-  backgroundColor: "white",
-  borderBottomRightRadius: "35px",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-};
+.page {
+  background: #111;
+  color: white;
+  min-height: 100vh;
+}
 
-const logoImage = {
-  width: "260px",
-  height: "95px",
-  objectFit: "contain",
-};
+.header {
+  height: 110px;
+  background: linear-gradient(90deg, #fff 0%, #fff 25%, #c00000 25%, #a80000 100%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 55px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+}
 
-const nav = {
-  display: "flex",
-  gap: "45px",
-  flexWrap: "wrap",
-};
+.logoPanel {
+  height: 110px;
+  width: 340px;
+  background: #fff;
+  border-bottom-right-radius: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-const navLink = {
-  color: "white",
-  fontWeight: "bold",
-  textDecoration: "none",
-  fontSize: "16px",
-};
+.logoImage {
+  width: 260px;
+  height: 95px;
+  object-fit: contain;
+}
 
-const hero = {
-  minHeight: "520px",
-  backgroundImage: "url('/images/hero.png')",
-  backgroundSize: "cover",
-  backgroundPosition: "center",
-};
+.nav {
+  display: flex;
+  gap: 42px;
+}
 
-const heroOverlay = {
-  minHeight: "520px",
-  background:
-    "linear-gradient(90deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.72) 42%, rgba(0,0,0,0.25) 100%)",
-  display: "flex",
-  alignItems: "center",
-};
+.nav a {
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
 
-const heroContent = {
-  maxWidth: "650px",
-  marginLeft: "7%",
-};
+.hero {
+  min-height: 560px;
+  background-image: url("/images/hero.png");
+  background-size: cover;
+  background-position: center;
+}
 
-const heroTitle = {
-  fontSize: "clamp(42px, 5vw, 72px)",
-  lineHeight: "1.05",
-  color: "#f5f5f5",
-  marginBottom: "22px",
-};
+.heroOverlay {
+  min-height: 560px;
+  background: linear-gradient(90deg, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.76) 45%, rgba(0,0,0,0.28) 100%);
+  display: flex;
+  align-items: center;
+}
 
-const heroText = {
-  fontSize: "20px",
-  lineHeight: "1.6",
-  color: "#f1f1f1",
-};
+.heroContent {
+  width: min(680px, 90%);
+  margin-left: 7%;
+}
 
-const buttonRow = {
-  marginTop: "35px",
-  display: "flex",
-  gap: "18px",
-  flexWrap: "wrap",
-};
+.heroContent h1 {
+  font-size: clamp(44px, 5vw, 72px);
+  line-height: 1.05;
+  margin: 0 0 24px;
+  letter-spacing: -1px;
+}
 
-const primaryButton = {
-  backgroundColor: "#c00000",
-  color: "white",
-  padding: "16px 34px",
-  borderRadius: "8px",
-  textDecoration: "none",
-  fontWeight: "bold",
-  boxShadow: "0 8px 20px rgba(192,0,0,0.35)",
-};
+.heroContent p {
+  font-size: 20px;
+  line-height: 1.6;
+  color: #f1f1f1;
+  margin: 0;
+}
 
-const secondaryButton = {
-  backgroundColor: "transparent",
-  color: "white",
-  padding: "16px 34px",
-  borderRadius: "8px",
-  textDecoration: "none",
-  fontWeight: "bold",
-  border: "2px solid white",
-};
+.buttonRow {
+  margin-top: 35px;
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
 
-const darkSection = {
-  padding: "45px 25px 68px",
-  background: "linear-gradient(180deg, #151515, #0e0e0e)",
-  borderTop: "1px solid #333",
-};
+.primaryButton,
+.secondaryButton,
+.blackButton {
+  display: inline-block;
+  padding: 16px 34px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: 0.25s ease;
+}
 
-const sectionLabel = {
-  textAlign: "center",
-  color: "#ff1f1f",
-  fontWeight: "bold",
-  letterSpacing: "1.5px",
-  marginBottom: "8px",
-};
+.primaryButton {
+  background: #c00000;
+  color: white;
+  box-shadow: 0 8px 22px rgba(192,0,0,0.4);
+}
 
-const sectionTitle = {
-  maxWidth: "950px",
-  margin: "0 auto 35px",
-  fontSize: "clamp(26px, 3vw, 34px)",
-  textAlign: "center",
-  color: "#f5f5f5",
-};
+.secondaryButton {
+  color: white;
+  border: 2px solid white;
+}
 
-const threeGrid = {
-  maxWidth: "1180px",
-  margin: "0 auto",
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-  gap: "24px",
-};
+.primaryButton:hover,
+.secondaryButton:hover,
+.blackButton:hover {
+  transform: translateY(-2px);
+}
 
-const serviceCard = {
-  backgroundColor: "rgba(255,255,255,0.04)",
-  border: "1px solid #444",
-  borderRadius: "8px",
-  padding: "35px 30px",
-  display: "flex",
-  alignItems: "center",
-  gap: "28px",
-  minHeight: "210px",
-};
+.darkSection {
+  padding: 55px 25px 65px;
+  background: linear-gradient(180deg, #171717, #0d0d0d);
+  border-top: 1px solid #333;
+}
 
-const serviceImage = {
-  width: "135px",
-  height: "135px",
-  objectFit: "contain",
-  minWidth: "135px",
-};
+.sectionLabel {
+  text-align: center;
+  color: #ff1f1f;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  margin: 0 0 8px;
+  font-size: 14px;
+}
 
-const cardTitle = {
-  color: "#fff",
-  marginTop: 0,
-  marginBottom: "10px",
-  fontSize: "24px",
-};
+.sectionLabel.red {
+  color: #c00000;
+}
 
-const cardText = {
-  color: "#d8d8d8",
-  lineHeight: "1.55",
-  margin: 0,
-  fontSize: "17px",
-};
+.sectionLabel.left {
+  text-align: left;
+}
 
-const lightSection = {
-  padding: "55px 25px 60px",
-  backgroundColor: "#f7f7f7",
-  color: "#111",
-};
+.sectionTitle {
+  max-width: 980px;
+  margin: 0 auto 35px;
+  font-size: clamp(25px, 3vw, 34px);
+  text-align: center;
+  color: #f5f5f5;
+}
 
-const projectGrid = {
-  maxWidth: "1180px",
-  margin: "32px auto 0",
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-  gap: "10px",
-};
+.sectionTitle.dark {
+  color: #111;
+}
 
-const projectItem = {
-  textAlign: "center",
-  padding: "25px 15px",
-  borderRight: "1px solid #d0d0d0",
-  fontWeight: "bold",
-};
+.serviceGrid {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
 
-const projectImage = {
-  width: "95px",
-  height: "95px",
-  objectFit: "contain",
-  marginBottom: "14px",
-};
+.serviceCard {
+  min-height: 165px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid #444;
+  border-radius: 10px;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
 
-const aboutContactWrap = {
-  display: "grid",
-  gridTemplateColumns: "1.3fr 1fr 1.25fr",
-  backgroundColor: "#111",
-};
+.serviceIcon {
+  width: 88px;
+  height: 88px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
 
-const aboutPanel = {
-  padding: "55px 50px",
-};
+.serviceCard h3,
+.valueCard h3 {
+  color: white;
+  margin: 0 0 10px;
+  font-size: 20px;
+}
 
-const aboutTitle = {
-  fontSize: "34px",
-  marginTop: 0,
-};
+.serviceCard p,
+.valueCard p {
+  color: #d8d8d8;
+  line-height: 1.55;
+  margin: 0;
+}
 
-const aboutText = {
-  color: "#d8d8d8",
-  lineHeight: "1.75",
-};
+.lightSection {
+  padding: 50px 25px 55px;
+  background: #f7f7f7;
+  color: #111;
+}
 
-const valuePanel = {
-  padding: "45px 35px",
-  display: "grid",
-  gridTemplateColumns: "repeat(3, 1fr)",
-  gap: "18px",
-};
+.projectGrid {
+  max-width: 1180px;
+  margin: 30px auto 0;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
 
-const valueCard = {
-  padding: "20px 10px",
-};
+.projectItem {
+  text-align: center;
+  padding: 20px 16px;
+  border-right: 1px solid #d0d0d0;
+  font-weight: 800;
+}
 
-const contactPanel = {
-  background: "linear-gradient(135deg, #d00000, #a80000)",
-  color: "white",
-  padding: "50px",
-};
+.projectItem:last-child {
+  border-right: none;
+}
 
-const contactTitle = {
-  fontSize: "32px",
-  marginTop: 0,
-};
+.projectIcon {
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
 
-const contactText = {
-  lineHeight: "1.6",
-};
+.projectItem p {
+  margin: 0;
+  font-size: 14px;
+}
 
-const blackButton = {
-  display: "inline-block",
-  marginTop: "18px",
-  backgroundColor: "#050505",
-  color: "white",
-  padding: "14px 28px",
-  borderRadius: "8px",
-  textDecoration: "none",
-  fontWeight: "bold",
-};
+.aboutContactWrap {
+  display: grid;
+  grid-template-columns: 1.25fr 1.1fr 1.25fr;
+  background: #111;
+}
 
-const footer = {
-  backgroundColor: "#050505",
-  color: "#aaa",
-  textAlign: "center",
-  padding: "22px",
-  fontSize: "14px",
-};
+.aboutPanel {
+  padding: 60px 50px;
+}
 
-export default App;
+.aboutPanel h2 {
+  font-size: 34px;
+  margin: 0 0 22px;
+}
+
+.aboutPanel p {
+  color: #d8d8d8;
+  line-height: 1.75;
+}
+
+.valuePanel {
+  padding: 55px 35px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.valueCard {
+  padding: 20px 5px;
+}
+
+.contactPanel {
+  background: linear-gradient(135deg, #d00000, #a80000);
+  color: white;
+  padding: 58px 50px;
+}
+
+.contactPanel h2 {
+  font-size: 32px;
+  margin: 0 0 18px;
+}
+
+.contactPanel p {
+  line-height: 1.6;
+}
+
+.blackButton {
+  margin-top: 18px;
+  background: #050505;
+  color: white;
+}
+
+footer {
+  background: #050505;
+  color: #aaa;
+  text-align: center;
+  padding: 22px;
+  font-size: 14px;
+}
+
+/* TABLET */
+@media (max-width: 1024px) {
+  .header {
+    height: 92px;
+    padding-right: 25px;
+  }
+
+  .logoPanel {
+    height: 92px;
+    width: 230px;
+    border-bottom-right-radius: 28px;
+  }
+
+  .logoImage {
+    width: 170px;
+    height: 75px;
+  }
+
+  .nav {
+    gap: 22px;
+  }
+
+  .serviceGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .serviceCard {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .projectGrid {
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 25px;
+  }
+
+  .aboutContactWrap {
+    grid-template-columns: 1fr;
+  }
+
+  .valuePanel {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* MOBILE */
+@media (max-width: 650px) {
+  .header {
+    height: auto;
+    padding: 0;
+    flex-direction: column;
+    background: #b00000;
+  }
+
+  .logoPanel {
+    width: 100%;
+    height: 88px;
+    border-bottom-right-radius: 32px;
+  }
+
+  .logoImage {
+    width: 185px;
+    height: 78px;
+  }
+
+  .nav {
+    width: 100%;
+    justify-content: center;
+    gap: 18px;
+    padding: 14px 10px;
+    flex-wrap: wrap;
+  }
+
+  .nav a {
+    font-size: 12px;
+  }
+
+  .hero {
+    min-height: 560px;
+  }
+
+  .heroOverlay {
+    min-height: 560px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.72), rgba(0,0,0,0.95));
+    text-align: center;
+    justify-content: center;
+  }
+
+  .heroContent {
+    margin: 0 auto;
+    width: 88%;
+  }
+
+  .heroContent h1 {
+    font-size: 34px;
+    line-height: 1.12;
+  }
+
+  .heroContent p {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .buttonRow {
+    justify-content: center;
+  }
+
+  .primaryButton,
+  .secondaryButton,
+  .blackButton {
+    width: 100%;
+    max-width: 260px;
+    text-align: center;
+    padding: 15px 20px;
+  }
+
+  .darkSection,
+  .lightSection {
+    padding: 45px 18px;
+  }
+
+  .sectionTitle {
+    font-size: 24px;
+  }
+
+  .serviceCard {
+    flex-direction: column;
+    text-align: center;
+    padding: 35px 24px;
+    min-height: 255px;
+  }
+
+  .serviceIcon {
+    width: 95px;
+    height: 95px;
+  }
+
+  .projectGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+
+  .projectItem {
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+    min-height: 150px;
+  }
+
+  .projectIcon {
+    width: 62px;
+    height: 62px;
+  }
+
+  .aboutPanel,
+  .contactPanel {
+    padding: 45px 25px;
+    text-align: center;
+  }
+
+  .sectionLabel.left {
+    text-align: center;
+  }
+
+  .aboutPanel h2,
+  .contactPanel h2 {
+    font-size: 28px;
+  }
+
+  .valuePanel {
+    padding: 35px 25px;
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  footer {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+}
