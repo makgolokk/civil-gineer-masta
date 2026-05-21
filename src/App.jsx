@@ -307,7 +307,7 @@ const secondaryButton = {
 };
 
 const darkSection = {
-  padding: "45px 25px 55px",
+  padding: "45px 25px 68px",
   background: "linear-gradient(180deg, #151515, #0e0e0e)",
   borderTop: "1px solid #333",
 };
@@ -322,7 +322,7 @@ const sectionLabel = {
 
 const sectionTitle = {
   maxWidth: "950px",
-  margin: "0 auto 30px",
+  margin: "0 auto 35px",
   fontSize: "clamp(26px, 3vw, 34px)",
   textAlign: "center",
   color: "#f5f5f5",
@@ -332,48 +332,51 @@ const threeGrid = {
   maxWidth: "1180px",
   margin: "0 auto",
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(290px, 1fr))",
-  gap: "22px",
+  gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+  gap: "24px",
 };
 
 const serviceCard = {
   backgroundColor: "rgba(255,255,255,0.04)",
   border: "1px solid #444",
   borderRadius: "8px",
-  padding: "28px",
+  padding: "35px 30px",
   display: "flex",
   alignItems: "center",
-  gap: "25px",
+  gap: "28px",
+  minHeight: "210px",
 };
 
 const serviceImage = {
-  width: "72px",
-  height: "72px",
+  width: "135px",
+  height: "135px",
   objectFit: "contain",
-  minWidth: "72px",
+  minWidth: "135px",
 };
 
 const cardTitle = {
   color: "#fff",
   marginTop: 0,
   marginBottom: "10px",
+  fontSize: "24px",
 };
 
 const cardText = {
   color: "#d8d8d8",
   lineHeight: "1.55",
   margin: 0,
+  fontSize: "17px",
 };
 
 const lightSection = {
-  padding: "45px 25px 50px",
+  padding: "55px 25px 60px",
   backgroundColor: "#f7f7f7",
   color: "#111",
 };
 
 const projectGrid = {
   maxWidth: "1180px",
-  margin: "25px auto 0",
+  margin: "32px auto 0",
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
   gap: "10px",
@@ -381,16 +384,16 @@ const projectGrid = {
 
 const projectItem = {
   textAlign: "center",
-  padding: "20px 15px",
+  padding: "25px 15px",
   borderRight: "1px solid #d0d0d0",
   fontWeight: "bold",
 };
 
 const projectImage = {
-  width: "52px",
-  height: "52px",
+  width: "95px",
+  height: "95px",
   objectFit: "contain",
-  marginBottom: "8px",
+  marginBottom: "14px",
 };
 
 const aboutContactWrap = {
