@@ -25,6 +25,7 @@ function App() {
   const whatsappNumber = "26771839730";
   const whatsappMessage =
     "Hello Civil-Gineer Masta, I would like to request a quotation/consultation.";
+  const enquiryEmail = "makgolokk@outlook.com";
 
   useEffect(() => {
     const revealSections = document.querySelectorAll(".revealSection");
@@ -99,6 +100,63 @@ function App() {
     },
   ];
 
+  const clientRequests = [
+    "Architectural House Plans & Extensions",
+    "Structural Analysis & Reports",
+    "Patio & Outdoor Structure Design",
+    "Property Maintenance Support",
+    "Construction Cost Estimates",
+  ];
+
+  const serviceOptions = [
+    "Architectural Design",
+    "Structural Engineering",
+    "Structural Reports",
+    "Council Submission Support",
+    "Renovations & Extensions",
+    "Site Supervision",
+    "Construction Cost Estimate",
+    "Other",
+  ];
+
+  const faqs = [
+    {
+      question: "Do you do house plans?",
+      answer:
+        "Yes. We prepare practical house plan solutions for new builds, renovations and extensions.",
+    },
+    {
+      question: "Can you assist with council submissions?",
+      answer:
+        "Yes. We support submission drawings and help clients prepare the technical information required for review.",
+    },
+    {
+      question: "Do you provide structural reports?",
+      answer:
+        "Yes. We provide structural assessments and reports based on the project scope and available site information.",
+    },
+    {
+      question: "Do you visit site before quoting?",
+      answer:
+        "Where a site visit is needed to confirm scope, we will advise you before finalising the quotation.",
+    },
+    {
+      question: "Which areas do you serve?",
+      answer:
+        "We serve clients in Gaborone and support projects across Botswana depending on the scope and location.",
+    },
+    {
+      question: "Can you help with renovations and extensions?",
+      answer:
+        "Yes. We help plan renovation and extension work with design, structural and site delivery considerations in mind.",
+    },
+    {
+      question: "Why do I need a consultant for my project?",
+      answer:
+        "A consultant helps you plan properly, get technical guidance and approvals, protect structural safety, manage costs more efficiently and move through construction with fewer avoidable delays.",
+    },
+  ];
+
   const navItems = [
     { href: "#home", icon: "home", label: "Home" },
     { href: "#services", icon: "ruler", label: "Services" },
@@ -142,6 +200,32 @@ function App() {
       value: "Plot 31848, Gaborone North",
     },
   ];
+
+  const handleEnquirySubmit = (event) => {
+    event.preventDefault();
+
+    const form = new FormData(event.currentTarget);
+    const emailBody = [
+      "Hello Civil-Gineer Masta,",
+      "",
+      "I would like to enquire about a project.",
+      "",
+      `Full Name: ${form.get("fullName")}`,
+      `Email Address: ${form.get("email")}`,
+      `Phone Number: ${form.get("phone")}`,
+      `Project Location: ${form.get("location")}`,
+      `Service Needed: ${form.get("service")}`,
+      "",
+      "Brief Project Description:",
+      `${form.get("description")}`,
+      "",
+      "Thank you.",
+    ].join("\n");
+
+    window.location.href = `mailto:${enquiryEmail}?subject=${encodeURIComponent(
+      "Project Enquiry - Civil-Gineer Masta"
+    )}&body=${encodeURIComponent(emailBody)}`;
+  };
 
   return (
     <div className="page">
@@ -266,6 +350,101 @@ function App() {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="requestSection revealSection">
+        <p className="sectionLabel">
+          <Icon name="messages" />
+          POPULAR CLIENT REQUESTS
+        </p>
+        <h2 className="sectionTitle">
+          Common things clients contact us for.
+        </h2>
+
+        <div className="requestGrid">
+          {clientRequests.map((request) => (
+            <span className="requestTag" key={request}>
+              {request}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      <section className="faqSection revealSection">
+        <p className="sectionLabel red">
+          <Icon name="clipboard" />
+          FAQ
+        </p>
+        <h2 className="sectionTitle dark">Clear answers before you get started.</h2>
+
+        <div className="faqList">
+          {faqs.map((faq) => (
+            <details className="faqItem" key={faq.question}>
+              <summary>{faq.question}</summary>
+              <p>{faq.answer}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section className="enquirySection revealSection">
+        <div className="enquiryIntro">
+          <p className="sectionLabel left">
+            <Icon name="mail" />
+            PROJECT ENQUIRY
+          </p>
+          <h2>Tell us what you are planning.</h2>
+          <p>
+            Share the essentials and your email app will open with a ready-to-send
+            project enquiry.
+          </p>
+        </div>
+
+        <form className="enquiryForm" onSubmit={handleEnquirySubmit}>
+          <label>
+            <span>Full Name</span>
+            <input autoComplete="name" name="fullName" required type="text" />
+          </label>
+
+          <label>
+            <span>Email Address</span>
+            <input autoComplete="email" name="email" required type="email" />
+          </label>
+
+          <label>
+            <span>Phone Number</span>
+            <input autoComplete="tel" name="phone" required type="tel" />
+          </label>
+
+          <label>
+            <span>Project Location</span>
+            <input name="location" required type="text" />
+          </label>
+
+          <label className="enquiryWide">
+            <span>Service Needed</span>
+            <select defaultValue="" name="service" required>
+              <option disabled value="">
+                Select a service
+              </option>
+              {serviceOptions.map((service) => (
+                <option key={service} value={service}>
+                  {service}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="enquiryWide">
+            <span>Brief Project Description</span>
+            <textarea name="description" required rows="4" />
+          </label>
+
+          <button className="enquirySubmit" type="submit">
+            <Icon name="mail" />
+            Send Enquiry by Email
+          </button>
+        </form>
       </section>
 
       <section className="aboutContactWrap revealSection" id="about" style={aboutContactWrap}>
