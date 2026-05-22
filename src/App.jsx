@@ -335,8 +335,11 @@ function App() {
         target="_blank"
         title="WhatsApp Civil-Gineer Masta"
       >
-        <Icon name="messages" />
-        <span>WhatsApp</span>
+        <img
+          aria-hidden="true"
+          className="floatingWhatsappIcon"
+          src="/images/Whatsapp.png"
+        />
       </a>
 
       <footer className="footer" style={footer}>
