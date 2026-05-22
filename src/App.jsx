@@ -203,7 +203,11 @@ function App() {
                 rel="noreferrer"
                 className="primaryButton"
               >
-                <Icon name="messages" />
+                <img
+                  aria-hidden="true"
+                  className="whatsappButtonIcon"
+                  src="/images/Whatsapp.png"
+                />
                 WhatsApp Quote
               </a>
 
@@ -319,7 +323,11 @@ function App() {
             rel="noreferrer"
             className="blackButton"
           >
-            <Icon name="messages" />
+            <img
+              aria-hidden="true"
+              className="whatsappButtonIcon"
+              src="/images/Whatsapp.png"
+            />
             WhatsApp Us
           </a>
         </div>
