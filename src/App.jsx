@@ -17,7 +17,7 @@ import {
   ShieldCheck,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
@@ -25,6 +25,34 @@ function App() {
   const whatsappNumber = "26771839730";
   const whatsappMessage =
     "Hello Civil-Gineer Masta, I would like to request a quotation/consultation.";
+
+  useEffect(() => {
+    const revealSections = document.querySelectorAll(".revealSection");
+
+    if (!("IntersectionObserver" in window)) {
+      revealSections.forEach((section) => section.classList.add("isVisible"));
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("isVisible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: "0px 0px -12%", threshold: 0.12 }
+    );
+
+    revealSections.forEach((section) => {
+      section.classList.add("isRevealReady");
+      observer.observe(section);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   const services = [
     {
@@ -116,7 +144,7 @@ function App() {
   ];
 
   return (
-    <div className="page" style={page}>
+    <div className="page">
       <header className="header" style={header}>
         <div className="logoPanel" style={logoPanel}>
           <img
@@ -153,33 +181,33 @@ function App() {
         </nav>
       </header>
 
-      <section className="hero" id="home" style={hero}>
-        <div className="heroOverlay" style={heroOverlay}>
-          <div className="heroContent" style={heroContent}>
-            <h1 style={heroTitle}>
-              <span className="heroLine heroLineLead">Engineering • Design •</span>
+      <section className="hero" id="home">
+        <div className="heroOverlay">
+          <div className="heroContent">
+            <h1>
+              <span className="heroLine heroLineLead">Engineering | Design</span>
               <span className="heroLine">Project Delivery</span>
             </h1>
 
-            <p style={heroText}>
+            <p>
               Professional architectural design, structural engineering and project
               management solutions for residential and commercial projects in Botswana.
             </p>
 
-            <div className="buttonRow" style={buttonRow}>
+            <div className="buttonRow">
               <a
                 href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
                   whatsappMessage
                 )}`}
                 target="_blank"
+                rel="noreferrer"
                 className="primaryButton"
-                style={primaryButton}
               >
                 <Icon name="messages" />
                 WhatsApp Quote
               </a>
 
-              <a className="secondaryButton" href="#services" style={secondaryButton}>
+              <a className="secondaryButton" href="#services">
                 View Services
                 <Icon name="arrow" />
               </a>
@@ -188,12 +216,12 @@ function App() {
         </div>
       </section>
 
-      <section className="darkSection" id="services" style={darkSection}>
-        <p className="sectionLabel" style={sectionLabel}>
+      <section className="darkSection revealSection" id="services">
+        <p className="sectionLabel">
           <Icon name="ruler" />
           WHAT WE DO
         </p>
-        <h2 className="sectionTitle" style={sectionTitle}>
+        <h2 className="sectionTitle">
           Focused professional services for better building decisions.
         </h2>
 
@@ -215,12 +243,12 @@ function App() {
         </div>
       </section>
 
-      <section className="lightSection" id="projects" style={lightSection}>
-        <p className="sectionLabel red" style={{ ...sectionLabel, color: "#c00000" }}>
+      <section className="lightSection revealSection" id="projects">
+        <p className="sectionLabel red">
           <Icon name="clipboard" />
           PROJECT SUPPORT
         </p>
-        <h2 className="sectionTitle dark" style={{ ...sectionTitle, color: "#111" }}>
+        <h2 className="sectionTitle dark">
           From concept and approvals to site execution.
         </h2>
 
@@ -236,9 +264,9 @@ function App() {
         </div>
       </section>
 
-      <section className="aboutContactWrap" id="about" style={aboutContactWrap}>
+      <section className="aboutContactWrap revealSection" id="about" style={aboutContactWrap}>
         <div className="aboutPanel" style={aboutPanel}>
-          <p className="sectionLabel left" style={{ ...sectionLabel, textAlign: "left" }}>
+          <p className="sectionLabel left">
             <Icon name="building" />
             ABOUT US
           </p>
@@ -265,7 +293,7 @@ function App() {
         </div>
 
         <div className="contactPanel" id="contact" style={contactPanel}>
-          <h2 style={contactTitle}>Let’s bring your project to life.</h2>
+          <h2 style={contactTitle}>Let's bring your project to life.</h2>
 
           <p style={contactText}>
             Need house plans, a structural report, design support or project management?
@@ -288,8 +316,8 @@ function App() {
               whatsappMessage
             )}`}
             target="_blank"
+            rel="noreferrer"
             className="blackButton"
-            style={blackButton}
           >
             <Icon name="messages" />
             WhatsApp Us
@@ -297,19 +325,26 @@ function App() {
         </div>
       </section>
 
+      <a
+        aria-label="Chat with Civil-Gineer Masta on WhatsApp"
+        className="floatingWhatsapp"
+        href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+          whatsappMessage
+        )}`}
+        rel="noreferrer"
+        target="_blank"
+        title="WhatsApp Civil-Gineer Masta"
+      >
+        <Icon name="messages" />
+        <span>WhatsApp</span>
+      </a>
+
       <footer className="footer" style={footer}>
-        © 2026 Civil-Gineer Masta (Pty) Ltd. All Rights Reserved. | Engineering • Design • Project Delivery
+        &copy; 2026 Civil-Gineer Masta (Pty) Ltd. All Rights Reserved. | Engineering | Design | Project Delivery
       </footer>
     </div>
   );
 }
-
-const page = {
-  fontFamily: "Arial, sans-serif",
-  backgroundColor: "#111",
-  color: "white",
-  minHeight: "100vh",
-};
 
 const header = {
   height: "115px",
@@ -353,88 +388,6 @@ const navLink = {
   fontSize: "16px",
 };
 
-const hero = {
-  minHeight: "520px",
-  backgroundImage: "url('/images/hero.png')",
-  backgroundSize: "cover",
-  backgroundPosition: "center",
-};
-
-const heroOverlay = {
-  minHeight: "520px",
-  background:
-    "linear-gradient(90deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.72) 42%, rgba(0,0,0,0.25) 100%)",
-  display: "flex",
-  alignItems: "center",
-};
-
-const heroContent = {
-  maxWidth: "650px",
-  marginLeft: "7%",
-};
-
-const heroTitle = {
-  fontSize: "clamp(42px, 4.6vw, 64px)",
-  lineHeight: "1.05",
-  color: "#f5f5f5",
-  marginBottom: "22px",
-};
-
-const heroText = {
-  fontSize: "20px",
-  lineHeight: "1.6",
-  color: "#f1f1f1",
-};
-
-const buttonRow = {
-  marginTop: "35px",
-  display: "flex",
-  gap: "18px",
-  flexWrap: "wrap",
-};
-
-const primaryButton = {
-  backgroundColor: "#c00000",
-  color: "white",
-  padding: "16px 34px",
-  borderRadius: "8px",
-  textDecoration: "none",
-  fontWeight: "bold",
-  boxShadow: "0 8px 20px rgba(192,0,0,0.35)",
-};
-
-const secondaryButton = {
-  backgroundColor: "transparent",
-  color: "white",
-  padding: "16px 34px",
-  borderRadius: "8px",
-  textDecoration: "none",
-  fontWeight: "bold",
-  border: "2px solid white",
-};
-
-const darkSection = {
-  padding: "45px 25px 55px",
-  background: "linear-gradient(180deg, #151515, #0e0e0e)",
-  borderTop: "1px solid #333",
-};
-
-const sectionLabel = {
-  textAlign: "center",
-  color: "#ff1f1f",
-  fontWeight: "bold",
-  letterSpacing: "1.5px",
-  marginBottom: "8px",
-};
-
-const sectionTitle = {
-  maxWidth: "950px",
-  margin: "0 auto 30px",
-  fontSize: "clamp(26px, 3vw, 34px)",
-  textAlign: "center",
-  color: "#f5f5f5",
-};
-
 const threeGrid = {
   maxWidth: "1180px",
   margin: "0 auto",
@@ -470,12 +423,6 @@ const cardText = {
   color: "#d8d8d8",
   lineHeight: "1.55",
   margin: 0,
-};
-
-const lightSection = {
-  padding: "45px 25px 50px",
-  backgroundColor: "#f7f7f7",
-  color: "#111",
 };
 
 const projectGrid = {
@@ -563,16 +510,6 @@ const contactTitle = {
 
 const contactText = {
   lineHeight: "1.6",
-};
-
-const blackButton = {
-  marginTop: "18px",
-  backgroundColor: "#050505",
-  color: "white",
-  padding: "14px 28px",
-  borderRadius: "8px",
-  textDecoration: "none",
-  fontWeight: "bold",
 };
 
 const footer = {

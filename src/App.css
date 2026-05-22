@@ -16,7 +16,14 @@ body {
   min-height: 100vh;
   background: #111;
   color: #fff;
+  font-family: "Segoe UI", Inter, Arial, Helvetica, sans-serif;
+  line-height: 1.5;
   overflow-x: hidden;
+}
+
+section[id],
+.contactPanel[id] {
+  scroll-margin-top: 118px;
 }
 
 /* HEADER */
@@ -78,6 +85,7 @@ body {
   font-weight: 800;
   position: relative;
   padding: 8px 0;
+  transition: color 180ms ease, opacity 180ms ease, transform 180ms ease;
 }
 
 .nav a::after {
@@ -95,10 +103,19 @@ body {
   width: 100%;
 }
 
+.nav a:hover {
+  transform: translateY(-1px);
+}
+
+.nav a:hover .uiIcon {
+  opacity: 1;
+}
+
 .nav a .uiIcon {
   width: 17px;
   height: 17px;
   opacity: 0.82;
+  transition: opacity 180ms ease;
 }
 
 .navToggle {
@@ -132,9 +149,10 @@ body {
   min-height: 560px;
   background: linear-gradient(
     90deg,
-    rgba(0, 0, 0, 0.97) 0%,
-    rgba(0, 0, 0, 0.78) 45%,
-    rgba(0, 0, 0, 0.28) 100%
+    rgba(0, 0, 0, 0.98) 0%,
+    rgba(0, 0, 0, 0.9) 40%,
+    rgba(0, 0, 0, 0.58) 72%,
+    rgba(0, 0, 0, 0.42) 100%
   );
   display: flex;
   align-items: center;
@@ -148,9 +166,12 @@ body {
 .heroContent h1 {
   margin: 0 0 24px;
   font-size: clamp(44px, 5vw, 72px);
+  font-weight: 900;
   line-height: 1.05;
   letter-spacing: 0;
   color: #f7f7f7;
+  text-wrap: balance;
+  text-shadow: 0 3px 24px rgba(0, 0, 0, 0.7);
 }
 
 .heroLine {
@@ -162,10 +183,12 @@ body {
 }
 
 .heroContent p {
+  max-width: 610px;
   margin: 0;
   font-size: 20px;
   line-height: 1.6;
   color: #f1f1f1;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.7);
 }
 
 .buttonRow {
@@ -187,7 +210,13 @@ body {
   border-radius: 8px;
   text-decoration: none;
   font-weight: 800;
-  transition: 0.25s ease;
+  line-height: 1.2;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
 }
 
 .primaryButton {
@@ -205,7 +234,24 @@ body {
 .primaryButton:hover,
 .secondaryButton:hover,
 .blackButton:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+}
+
+.primaryButton:hover {
+  background: #d80000;
+  box-shadow: 0 14px 32px rgba(192, 0, 0, 0.48);
+}
+
+.secondaryButton:hover {
+  background: #fff;
+  border-color: #fff;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+  color: #111;
+}
+
+.blackButton:hover {
+  background: #171717;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
 }
 
 /* SECTIONS */
@@ -232,7 +278,7 @@ body {
   color: #ff1f1f;
   font-size: 14px;
   font-weight: 900;
-  letter-spacing: 1.5px;
+  letter-spacing: 0;
 }
 
 .sectionLabel.red {
@@ -255,7 +301,9 @@ body {
   text-align: center;
   color: #f7f7f7;
   font-size: clamp(25px, 3vw, 34px);
+  font-weight: 850;
   line-height: 1.2;
+  text-wrap: balance;
 }
 
 .sectionTitle.dark {
@@ -283,6 +331,16 @@ body {
   grid-template-columns: 105px 1fr;
   align-items: center;
   gap: 24px;
+  transition:
+    box-shadow 200ms ease,
+    transform 200ms ease;
+}
+
+.serviceCard:hover {
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.09),
+    0 20px 42px rgba(0, 0, 0, 0.32);
+  transform: translateY(-4px);
 }
 
 .serviceIcon {
@@ -327,6 +385,10 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  transition:
+    background-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
 }
 
 .projectItem:last-child {
@@ -345,6 +407,11 @@ body {
   color: #111;
   box-shadow: 0 14px 34px rgba(12, 12, 12, 0.08);
   margin-bottom: 16px;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
 }
 
 .projectIcon .uiIcon {
@@ -357,6 +424,19 @@ body {
   margin: 0;
   font-size: 15px;
   line-height: 1.25;
+}
+
+.projectItem:hover {
+  background: #fff;
+  box-shadow: 0 20px 40px rgba(12, 12, 12, 0.08);
+  transform: translateY(-3px);
+}
+
+.projectItem:hover .projectIcon {
+  border-color: rgba(192, 0, 0, 0.28);
+  box-shadow: 0 16px 34px rgba(192, 0, 0, 0.16);
+  color: #c00000;
+  transform: translateY(-2px);
 }
 
 /* ABOUT + CONTACT */
@@ -466,6 +546,67 @@ body {
   margin-top: 18px;
   background: #050505;
   color: #fff;
+}
+
+.floatingWhatsapp {
+  min-height: 58px;
+  position: fixed;
+  right: clamp(16px, 2.4vw, 34px);
+  bottom: clamp(16px, 2.4vw, 34px);
+  z-index: 70;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 8px;
+  background: linear-gradient(135deg, #c00000, #8f0000);
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.42),
+    0 9px 22px rgba(192, 0, 0, 0.26);
+  color: #fff;
+  font-weight: 900;
+  padding: 15px 20px;
+  text-decoration: none;
+  transition:
+    background-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.floatingWhatsapp:hover {
+  box-shadow:
+    0 22px 48px rgba(0, 0, 0, 0.5),
+    0 12px 28px rgba(192, 0, 0, 0.38);
+  transform: translateY(-3px);
+}
+
+.floatingWhatsapp .uiIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.revealSection.isRevealReady {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 520ms ease,
+    transform 520ms ease;
+}
+
+.revealSection.isRevealReady.isVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.nav a:focus-visible,
+.navToggle:focus-visible,
+.primaryButton:focus-visible,
+.secondaryButton:focus-visible,
+.blackButton:focus-visible,
+.floatingWhatsapp:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.95);
+  outline-offset: 4px;
 }
 
 /* FOOTER */
@@ -606,8 +747,8 @@ footer {
     justify-content: center;
     background: linear-gradient(
       180deg,
-      rgba(0, 0, 0, 0.72),
-      rgba(0, 0, 0, 0.96)
+      rgba(0, 0, 0, 0.84),
+      rgba(0, 0, 0, 0.98)
     );
   }
 
@@ -748,6 +889,22 @@ footer {
     justify-content: center;
   }
 
+  .floatingWhatsapp {
+    width: 58px;
+    min-height: 58px;
+    padding: 0;
+  }
+
+  .floatingWhatsapp span {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
   footer {
     font-size: 12px;
     line-height: 1.6;
@@ -756,5 +913,25 @@ footer {
 
   .footerDivider {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav a,
+  .nav a .uiIcon,
+  .primaryButton,
+  .secondaryButton,
+  .blackButton,
+  .serviceCard,
+  .projectItem,
+  .projectIcon,
+  .floatingWhatsapp,
+  .revealSection.isRevealReady {
+    transition: none;
+  }
+
+  .revealSection.isRevealReady {
+    opacity: 1;
+    transform: none;
   }
 }
