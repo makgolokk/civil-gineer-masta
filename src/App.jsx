@@ -1,6 +1,27 @@
+import {
+  ArrowRight,
+  Building2,
+  ClipboardCheck,
+  FileCheck2,
+  Hammer,
+  Handshake,
+  HardHat,
+  Home,
+  House,
+  Mail,
+  MapPin,
+  Menu,
+  MessagesSquare,
+  Phone,
+  Ruler,
+  ShieldCheck,
+  X,
+} from "lucide-react";
+import { useState } from "react";
 import "./App.css";
 
 function App() {
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const whatsappNumber = "26771839730";
   const whatsappMessage =
     "Hello Civil-Gineer Masta, I would like to request a quotation/consultation.";
@@ -25,28 +46,72 @@ function App() {
 
   const projects = [
     {
-      image: "/images/residential-houses.png",
+      icon: "house",
       title: "Residential Houses",
     },
     {
-      image: "/images/commercial-buildings.png",
+      icon: "building",
       title: "Commercial Buildings",
     },
     {
-      image: "/images/renovations-extensions.png",
+      icon: "renovation",
       title: "Renovations & Extensions",
     },
     {
-      image: "/images/structural-inspections.png",
+      icon: "clipboard",
       title: "Structural Inspections",
     },
     {
-      image: "/images/structural-inspections.png",
+      icon: "permit",
       title: "Council Submission Support",
     },
     {
-      image: "/images/project-management.png",
+      icon: "hardhat",
       title: "Construction Supervision",
+    },
+  ];
+
+  const navItems = [
+    { href: "#home", icon: "home", label: "Home" },
+    { href: "#services", icon: "ruler", label: "Services" },
+    { href: "#projects", icon: "building", label: "Projects" },
+    { href: "#about", icon: "shield", label: "About" },
+    { href: "#contact", icon: "phone", label: "Contact" },
+  ];
+
+  const values = [
+    {
+      icon: "messages",
+      title: "Clear Communication",
+      text: "We explain the scope, process and requirements clearly at every stage.",
+    },
+    {
+      icon: "shield",
+      title: "Technical Confidence",
+      text: "We support decisions with proper drawings, reports and engineering judgement.",
+    },
+    {
+      icon: "handshake",
+      title: "Reliable Delivery",
+      text: "We focus on quality, planning, accountability and professional coordination.",
+    },
+  ];
+
+  const contactDetails = [
+    {
+      icon: "phone",
+      label: "Phone",
+      value: "(+267) 71839730 / (+267) 77 008 234",
+    },
+    {
+      icon: "mail",
+      label: "Email",
+      value: "makgolokk@outlook.com / modiseboago10@gmail.com",
+    },
+    {
+      icon: "pin",
+      label: "Location",
+      value: "Plot 31848, Gaborone North",
     },
   ];
 
@@ -62,12 +127,29 @@ function App() {
           />
         </div>
 
-        <nav className="nav" style={nav}>
-          <a href="#home" style={navLink}>Home</a>
-          <a href="#services" style={navLink}>Services</a>
-          <a href="#projects" style={navLink}>Projects</a>
-          <a href="#about" style={navLink}>About</a>
-          <a href="#contact" style={navLink}>Contact</a>
+        <button
+          aria-controls="site-nav"
+          aria-expanded={isNavOpen}
+          aria-label={isNavOpen ? "Close navigation menu" : "Open navigation menu"}
+          className="navToggle"
+          onClick={() => setIsNavOpen((open) => !open)}
+          type="button"
+        >
+          <Icon name={isNavOpen ? "close" : "menu"} />
+        </button>
+
+        <nav className={`nav${isNavOpen ? " isOpen" : ""}`} id="site-nav" style={nav}>
+          {navItems.map((item) => (
+            <a
+              href={item.href}
+              key={item.label}
+              onClick={() => setIsNavOpen(false)}
+              style={navLink}
+            >
+              <Icon name={item.icon} />
+              <span>{item.label}</span>
+            </a>
+          ))}
         </nav>
       </header>
 
@@ -75,7 +157,8 @@ function App() {
         <div className="heroOverlay" style={heroOverlay}>
           <div className="heroContent" style={heroContent}>
             <h1 style={heroTitle}>
-              Engineering • Design •<br />Project Delivery
+              <span className="heroLine heroLineLead">Engineering • Design •</span>
+              <span className="heroLine">Project Delivery</span>
             </h1>
 
             <p style={heroText}>
@@ -92,11 +175,13 @@ function App() {
                 className="primaryButton"
                 style={primaryButton}
               >
+                <Icon name="messages" />
                 WhatsApp Quote
               </a>
 
               <a className="secondaryButton" href="#services" style={secondaryButton}>
                 View Services
+                <Icon name="arrow" />
               </a>
             </div>
           </div>
@@ -104,7 +189,10 @@ function App() {
       </section>
 
       <section className="darkSection" id="services" style={darkSection}>
-        <p className="sectionLabel" style={sectionLabel}>WHAT WE DO</p>
+        <p className="sectionLabel" style={sectionLabel}>
+          <Icon name="ruler" />
+          WHAT WE DO
+        </p>
         <h2 className="sectionTitle" style={sectionTitle}>
           Focused professional services for better building decisions.
         </h2>
@@ -128,7 +216,10 @@ function App() {
       </section>
 
       <section className="lightSection" id="projects" style={lightSection}>
-        <p className="sectionLabel red" style={{ ...sectionLabel, color: "#c00000" }}>PROJECT SUPPORT</p>
+        <p className="sectionLabel red" style={{ ...sectionLabel, color: "#c00000" }}>
+          <Icon name="clipboard" />
+          PROJECT SUPPORT
+        </p>
         <h2 className="sectionTitle dark" style={{ ...sectionTitle, color: "#111" }}>
           From concept and approvals to site execution.
         </h2>
@@ -136,12 +227,9 @@ function App() {
         <div className="projectGrid" style={projectGrid}>
           {projects.map((project) => (
             <div className="projectItem" style={projectItem} key={project.title}>
-              <img
-                className="projectIcon"
-                src={project.image}
-                alt={project.title}
-                style={projectImage}
-              />
+              <span className="projectIcon" aria-hidden="true">
+                <Icon name={project.icon} />
+              </span>
               <p>{project.title}</p>
             </div>
           ))}
@@ -150,7 +238,10 @@ function App() {
 
       <section className="aboutContactWrap" id="about" style={aboutContactWrap}>
         <div className="aboutPanel" style={aboutPanel}>
-          <p className="sectionLabel left" style={{ ...sectionLabel, textAlign: "left" }}>ABOUT US</p>
+          <p className="sectionLabel left" style={{ ...sectionLabel, textAlign: "left" }}>
+            <Icon name="building" />
+            ABOUT US
+          </p>
           <h2 style={aboutTitle}>Professional. Practical. Reliable.</h2>
 
           <p style={aboutText}>
@@ -162,26 +253,15 @@ function App() {
         </div>
 
         <div className="valuePanel" style={valuePanel}>
-          <div className="valueCard" style={valueCard}>
-            <h3 style={cardTitle}>Clear Communication</h3>
-            <p style={cardText}>
-              We explain the scope, process and requirements clearly at every stage.
-            </p>
-          </div>
-
-          <div className="valueCard" style={valueCard}>
-            <h3 style={cardTitle}>Technical Confidence</h3>
-            <p style={cardText}>
-              We support decisions with proper drawings, reports and engineering judgement.
-            </p>
-          </div>
-
-          <div className="valueCard" style={valueCard}>
-            <h3 style={cardTitle}>Reliable Delivery</h3>
-            <p style={cardText}>
-              We focus on quality, planning, accountability and professional coordination.
-            </p>
-          </div>
+          {values.map((value) => (
+            <div className="valueCard" style={valueCard} key={value.title}>
+              <span className="valueIcon" aria-hidden="true">
+                <Icon name={value.icon} />
+              </span>
+              <h3 style={cardTitle}>{value.title}</h3>
+              <p style={cardText}>{value.text}</p>
+            </div>
+          ))}
         </div>
 
         <div className="contactPanel" id="contact" style={contactPanel}>
@@ -192,9 +272,16 @@ function App() {
             Contact Civil-Gineer Masta today.
           </p>
 
-          <p><b>Phone:</b> (+267) 71839730 / (+267) 77 008 234</p>
-          <p><b>Email:</b> makgolokk@outlook.com / modiseboago10@gmail.com</p>
-          <p><b>Location:</b> Plot 31848, Gaborone North</p>
+          <div className="contactList">
+            {contactDetails.map((detail) => (
+              <p className="contactLine" key={detail.label}>
+                <Icon name={detail.icon} />
+                <span>
+                  <b>{detail.label}:</b> {detail.value}
+                </span>
+              </p>
+            ))}
+          </div>
 
           <a
             href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
@@ -204,6 +291,7 @@ function App() {
             className="blackButton"
             style={blackButton}
           >
+            <Icon name="messages" />
             WhatsApp Us
           </a>
         </div>
@@ -286,7 +374,7 @@ const heroContent = {
 };
 
 const heroTitle = {
-  fontSize: "clamp(42px, 5vw, 72px)",
+  fontSize: "clamp(42px, 4.6vw, 64px)",
   lineHeight: "1.05",
   color: "#f5f5f5",
   marginBottom: "22px",
@@ -405,12 +493,31 @@ const projectItem = {
   fontWeight: "bold",
 };
 
-const projectImage = {
-  width: "52px",
-  height: "52px",
-  objectFit: "contain",
-  marginBottom: "8px",
+const iconComponents = {
+  arrow: ArrowRight,
+  building: Building2,
+  clipboard: ClipboardCheck,
+  close: X,
+  handshake: Handshake,
+  hardhat: HardHat,
+  home: Home,
+  house: House,
+  mail: Mail,
+  menu: Menu,
+  messages: MessagesSquare,
+  permit: FileCheck2,
+  phone: Phone,
+  pin: MapPin,
+  renovation: Hammer,
+  ruler: Ruler,
+  shield: ShieldCheck,
 };
+
+function Icon({ name }) {
+  const IconComponent = iconComponents[name];
+
+  return <IconComponent aria-hidden="true" className="uiIcon" strokeWidth={1.8} />;
+}
 
 const aboutContactWrap = {
   display: "grid",
@@ -459,7 +566,6 @@ const contactText = {
 };
 
 const blackButton = {
-  display: "inline-block",
   marginTop: "18px",
   backgroundColor: "#050505",
   color: "white",
