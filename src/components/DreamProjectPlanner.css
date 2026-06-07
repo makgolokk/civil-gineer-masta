@@ -1,0 +1,600 @@
+.dreamPlannerSection {
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid #2f2f2f;
+  background:
+    radial-gradient(circle at 15% 12%, rgba(192, 0, 0, 0.18), transparent 32%),
+    radial-gradient(circle at 88% 82%, rgba(192, 0, 0, 0.1), transparent 28%),
+    #090909;
+  padding: clamp(58px, 7vw, 92px) 20px;
+}
+
+.dreamPlannerSection::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.22;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 42px 42px;
+  pointer-events: none;
+}
+
+.dreamPlannerIntro,
+.plannerShell {
+  position: relative;
+  z-index: 1;
+}
+
+.dreamPlannerIntro {
+  max-width: 880px;
+  margin: 0 auto 34px;
+  text-align: center;
+}
+
+.dreamPlannerIntro .sectionLabel svg {
+  width: 17px;
+}
+
+.dreamPlannerIntro h2 {
+  margin: 0 0 14px;
+  color: #fff;
+  font-size: clamp(32px, 4.2vw, 52px);
+  font-weight: 900;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.dreamPlannerSubtitle {
+  max-width: 740px;
+  margin: 0 auto;
+  color: #f2f2f2;
+  font-size: clamp(17px, 2vw, 21px);
+  line-height: 1.55;
+}
+
+.dreamPlannerSupport {
+  max-width: 790px;
+  margin: 14px auto 0;
+  color: #aaa;
+  line-height: 1.65;
+}
+
+.plannerShell {
+  width: min(1180px, 100%);
+  min-height: 610px;
+  margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 22px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.02)),
+    rgba(13, 13, 13, 0.94);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.08),
+    0 34px 80px rgba(0, 0, 0, 0.48),
+    0 0 55px rgba(192, 0, 0, 0.06);
+  padding: clamp(20px, 4vw, 44px);
+}
+
+.plannerProgressHeader {
+  margin-bottom: clamp(28px, 4vw, 46px);
+}
+
+.plannerProgressHeader > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 9px;
+  color: #aaa;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.plannerProgressHeader strong {
+  color: #fff;
+}
+
+.plannerProgressTrack {
+  height: 5px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: #2c2c2c;
+}
+
+.plannerProgressTrack span {
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #9e0000, #ef2525);
+  box-shadow: 0 0 18px rgba(239, 37, 37, 0.6);
+  transition: width 360ms ease;
+}
+
+.plannerStep {
+  animation: plannerStepIn 300ms ease both;
+}
+
+@keyframes plannerStepIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.plannerQuestionHeading {
+  max-width: 780px;
+  margin: 0 auto 28px;
+  text-align: center;
+}
+
+.plannerQuestionHeading > span,
+.plannerEyebrow {
+  display: block;
+  margin-bottom: 7px;
+  color: #ff3030;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.plannerQuestionHeading h3,
+.plannerSummaryHero h3 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(25px, 3vw, 36px);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.plannerQuestionHeading p {
+  margin: 10px auto 0;
+  color: #aaa;
+  line-height: 1.55;
+}
+
+.plannerOptions {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.plannerOptions.visualOptions {
+  max-width: 1060px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.plannerOptionCard {
+  width: 100%;
+  min-width: 0;
+  min-height: 76px;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 26px;
+  align-items: center;
+  gap: 12px;
+  overflow: hidden;
+  border: 1px solid #393939;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  padding: 17px 18px;
+  text-align: left;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.plannerOptionCard.hasImage {
+  min-height: 265px;
+  grid-template-columns: minmax(0, 1fr) 26px;
+  grid-template-rows: 145px auto;
+  align-items: start;
+  padding: 0;
+}
+
+.plannerOptionMedia {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 145px;
+  position: relative;
+  overflow: hidden;
+  background: #171717;
+}
+
+.plannerOptionMedia::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 45%, rgba(0, 0, 0, 0.68));
+}
+
+.plannerOptionMedia img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 400ms ease;
+}
+
+.plannerOptionCard.hasImage .plannerOptionCopy {
+  padding: 17px 0 19px 18px;
+}
+
+.plannerOptionCard.hasImage .plannerOptionCheck {
+  margin: 18px 16px 0 0;
+}
+
+.plannerOptionCopy {
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+}
+
+.plannerOptionCopy strong {
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.plannerOptionCopy > span {
+  color: #aaa;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.plannerOptionCheck {
+  width: 25px;
+  height: 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #555;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.plannerOptionCard:hover {
+  border-color: rgba(255, 48, 48, 0.6);
+  background: rgba(192, 0, 0, 0.08);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px);
+}
+
+.plannerOptionCard:hover img {
+  transform: scale(1.045);
+}
+
+.plannerOptionCard.isSelected {
+  border-color: #e82121;
+  background: rgba(192, 0, 0, 0.15);
+  box-shadow:
+    inset 0 0 0 1px rgba(232, 33, 33, 0.18),
+    0 14px 32px rgba(192, 0, 0, 0.16);
+}
+
+.plannerOptionCard.isSelected .plannerOptionCheck {
+  border-color: #e82121;
+  background: #c00000;
+}
+
+.plannerNavigation {
+  max-width: 1060px;
+  margin: 32px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.plannerNavButton,
+.plannerAction {
+  min-height: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border-radius: 9px;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+  line-height: 1.2;
+  padding: 13px 21px;
+  text-decoration: none;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.plannerNavButton svg,
+.plannerAction svg {
+  width: 19px;
+  height: 19px;
+  flex: 0 0 auto;
+}
+
+.plannerNavButton.back {
+  border: 1px solid #444;
+  background: transparent;
+  color: #ddd;
+}
+
+.plannerNavButton.next {
+  border: 1px solid #c00000;
+  background: #c00000;
+  box-shadow: 0 12px 28px rgba(192, 0, 0, 0.32);
+  color: #fff;
+}
+
+.plannerNavButton:hover:not(:disabled),
+.plannerAction:hover {
+  transform: translateY(-2px);
+}
+
+.plannerNavButton.next:hover:not(:disabled) {
+  background: #dc1515;
+}
+
+.plannerNavButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+.plannerSummary {
+  animation: plannerStepIn 340ms ease both;
+}
+
+.plannerSummaryHero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 170px;
+  gap: 32px;
+  align-items: center;
+}
+
+.plannerSummaryHero > div:first-child > p {
+  max-width: 680px;
+  margin: 12px 0 0;
+  color: #bdbdbd;
+  line-height: 1.65;
+}
+
+.readinessScore {
+  text-align: center;
+}
+
+.readinessScore > span {
+  width: 116px;
+  height: 116px;
+  margin: 0 auto 8px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center, #161616 59%, transparent 61%),
+    conic-gradient(#e42121 var(--readiness), #343434 0);
+}
+
+.readinessScore strong {
+  color: #fff;
+  font-size: 38px;
+}
+
+.readinessScore small {
+  color: #999;
+  font-size: 12px;
+}
+
+.readinessScore p {
+  margin: 0;
+  color: #aaa;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.plannerSummaryGrid {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.summaryDetail {
+  min-width: 0;
+  border: 1px solid #363636;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.035);
+  padding: 15px;
+}
+
+.summaryDetail span,
+.plannerRecommendationGrid span {
+  display: block;
+  margin-bottom: 6px;
+  color: #8f8f8f;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.summaryDetail strong {
+  display: block;
+  color: #f3f3f3;
+  font-size: 14px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.plannerRecommendationGrid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.plannerRecommendationGrid article {
+  border: 1px solid rgba(232, 33, 33, 0.28);
+  border-left: 4px solid #c00000;
+  border-radius: 10px;
+  background:
+    linear-gradient(135deg, rgba(192, 0, 0, 0.12), transparent),
+    rgba(255, 255, 255, 0.035);
+  padding: 18px;
+}
+
+.plannerRecommendationGrid h4 {
+  margin: 0;
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.plannerSummaryActions {
+  margin-top: 24px;
+  display: flex;
+  align-items: stretch;
+  gap: 11px;
+  flex-wrap: wrap;
+}
+
+.plannerAction {
+  border: 1px solid transparent;
+}
+
+.plannerAction.primary {
+  background: #c00000;
+  box-shadow: 0 12px 26px rgba(192, 0, 0, 0.28);
+  color: #fff;
+}
+
+.plannerAction.secondary {
+  border-color: #ddd;
+  background: #f5f5f5;
+  color: #111;
+}
+
+.plannerAction.subtle {
+  border-color: #444;
+  background: transparent;
+  color: #ddd;
+}
+
+.plannerOptionCard:focus-visible,
+.plannerNavButton:focus-visible,
+.plannerAction:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.9);
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .plannerOptions.visualOptions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .plannerSummaryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .plannerRecommendationGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .dreamPlannerSection {
+    padding-inline: 14px;
+  }
+
+  .plannerShell {
+    min-height: 0;
+    border-radius: 16px;
+    padding: 18px 14px 22px;
+  }
+
+  .dreamPlannerIntro {
+    margin-bottom: 26px;
+  }
+
+  .plannerOptions,
+  .plannerOptions.visualOptions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .plannerOptionCard.hasImage {
+    min-height: 0;
+    grid-template-rows: 165px auto;
+  }
+
+  .plannerOptionMedia {
+    height: 165px;
+  }
+
+  .plannerQuestionHeading {
+    margin-bottom: 22px;
+  }
+
+  .plannerNavigation {
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+
+  .plannerNavButton {
+    width: 100%;
+  }
+
+  .plannerSummaryHero {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .plannerSummaryHero > div:first-child > p {
+    margin-inline: auto;
+  }
+
+  .plannerSummaryGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .plannerSummaryActions {
+    flex-direction: column;
+  }
+
+  .plannerAction {
+    width: 100%;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plannerProgressTrack span,
+  .plannerStep,
+  .plannerOptionCard,
+  .plannerOptionMedia img,
+  .plannerNavButton,
+  .plannerAction,
+  .plannerSummary {
+    animation: none;
+    transition: none;
+  }
+}

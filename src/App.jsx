@@ -13,6 +13,7 @@ import {
   Icon,
   SiteFrame,
 } from "./components/SiteElements";
+import DreamProjectPlanner from "./components/DreamProjectPlanner";
 import {
   contactDetails,
   whatsappMessage,
@@ -251,6 +252,8 @@ function HomePage() {
           ))}
         </div>
       </section>
+
+      <DreamProjectPlanner />
 
       <section className="lightSection revealSection" id="projects">
         <p className="sectionLabel red">
