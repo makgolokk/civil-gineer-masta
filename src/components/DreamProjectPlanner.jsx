@@ -2,6 +2,7 @@ import { ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
 import { useMemo, useState } from "react";
 import PlannerStep from "./PlannerStep";
 import PlannerSummary from "./PlannerSummary";
+import { downloadProjectVision } from "../projectVisionExport";
 import "./DreamProjectPlanner.css";
 
 const projectImages = {
@@ -221,6 +222,10 @@ const designDirections = {
 export default function DreamProjectPlanner() {
   const [answers, setAnswers] = useState(initialAnswers);
   const [currentStep, setCurrentStep] = useState(0);
+  const [exportState, setExportState] = useState({
+    format: "",
+    error: "",
+  });
   const [showSummary, setShowSummary] = useState(false);
 
   const question = plannerQuestions[currentStep];
@@ -270,34 +275,20 @@ export default function DreamProjectPlanner() {
     });
   };
 
-  const handleDownload = () => {
-    const service = serviceRecommendations[answers.projectType];
-    const direction = designDirections[answers.lifestyle];
-    const summary = [
-      "CIVIL-GINEER MASTA - PROJECT VISION SUMMARY",
-      "============================================",
-      "",
-      `Project Type: ${answers.projectType}`,
-      `Preferred Style: ${answers.style}`,
-      `Lifestyle Goal: ${answers.lifestyle}`,
-      `Selected Features: ${answers.features.join(", ") || "To be discussed"}`,
-      `Current Stage: ${answers.stage}`,
-      `Timeline: ${answers.timeline}`,
-      `Budget Direction: ${answers.budget}`,
-      `Recommended Design Direction: ${direction}`,
-      `Suggested Service: ${service}`,
-      `Project Readiness Score: ${readinessScore}/100`,
-      "",
-      "Recommended Next Step:",
-      "Contact Civil-Gineer Masta for a professional consultation to confirm the brief, site requirements and project pathway.",
-    ].join("\n");
-    const file = new Blob([summary], { type: "text/plain;charset=utf-8" });
-    const url = URL.createObjectURL(file);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "civil-gineer-masta-project-vision.txt";
-    link.click();
-    URL.revokeObjectURL(url);
+  const handleDownload = async (format) => {
+    setExportState({ format, error: "" });
+    try {
+      await downloadProjectVision(answers, format);
+      setExportState({ format: "", error: "" });
+    } catch (error) {
+      setExportState({
+        format: "",
+        error:
+          error instanceof Error
+            ? error.message
+            : "Your professional project summary could not be generated. Please retry.",
+      });
+    }
   };
 
   return (
@@ -341,6 +332,7 @@ export default function DreamProjectPlanner() {
           <PlannerSummary
             answers={answers}
             designDirection={designDirections[answers.lifestyle]}
+            exportState={exportState}
             onContact={handleContact}
             onDownload={handleDownload}
             readinessScore={readinessScore}

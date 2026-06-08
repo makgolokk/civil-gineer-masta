@@ -1,4 +1,4 @@
-import { Download, MessageCircle, PhoneCall } from "lucide-react";
+import { FileDown, FileText, MessageCircle, PhoneCall } from "lucide-react";
 import { whatsappNumber } from "../siteContent";
 
 const summaryLabels = [
@@ -14,6 +14,7 @@ const summaryLabels = [
 export default function PlannerSummary({
   answers,
   designDirection,
+  exportState,
   onContact,
   onDownload,
   readinessScore,
@@ -104,11 +105,37 @@ export default function PlannerSummary({
           <PhoneCall aria-hidden="true" />
           Request Consultation
         </button>
-        <button className="plannerAction subtle" onClick={onDownload} type="button">
-          <Download aria-hidden="true" />
-          Download My Project Summary
+        <button
+          className="plannerAction downloadPdf"
+          disabled={Boolean(exportState.format)}
+          onClick={() => onDownload("pdf")}
+          type="button"
+        >
+          <FileDown aria-hidden="true" />
+          {exportState.format === "pdf"
+            ? "Preparing PDF..."
+            : "Download PDF (Recommended)"}
+        </button>
+        <button
+          className="plannerAction subtle"
+          disabled={Boolean(exportState.format)}
+          onClick={() => onDownload("docx")}
+          type="button"
+        >
+          <FileText aria-hidden="true" />
+          {exportState.format === "docx"
+            ? "Preparing Word Document..."
+            : "Download Editable Word Document"}
         </button>
       </div>
+
+      {exportState.error && (
+        <div className="plannerExportError" role="alert">
+          <strong>Document download unavailable.</strong>
+          <span>{exportState.error}</span>
+          <span>Please check your connection and try the download again.</span>
+        </div>
+      )}
     </div>
   );
 }

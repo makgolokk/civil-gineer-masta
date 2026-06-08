@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/project_vision.py": {
+      "maxDuration": 60
+    }
+  }
+}

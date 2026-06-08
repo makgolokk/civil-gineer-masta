@@ -24,3 +24,12 @@ dist-ssr
 *.sw?
 
 .vercel
+.vercel_python_packages/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local document QA output
+tmp/

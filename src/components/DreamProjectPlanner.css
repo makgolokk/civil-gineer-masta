@@ -487,6 +487,13 @@
   color: #fff;
 }
 
+.plannerAction.downloadPdf {
+  border-color: #c00000;
+  background: #c00000;
+  box-shadow: 0 12px 26px rgba(192, 0, 0, 0.28);
+  color: #fff;
+}
+
 .plannerAction.secondary {
   border-color: #ddd;
   background: #f5f5f5;
@@ -497,6 +504,30 @@
   border-color: #444;
   background: transparent;
   color: #ddd;
+}
+
+.plannerAction:disabled {
+  cursor: wait;
+  opacity: 0.62;
+  transform: none;
+}
+
+.plannerExportError {
+  margin-top: 14px;
+  display: grid;
+  gap: 3px;
+  border: 1px solid rgba(255, 75, 75, 0.4);
+  border-left: 4px solid #e42121;
+  border-radius: 9px;
+  background: rgba(192, 0, 0, 0.1);
+  color: #d7d7d7;
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 13px 15px;
+}
+
+.plannerExportError strong {
+  color: #fff;
 }
 
 .plannerOptionCard:focus-visible,
