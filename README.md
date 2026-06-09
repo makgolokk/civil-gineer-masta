@@ -34,6 +34,11 @@ delivery. See [.env.example](.env.example) for the expected format.
 Without these variables, the form presents a direct-email fallback rather than
 silently losing the enquiry.
 
+Planner-originated enquiries include the structured project data. The server
+generates a fresh branded PDF and attaches it to the review-team email, so the
+team receives the same professional brief without relying on the client to
+forward their downloaded copy.
+
 ## Planner Analytics
 
 Planner and enquiry funnel events are emitted in two ways:

@@ -174,7 +174,8 @@ function projectBriefToEnquiry(projectBrief) {
   };
   const details = [
     ["Project type", projectBrief.projectType],
-    ["Current stage", projectBrief.stage],
+    ["Site position", projectBrief.stageProfile?.siteStatus],
+    ["Design position", projectBrief.stageProfile?.designStatus],
     ["Lifestyle goal", projectBrief.lifestyle],
     ["Preferred style", projectBrief.style],
     ["Important features", projectBrief.features?.join(", ")],
@@ -196,6 +197,11 @@ function projectBriefToEnquiry(projectBrief) {
       ["Bedrooms / main rooms", projectBrief.projectDetails?.bedrooms],
       ["Bathrooms", projectBrief.projectDetails?.bathrooms],
       ["Building levels", projectBrief.projectDetails?.storeys],
+      ["Rental units planned", projectBrief.projectDetails?.unitCount],
+      ["Main business use", projectBrief.projectDetails?.businessUse],
+      ["Parking requirement", projectBrief.projectDetails?.parkingNeed],
+      ["Approximate wall length", projectBrief.projectDetails?.wallLength],
+      ["Existing property changes", projectBrief.projectDetails?.existingCondition],
     ]
       .filter(([, value]) => value)
       .map(([label, value]) => `${label}: ${value}`)
@@ -270,6 +276,7 @@ function EnquiryFormFields({ initialProjectBrief }) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             ...values,
+            projectData: initialProjectBrief,
             website: form.get("website"),
           }),
         }
@@ -282,7 +289,9 @@ function EnquiryFormFields({ initialProjectBrief }) {
       setSubmission({
         state: "success",
         message:
-          "Your project enquiry has been sent. We will review it and contact you.",
+          payload.briefAttached
+            ? "Your enquiry and professional PDF brief have been sent to our review team."
+            : "Your project enquiry has been sent. We will review it and contact you.",
       });
       trackEvent("enquiry_submission_completed", {
         service: values.service,

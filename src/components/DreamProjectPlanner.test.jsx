@@ -64,4 +64,50 @@ describe("DreamProjectPlanner", () => {
       "Free PDF and Word brief"
     );
   });
+
+  it("accepts independent site and design positions", () => {
+    render(<DreamProjectPlanner />);
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: /Family Home.*A comfortable place/i,
+      })
+    );
+    fireEvent.click(
+      screen.getByRole("button", { name: "Start Shaping My Project" })
+    );
+
+    const landChoice = screen.getByRole("button", {
+      name: /Land secured.*own or have secured/i,
+    });
+    const designChoice = screen.getByRole("button", {
+      name: /Formal drawings.*already have drawings/i,
+    });
+    fireEvent.click(landChoice);
+    fireEvent.click(designChoice);
+
+    expect(landChoice.getAttribute("aria-pressed")).toBe("true");
+    expect(designChoice.getAttribute("aria-pressed")).toBe("true");
+    expect(screen.getByRole("button", { name: "Save & Continue" }).disabled).toBe(
+      false
+    );
+  });
+
+  it("updates the live project snapshot as the client answers", () => {
+    render(<DreamProjectPlanner />);
+
+    expect(screen.getByLabelText("Live project snapshot").textContent).toContain(
+      "Choose a project type"
+    );
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: /Rental Units.*dependable income/i,
+      })
+    );
+
+    expect(screen.getByLabelText("Live project snapshot").textContent).toContain(
+      "Rental Units"
+    );
+    expect(screen.getByText(/tenant privacy, parking/i)).toBeTruthy();
+  });
 });

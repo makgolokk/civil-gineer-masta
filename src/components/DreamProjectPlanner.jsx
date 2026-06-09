@@ -2,6 +2,7 @@ import { ArrowLeft, ArrowRight, RotateCcw, Sparkles } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import PlannerStep from "./PlannerStep";
 import PlannerSummary from "./PlannerSummary";
+import PlannerLivePreview from "./PlannerLivePreview";
 import { downloadProjectVision } from "../projectVisionExport";
 import { trackEvent } from "../analytics";
 import projectVisionRules from "../../project_vision_rules.json";
@@ -20,6 +21,15 @@ const projectImages = {
   simpleAffordable: "/images/planner/simple-affordable.webp",
   boldArchitectural: "/images/planner/bold-architectural.webp",
   traditionalModern: "/images/planner/traditional-modern.webp",
+};
+
+const projectImageByType = {
+  "Family Home": projectImages.familyHome,
+  "Rental Units": projectImages.rentalUnits,
+  "Luxury Villa": projectImages.luxuryVilla,
+  "Commercial Building": projectImages.commercialBuilding,
+  "Boundary Wall": projectImages.boundaryWall,
+  "Renovation / Extension": projectImages.renovationExtension,
 };
 
 const plannerQuestions = [
@@ -64,17 +74,57 @@ const plannerQuestions = [
     ],
   },
   {
-    id: "stage",
-    title: "What best describes your current stage?",
-    helper: "There is no wrong starting point. We will meet your project where it is.",
+    id: "stageProfile",
+    title: "Where are you with the site and the design?",
+    helper:
+      "Choose one answer in each row. Your land position and design progress do not have to be at the same stage.",
     valueMessage:
       "Knowing your starting point helps us avoid unnecessary work and recommend the most useful first appointment.",
-    options: [
-      { title: "I own land", description: "The site is secured and ready to be considered." },
-      { title: "I am looking for land", description: "I want guidance before choosing a property." },
-      { title: "I already have a design", description: "I have drawings or a concept to develop." },
-      { title: "I only have an idea", description: "I need help turning a vision into a clear brief." },
-      { title: "I want to renovate", description: "I want to improve or expand an existing property." },
+    choiceGroups: [
+      {
+        key: "siteStatus",
+        label: "Site position",
+        options: [
+          {
+            title: "Land secured",
+            description: "I own or have secured the project site.",
+          },
+          {
+            title: "Looking for land",
+            description: "I want guidance before selecting a site.",
+          },
+          {
+            title: "Existing property",
+            description: "The project involves a building already on the site.",
+          },
+          {
+            title: "Not sure yet",
+            description: "I am still exploring the best route.",
+          },
+        ],
+      },
+      {
+        key: "designStatus",
+        label: "Design position",
+        options: [
+          {
+            title: "Idea only",
+            description: "I need help shaping the first clear concept.",
+          },
+          {
+            title: "Sketches / inspiration",
+            description: "I have references, sketches or an early concept.",
+          },
+          {
+            title: "Formal drawings",
+            description: "I already have drawings or a developed design.",
+          },
+          {
+            title: "Need guidance",
+            description: "I want professional advice before choosing a direction.",
+          },
+        ],
+      },
     ],
   },
   {
@@ -205,17 +255,49 @@ const plannerQuestions = [
         key: "bedrooms",
         label: "Bedrooms / main rooms",
         placeholder: "e.g. 3 bedrooms",
+        projectTypes: ["Family Home", "Luxury Villa", "Renovation / Extension"],
       },
       {
         key: "bathrooms",
         label: "Bathrooms",
         placeholder: "e.g. 2 bathrooms",
+        projectTypes: ["Family Home", "Luxury Villa", "Renovation / Extension"],
       },
       {
         key: "storeys",
         label: "Building levels",
         type: "select",
         options: ["Single storey", "Double storey", "Three or more", "Not sure"],
+      },
+      {
+        key: "unitCount",
+        label: "Rental units planned",
+        placeholder: "e.g. 4 units or not sure",
+        projectTypes: ["Rental Units"],
+      },
+      {
+        key: "businessUse",
+        label: "Main business use",
+        placeholder: "e.g. offices, retail, workshop",
+        projectTypes: ["Commercial Building"],
+      },
+      {
+        key: "parkingNeed",
+        label: "Parking requirement",
+        placeholder: "e.g. 12 vehicles or not sure",
+        projectTypes: ["Commercial Building"],
+      },
+      {
+        key: "wallLength",
+        label: "Approximate wall length",
+        placeholder: "e.g. 120 m perimeter",
+        projectTypes: ["Boundary Wall"],
+      },
+      {
+        key: "existingCondition",
+        label: "What needs to change?",
+        placeholder: "e.g. add bedrooms and improve the kitchen",
+        projectTypes: ["Renovation / Extension"],
       },
     ],
   },
@@ -279,7 +361,10 @@ const plannerQuestions = [
 
 const initialAnswers = {
   projectType: "",
-  stage: "",
+  stageProfile: {
+    siteStatus: "",
+    designStatus: "",
+  },
   lifestyle: "",
   style: "",
   features: [],
@@ -290,6 +375,11 @@ const initialAnswers = {
     bedrooms: "",
     bathrooms: "",
     storeys: "",
+    unitCount: "",
+    businessUse: "",
+    parkingNeed: "",
+    wallLength: "",
+    existingCondition: "",
   },
   timeline: "",
   budget: "",
@@ -310,6 +400,23 @@ function loadPlannerState() {
   try {
     const saved = JSON.parse(window.localStorage.getItem(PLANNER_STORAGE_KEY));
     const savedAnswers = saved?.answers ?? {};
+    const legacyStage = savedAnswers.stage ?? "";
+    const migratedStageProfile = {
+      siteStatus:
+        legacyStage === "I own land"
+          ? "Land secured"
+          : legacyStage === "I am looking for land"
+            ? "Looking for land"
+            : legacyStage === "I want to renovate"
+              ? "Existing property"
+              : "",
+      designStatus:
+        legacyStage === "I already have a design"
+          ? "Formal drawings"
+          : legacyStage === "I only have an idea"
+            ? "Idea only"
+            : "",
+    };
 
     return {
       answers: {
@@ -318,6 +425,11 @@ function loadPlannerState() {
         features: Array.isArray(savedAnswers.features)
           ? savedAnswers.features
           : [],
+        stageProfile: {
+          ...initialAnswers.stageProfile,
+          ...migratedStageProfile,
+          ...(savedAnswers.stageProfile ?? {}),
+        },
         projectDetails: {
           ...initialAnswers.projectDetails,
           ...(savedAnswers.projectDetails ?? {}),
@@ -351,11 +463,23 @@ export default function DreamProjectPlanner({ onConsultation }) {
 
   const question = plannerQuestions[currentStep];
   const currentAnswer = answers[question.id];
+  const visibleFields =
+    question.fields?.filter(
+      (field) =>
+        !field.projectTypes || field.projectTypes.includes(answers.projectType)
+    ) ?? [];
   const requiredFields = question.fields?.filter((field) => field.required) ?? [];
   const canContinue = question.optional
     ? true
+    : question.choiceGroups
+      ? question.choiceGroups.every((group) => Boolean(currentAnswer?.[group.key]))
     : question.fields
-      ? requiredFields.every((field) => Boolean(currentAnswer?.[field.key]?.trim()))
+      ? requiredFields
+          .filter(
+            (field) =>
+              !field.projectTypes || field.projectTypes.includes(answers.projectType)
+          )
+          .every((field) => Boolean(currentAnswer?.[field.key]?.trim()))
       : question.multi
         ? currentAnswer.length > 0
         : Boolean(currentAnswer);
@@ -370,8 +494,16 @@ export default function DreamProjectPlanner({ onConsultation }) {
   const readinessScore = useMemo(() => {
     const weights = projectVisionRules.readinessWeights;
     let score = 0;
-    if (answers.stage === "I own land") score += weights.ownsLand;
-    if (answers.stage === "I already have a design") score += weights.hasDesign;
+    if (
+      ["Land secured", "Existing property"].includes(
+        answers.stageProfile.siteStatus
+      )
+    ) {
+      score += weights.ownsLand;
+    }
+    if (answers.stageProfile.designStatus === "Formal drawings") {
+      score += weights.hasDesign;
+    }
     if (["Immediately", "Within 3 months"].includes(answers.timeline)) {
       score += weights.nearTermTimeline;
     }
@@ -509,6 +641,7 @@ export default function DreamProjectPlanner({ onConsultation }) {
             answers={answers}
             designDirection={projectVisionRules.designDirections[answers.lifestyle]}
             exportState={exportState}
+            heroImage={projectImageByType[answers.projectType]}
             onContact={handleContact}
             onDownload={handleDownload}
             readinessScore={readinessScore}
@@ -517,13 +650,18 @@ export default function DreamProjectPlanner({ onConsultation }) {
             }
           />
         ) : (
-          <PlannerStep
-            answer={currentAnswer}
-            isMulti={question.multi}
-            onAnswer={updateAnswer}
-            question={question}
-            stepNumber={currentStep + 1}
-          />
+          <div className="plannerWorkspace">
+            <PlannerStep
+              answer={currentAnswer}
+              answers={answers}
+              isMulti={question.multi}
+              onAnswer={updateAnswer}
+              question={question}
+              stepNumber={currentStep + 1}
+              visibleFields={visibleFields}
+            />
+            <PlannerLivePreview answers={answers} />
+          </div>
         )}
 
         <div className="plannerNavigation">

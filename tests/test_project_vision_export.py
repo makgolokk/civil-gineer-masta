@@ -20,7 +20,10 @@ class ProjectVisionExportTests(unittest.TestCase):
             "style": "Modern Minimalist",
             "lifestyle": "Growing family",
             "features": ["Garage", "Home office", "Large windows"],
-            "stage": "I own land",
+            "stageProfile": {
+                "siteStatus": "Land secured",
+                "designStatus": "Idea only",
+            },
             "timeline": "Within 3 months",
             "budget": "P1M-P2M",
             "projectDetails": {
@@ -50,6 +53,27 @@ class ProjectVisionExportTests(unittest.TestCase):
         self.assertEqual("Consultation-ready stage", formatted["readiness_label"])
         self.assertEqual("Gaborone North", formatted["project_location"])
         self.assertEqual("Dineo M.", formatted["client_name"])
+        self.assertEqual("Land secured", formatted["site_status"])
+        self.assertEqual("Idea only", formatted["design_status"])
+
+    def test_site_and_design_status_are_independent(self):
+        data = {
+            **self.base,
+            "stageProfile": {
+                "siteStatus": "Looking for land",
+                "designStatus": "Formal drawings",
+            },
+        }
+        formatted = format_project_vision_data(
+            data,
+            reference="CGM/PVS/2026/STAGE",
+        )
+        self.assertIn(
+            "Independent Design Review and Technical Coordination",
+            formatted["services"],
+        )
+        self.assertIn("Looking for land", formatted["current_stage"])
+        self.assertIn("Formal drawings", formatted["current_stage"])
 
     def test_missing_optional_values_are_human_readable(self):
         formatted = format_project_vision_data({}, reference="CGM/PVS/2026/TEST")

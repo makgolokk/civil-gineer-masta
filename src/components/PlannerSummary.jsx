@@ -22,7 +22,18 @@ const summaryLabels = [
     ]
       .filter(Boolean)
       .join(" | ")],
-  ["Current Stage", (answers) => answers.stage],
+  ["Project-Specific Scope", (answers) =>
+    [
+      answers.projectDetails.unitCount,
+      answers.projectDetails.businessUse,
+      answers.projectDetails.parkingNeed,
+      answers.projectDetails.wallLength,
+      answers.projectDetails.existingCondition,
+    ]
+      .filter(Boolean)
+      .join(" | ")],
+  ["Site Position", (answers) => answers.stageProfile.siteStatus],
+  ["Design Position", (answers) => answers.stageProfile.designStatus],
   ["Timeline", (answers) => answers.timeline],
   ["Budget Direction", (answers) => answers.budget],
 ];
@@ -31,6 +42,7 @@ export default function PlannerSummary({
   answers,
   designDirection,
   exportState,
+  heroImage,
   onContact,
   onDownload,
   readinessScore,
@@ -38,12 +50,14 @@ export default function PlannerSummary({
 }) {
   const readinessChecks = [
     {
-      complete: answers.stage === "I own land",
-      label: "Land or site secured",
+      complete: ["Land secured", "Existing property"].includes(
+        answers.stageProfile.siteStatus
+      ),
+      label: "Site available for project planning",
     },
     {
-      complete: answers.stage === "I already have a design",
-      label: "Existing design available",
+      complete: answers.stageProfile.designStatus === "Formal drawings",
+      label: "Formal design information available",
     },
     {
       complete: ["Immediately", "Within 3 months"].includes(answers.timeline),
@@ -62,6 +76,8 @@ export default function PlannerSummary({
     "Hello Civil-Gineer Masta, I completed the Dream Project Planner and I would like a consultation.",
     "",
     `Project type: ${answers.projectType}`,
+    `Site position: ${answers.stageProfile.siteStatus}`,
+    `Design position: ${answers.stageProfile.designStatus}`,
     `Preferred style: ${answers.style}`,
     `Project location: ${answers.projectDetails.location}`,
     `Project scale: ${[
@@ -69,6 +85,9 @@ export default function PlannerSummary({
       answers.projectDetails.bedrooms,
       answers.projectDetails.bathrooms,
       answers.projectDetails.storeys,
+      answers.projectDetails.unitCount,
+      answers.projectDetails.businessUse,
+      answers.projectDetails.wallLength,
     ]
       .filter(Boolean)
       .join(", ")}`,
@@ -86,6 +105,13 @@ export default function PlannerSummary({
 
   return (
     <div className="plannerSummary">
+      <div
+        className="plannerRevealVisual"
+        style={{ backgroundImage: `url("${heroImage}")` }}
+      >
+        <span>Your {answers.projectType} direction</span>
+        <strong>{answers.style}</strong>
+      </div>
       <div className="plannerSummaryHero">
         <div>
           <span className="plannerEyebrow">You have done the important thinking</span>

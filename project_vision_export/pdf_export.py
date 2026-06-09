@@ -344,6 +344,12 @@ def _build_story(data, styles):
             Paragraph("BATHROOMS", styles["PVSLabel"]),
             Paragraph(data["bathrooms"], styles["PVSValue"]),
         ],
+        [
+            Paragraph("PROJECT-SPECIFIC SCOPE", styles["PVSLabel"]),
+            Paragraph(data["project_specific_scope"], styles["PVSValue"]),
+            Paragraph("SITE / DESIGN POSITION", styles["PVSLabel"]),
+            Paragraph(data["current_stage"], styles["PVSValue"]),
+        ],
     ]
     overview_table = Table(
         overview,

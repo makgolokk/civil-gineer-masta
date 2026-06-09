@@ -122,18 +122,41 @@ def _clean_features(value):
         value = [item.strip() for item in value.split(",")]
     return [_clean_text(item) for item in value if _clean_text(item, "")]
 
+def _stage_profile(data):
+    stage_profile = data.get("stageProfile") or {}
+    legacy_stage = data.get("stage", "")
+    site_status = stage_profile.get("siteStatus", "")
+    design_status = stage_profile.get("designStatus", "")
+
+    if not site_status:
+        site_status = {
+            "I own land": "Land secured",
+            "I am looking for land": "Looking for land",
+            "I want to renovate": "Existing property",
+        }.get(legacy_stage, "")
+    if not design_status:
+        design_status = {
+            "I already have a design": "Formal drawings",
+            "I only have an idea": "Idea only",
+        }.get(legacy_stage, "")
+
+    return {
+        "site_status": _clean_text(site_status),
+        "design_status": _clean_text(design_status),
+    }
+
 
 def calculate_readiness_score(data):
     weights = PROJECT_VISION_RULES["readinessWeights"]
     score = 0
-    stage = data.get("stage", "")
+    stage = _stage_profile(data)
     timeline = data.get("timeline", "")
     budget = data.get("budget", "")
     features = _clean_features(data.get("features"))
 
-    if stage == "I own land":
+    if stage["site_status"] in {"Land secured", "Existing property"}:
         score += weights["ownsLand"]
-    if stage == "I already have a design":
+    if stage["design_status"] == "Formal drawings":
         score += weights["hasDesign"]
     if timeline in {"Immediately", "Within 3 months"}:
         score += weights["nearTermTimeline"]
@@ -215,7 +238,7 @@ def recommended_services(data):
             ],
         )
     )
-    if data.get("stage") == "I already have a design":
+    if _stage_profile(data)["design_status"] == "Formal drawings":
         services.insert(0, "Independent Design Review and Technical Coordination")
     if data.get("timeline") in {"Immediately", "Within 3 months"}:
         services.append("Priority Programme and Delivery Planning")
@@ -242,8 +265,19 @@ def format_project_vision_data(raw_data, company_settings=None, reference=None, 
     company = {**COMPANY_SETTINGS, **(company_settings or {})}
     project_details = raw_data.get("projectDetails") or {}
     client_details = raw_data.get("clientDetails") or {}
+    stage = _stage_profile(raw_data)
     features = _clean_features(raw_data.get("features"))
     score = calculate_readiness_score(raw_data)
+    project_scope_parts = [
+        project_details.get("unitCount"),
+        project_details.get("businessUse"),
+        project_details.get("parkingNeed"),
+        project_details.get("wallLength"),
+        project_details.get("existingCondition"),
+    ]
+    project_scope = " | ".join(
+        _clean_text(item, "") for item in project_scope_parts if _clean_text(item, "")
+    )
 
     project_type = _clean_text(raw_data.get("projectType"))
     if project_type in {"Family Home", "Luxury Villa", "Rental Units"}:
@@ -267,7 +301,11 @@ def format_project_vision_data(raw_data, company_settings=None, reference=None, 
         "preferred_style": _clean_text(raw_data.get("style")),
         "lifestyle_goal": _clean_text(raw_data.get("lifestyle")),
         "features": features,
-        "current_stage": _clean_text(raw_data.get("stage")),
+        "current_stage": (
+            f"Site: {stage['site_status']} | Design: {stage['design_status']}"
+        ),
+        "site_status": stage["site_status"],
+        "design_status": stage["design_status"],
         "timeline": _clean_text(raw_data.get("timeline")),
         "budget": _clean_text(raw_data.get("budget")),
         "client_name": _clean_text(
@@ -282,6 +320,7 @@ def format_project_vision_data(raw_data, company_settings=None, reference=None, 
         "bedrooms": _clean_text(project_details.get("bedrooms")),
         "bathrooms": _clean_text(project_details.get("bathrooms")),
         "storeys": _clean_text(project_details.get("storeys")),
+        "project_specific_scope": project_scope or "To be discussed",
         "document_status": "Preliminary Consultation Brief",
         "prepared_by": company["prepared_by"],
         "introduction": (

@@ -2,10 +2,12 @@ import PlannerOptionCard from "./PlannerOptionCard";
 
 export default function PlannerStep({
   answer,
+  answers,
   isMulti,
   onAnswer,
   question,
   stepNumber,
+  visibleFields = [],
 }) {
   const selectOption = (value) => {
     if (!isMulti) {
@@ -45,7 +47,37 @@ export default function PlannerStep({
           question.fields ? " fieldOptions" : ""
         }`}
       >
-        {question.fields?.map((field) => (
+        {question.choiceGroups?.map((group) => (
+          <fieldset className="plannerChoiceGroup" key={group.key}>
+            <legend>{group.label}</legend>
+            <div className="plannerChoiceGrid">
+              {group.options.map((option) => {
+                const isSelected = answer?.[group.key] === option.title;
+                return (
+                  <button
+                    aria-pressed={isSelected}
+                    className={`plannerChoiceButton${
+                      isSelected ? " isSelected" : ""
+                    }`}
+                    key={option.title}
+                    onClick={() =>
+                      onAnswer({
+                        ...(answer ?? {}),
+                        [group.key]: option.title,
+                      })
+                    }
+                    type="button"
+                  >
+                    <strong>{option.title}</strong>
+                    <span>{option.description}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </fieldset>
+        ))}
+
+        {visibleFields.map((field) => (
           <label className="plannerField" key={field.key}>
             <span>
               {field.label}
@@ -97,6 +129,11 @@ export default function PlannerStep({
           );
         })}
       </div>
+      {question.id === "projectDetails" && (
+        <p className="plannerConditionalNote">
+          Showing details relevant to your {answers.projectType.toLowerCase()}.
+        </p>
+      )}
     </div>
   );
 }

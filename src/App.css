@@ -728,6 +728,15 @@ section[id],
     transform 180ms ease;
 }
 
+.enquiryForm select {
+  color-scheme: dark;
+}
+
+.enquiryForm select option {
+  background: #fff;
+  color: #111;
+}
+
 .enquirySubmit:disabled {
   cursor: wait;
   opacity: 0.68;

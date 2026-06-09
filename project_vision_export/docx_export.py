@@ -421,6 +421,7 @@ def generate_project_vision_docx(
             ("Bedrooms / Main Rooms", data["bedrooms"]),
             ("Bathrooms", data["bathrooms"]),
             ("Building Levels", data["storeys"]),
+            ("Project-Specific Scope", data["project_specific_scope"]),
         ],
     )
     feature_heading = document.add_paragraph()

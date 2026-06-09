@@ -1,13 +1,27 @@
+import base64
 import html
 import json
 import os
+import sys
 import urllib.error
 import urllib.request
 from http.server import BaseHTTPRequestHandler
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from project_vision_export import (  # noqa: E402
+    format_project_vision_data,
+    generate_project_reference,
+    generate_project_vision_pdf,
+)
+from project_vision_export.formatting import professional_filename  # noqa: E402
 
 
 RESEND_API_URL = "https://api.resend.com/emails"
-MAX_REQUEST_BYTES = 50_000
+MAX_REQUEST_BYTES = 100_000
 
 
 def _clean(value, maximum):
@@ -26,6 +40,23 @@ def _send_email(api_key, payload):
     )
     with urllib.request.urlopen(request, timeout=12) as response:
         return json.loads(response.read().decode("utf-8"))
+
+def build_project_attachment(project_data):
+    if not project_data:
+        return None
+
+    reference = generate_project_reference()
+    formatted = format_project_vision_data(project_data, reference=reference)
+    document = generate_project_vision_pdf(project_data, reference=reference)
+    filename = professional_filename(
+        project_data,
+        "pdf",
+        generated_on=formatted["generated_iso_date"],
+    )
+    return {
+        "filename": filename,
+        "content": base64.b64encode(document).decode("ascii"),
+    }
 
 
 class handler(BaseHTTPRequestHandler):
@@ -61,6 +92,7 @@ class handler(BaseHTTPRequestHandler):
                 "service": _clean(payload.get("service"), 180),
                 "description": str(payload.get("description") or "").strip()[:5000],
             }
+            project_data = payload.get("projectData") or {}
             if not all(enquiry.values()):
                 raise ValueError("All enquiry fields are required.")
             if "@" not in enquiry["email"]:
@@ -97,15 +129,19 @@ class handler(BaseHTTPRequestHandler):
                 "<h3>Project description</h3>"
                 f"<p style='white-space:pre-wrap'>{html.escape(enquiry['description'])}</p>"
             )
+            attachment = build_project_attachment(project_data)
+            team_payload = {
+                "from": from_email,
+                "to": [to_email],
+                "reply_to": enquiry["email"],
+                "subject": f"Project enquiry: {enquiry['service']} - {enquiry['fullName']}",
+                "html": team_html,
+            }
+            if attachment:
+                team_payload["attachments"] = [attachment]
             result = _send_email(
                 api_key,
-                {
-                    "from": from_email,
-                    "to": [to_email],
-                    "reply_to": enquiry["email"],
-                    "subject": f"Project enquiry: {enquiry['service']} - {enquiry['fullName']}",
-                    "html": team_html,
-                },
+                team_payload,
             )
 
             try:
@@ -127,7 +163,14 @@ class handler(BaseHTTPRequestHandler):
             except (urllib.error.URLError, TimeoutError):
                 pass
 
-            self._respond(200, {"ok": True, "reference": result.get("id")})
+            self._respond(
+                200,
+                {
+                    "ok": True,
+                    "reference": result.get("id"),
+                    "briefAttached": bool(attachment),
+                },
+            )
         except (ValueError, json.JSONDecodeError) as error:
             self._respond(400, {"error": str(error)})
         except (urllib.error.URLError, TimeoutError):
