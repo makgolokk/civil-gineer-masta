@@ -315,7 +315,7 @@ def _build_story(data, styles):
             Paragraph(data["preferred_style"], styles["PVSValue"]),
         ],
         [
-            Paragraph("LIFESTYLE GOAL", styles["PVSLabel"]),
+            Paragraph("PROJECT GOAL", styles["PVSLabel"]),
             Paragraph(data["lifestyle_goal"], styles["PVSValue"]),
             Paragraph("CURRENT STAGE", styles["PVSLabel"]),
             Paragraph(data["current_stage"], styles["PVSValue"]),

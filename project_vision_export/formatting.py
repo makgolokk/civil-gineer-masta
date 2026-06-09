@@ -202,17 +202,19 @@ def readiness_explanation(score):
 
 def build_design_direction(data):
     lifestyle = _clean_text(data.get("lifestyle"))
+    project_type = _clean_text(data.get("projectType"), "project")
     base = LIFESTYLE_DIRECTIONS.get(
         lifestyle,
         (
-            "The project should be developed through a practical concept that aligns "
-            "the site, spatial requirements, budget direction and intended long-term use."
+            f"The {project_type.lower()} concept should be developed around the "
+            f"client's '{lifestyle}' goal, aligning the site, operational requirements, "
+            "budget direction and intended long-term use."
         ),
     )
     features = [
-        FEATURE_PHRASES[item]
+        FEATURE_PHRASES.get(item, item.lower())
         for item in _clean_features(data.get("features"))
-        if item in FEATURE_PHRASES
+        if item != "To be discussed during consultation"
     ]
     if not features:
         return base
@@ -270,10 +272,14 @@ def format_project_vision_data(raw_data, company_settings=None, reference=None, 
     score = calculate_readiness_score(raw_data)
     project_scope_parts = [
         project_details.get("unitCount"),
+        project_details.get("unitMix"),
+        project_details.get("rentalOperations"),
         project_details.get("businessUse"),
         project_details.get("parkingNeed"),
         project_details.get("wallLength"),
+        project_details.get("gateNeeds"),
         project_details.get("existingCondition"),
+        project_details.get("existingSiteUse"),
     ]
     project_scope = " | ".join(
         _clean_text(item, "") for item in project_scope_parts if _clean_text(item, "")

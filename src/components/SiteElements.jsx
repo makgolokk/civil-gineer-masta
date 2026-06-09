@@ -176,9 +176,9 @@ function projectBriefToEnquiry(projectBrief) {
     ["Project type", projectBrief.projectType],
     ["Site position", projectBrief.stageProfile?.siteStatus],
     ["Design position", projectBrief.stageProfile?.designStatus],
-    ["Lifestyle goal", projectBrief.lifestyle],
-    ["Preferred style", projectBrief.style],
-    ["Important features", projectBrief.features?.join(", ")],
+    ["Project goal", projectBrief.lifestyle],
+    ["Design direction", projectBrief.style],
+    ["Project priorities", projectBrief.features?.join(", ")],
     ["Preferred timeline", projectBrief.timeline],
     ["Budget direction", projectBrief.budget],
   ];
@@ -198,10 +198,14 @@ function projectBriefToEnquiry(projectBrief) {
       ["Bathrooms", projectBrief.projectDetails?.bathrooms],
       ["Building levels", projectBrief.projectDetails?.storeys],
       ["Rental units planned", projectBrief.projectDetails?.unitCount],
+      ["Preferred unit mix", projectBrief.projectDetails?.unitMix],
+      ["Rental operations", projectBrief.projectDetails?.rentalOperations],
       ["Main business use", projectBrief.projectDetails?.businessUse],
       ["Parking requirement", projectBrief.projectDetails?.parkingNeed],
       ["Approximate wall length", projectBrief.projectDetails?.wallLength],
+      ["Gate and access needs", projectBrief.projectDetails?.gateNeeds],
       ["Existing property changes", projectBrief.projectDetails?.existingCondition],
+      ["Current site use", projectBrief.projectDetails?.existingSiteUse],
     ]
       .filter(([, value]) => value)
       .map(([label, value]) => `${label}: ${value}`)

@@ -411,7 +411,7 @@ def generate_project_vision_docx(
         [
             ("Project Type", data["project_type"]),
             ("Preferred Style", data["preferred_style"]),
-            ("Lifestyle Goal", data["lifestyle_goal"]),
+            ("Project Goal", data["lifestyle_goal"]),
             ("Current Project Stage", data["current_stage"]),
             ("Intended Timeline", data["timeline"]),
             ("Budget Direction", data["budget"]),

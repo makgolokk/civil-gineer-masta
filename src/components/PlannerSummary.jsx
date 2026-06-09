@@ -11,7 +11,7 @@ const summaryLabels = [
   ["Project Type", (answers) => answers.projectType],
   ["Project Location", (answers) => answers.projectDetails.location],
   ["Preferred Style", (answers) => answers.style],
-  ["Lifestyle Goal", (answers) => answers.lifestyle],
+  ["Project Goal", (answers) => answers.lifestyle],
   ["Selected Features", (answers) => answers.features.join(", ")],
   ["Project Scale", (answers) =>
     [
@@ -25,10 +25,14 @@ const summaryLabels = [
   ["Project-Specific Scope", (answers) =>
     [
       answers.projectDetails.unitCount,
+      answers.projectDetails.unitMix,
+      answers.projectDetails.rentalOperations,
       answers.projectDetails.businessUse,
       answers.projectDetails.parkingNeed,
       answers.projectDetails.wallLength,
+      answers.projectDetails.gateNeeds,
       answers.projectDetails.existingCondition,
+      answers.projectDetails.existingSiteUse,
     ]
       .filter(Boolean)
       .join(" | ")],

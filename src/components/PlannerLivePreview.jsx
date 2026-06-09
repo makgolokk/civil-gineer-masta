@@ -1,4 +1,5 @@
 import { Lightbulb, MapPin, Sparkles } from "lucide-react";
+import { getContextInsight } from "./plannerQuestionConfig";
 
 const projectInsights = {
   "Family Home":
@@ -26,12 +27,6 @@ export default function PlannerLivePreview({ answers }) {
     .filter(Boolean)
     .slice(0, 3)
     .join(" | ");
-  const featureInsight = answers.features.includes("Large windows")
-    ? "Large windows can improve daylight and character, but orientation and heat gain should be tested early for Botswana's climate."
-    : answers.features.includes("Outdoor entertainment area")
-      ? "Outdoor living works best when shade, privacy, wind and its connection to the kitchen and living spaces are planned together."
-      : null;
-
   return (
     <aside className="plannerLivePreview" aria-label="Live project snapshot">
       <div className="plannerLiveHeading">
@@ -56,8 +51,12 @@ export default function PlannerLivePreview({ answers }) {
           <dd>{answers.stageProfile.designStatus || "To be clarified"}</dd>
         </div>
         <div>
-          <dt>Style</dt>
-          <dd>{answers.style || "Your visual direction will appear here"}</dd>
+          <dt>Goal</dt>
+          <dd>{answers.lifestyle || "Define what the project must achieve"}</dd>
+        </div>
+        <div>
+          <dt>Design direction</dt>
+          <dd>{answers.style || "A relevant direction will appear here"}</dd>
         </div>
         <div>
           <dt>Scale</dt>
@@ -85,9 +84,9 @@ export default function PlannerLivePreview({ answers }) {
         <div>
           <strong>Professional insight</strong>
           <p>
-            {featureInsight ||
-              projectInsights[answers.projectType] ||
-              "Choose your project type and we will begin highlighting the decisions that deserve early attention."}
+            {answers.lifestyle
+              ? getContextInsight(answers)
+              : projectInsights[answers.projectType] || getContextInsight(answers)}
           </p>
         </div>
       </div>

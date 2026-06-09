@@ -6,6 +6,14 @@ import PlannerLivePreview from "./PlannerLivePreview";
 import { downloadProjectVision } from "../projectVisionExport";
 import { trackEvent } from "../analytics";
 import projectVisionRules from "../../project_vision_rules.json";
+import {
+  getDesignDirection,
+  getFeatureQuestion,
+  getGoalQuestion,
+  getStyleQuestion,
+  sanitizeAnswersForGoal,
+  sanitizeAnswersForProject,
+} from "./plannerQuestionConfig";
 import "./DreamProjectPlanner.css";
 
 const projectImages = {
@@ -129,8 +137,8 @@ const plannerQuestions = [
   },
   {
     id: "lifestyle",
-    title: "What lifestyle or goal fits your project?",
-    helper: "Think beyond rooms and walls. What should this project make possible?",
+    title: "What must this project achieve?",
+    helper: "Choose the outcome that should guide the design.",
     valueMessage:
       "Your goal guides the layout, priorities and long-term value of the design, not just its appearance.",
     visual: true,
@@ -169,8 +177,8 @@ const plannerQuestions = [
   },
   {
     id: "style",
-    title: "Which style attracts you most?",
-    helper: "Choose the architectural mood you would be proud to come home to.",
+    title: "Which design direction fits the project?",
+    helper: "Choose a direction suited to the project's use and market.",
     valueMessage:
       "A clear visual direction makes the first design conversation faster and more focused.",
     visual: true,
@@ -209,8 +217,8 @@ const plannerQuestions = [
   },
   {
     id: "features",
-    title: "What features matter most?",
-    helper: "Select as many as you like. These details begin shaping your daily experience.",
+    title: "What must this project include?",
+    helper: "Select as many project requirements as you need.",
     valueMessage:
       "Your priorities help us protect the spaces that matter before budget and site constraints shape the concept.",
     multi: true,
@@ -250,6 +258,13 @@ const plannerQuestions = [
         key: "floorArea",
         label: "Target floor area",
         placeholder: "e.g. 180 m² or not sure",
+        projectTypes: [
+          "Family Home",
+          "Rental Units",
+          "Luxury Villa",
+          "Commercial Building",
+          "Renovation / Extension",
+        ],
       },
       {
         key: "bedrooms",
@@ -268,11 +283,30 @@ const plannerQuestions = [
         label: "Building levels",
         type: "select",
         options: ["Single storey", "Double storey", "Three or more", "Not sure"],
+        projectTypes: [
+          "Family Home",
+          "Rental Units",
+          "Luxury Villa",
+          "Commercial Building",
+          "Renovation / Extension",
+        ],
       },
       {
         key: "unitCount",
         label: "Rental units planned",
         placeholder: "e.g. 4 units or not sure",
+        projectTypes: ["Rental Units"],
+      },
+      {
+        key: "unitMix",
+        label: "Preferred unit mix",
+        placeholder: "e.g. 2 studios and 4 two-bedroom units",
+        projectTypes: ["Rental Units"],
+      },
+      {
+        key: "rentalOperations",
+        label: "How should the rentals operate?",
+        placeholder: "e.g. long-term leases, short stays, managed on site",
         projectTypes: ["Rental Units"],
       },
       {
@@ -294,10 +328,22 @@ const plannerQuestions = [
         projectTypes: ["Boundary Wall"],
       },
       {
+        key: "gateNeeds",
+        label: "Gate and access needs",
+        placeholder: "e.g. sliding vehicle gate and pedestrian gate",
+        projectTypes: ["Boundary Wall"],
+      },
+      {
         key: "existingCondition",
         label: "What needs to change?",
         placeholder: "e.g. add bedrooms and improve the kitchen",
         projectTypes: ["Renovation / Extension"],
+      },
+      {
+        key: "existingSiteUse",
+        label: "What is currently on the site?",
+        placeholder: "e.g. occupied house, incomplete structure, vacant plot",
+        siteStatuses: ["Existing property"],
       },
     ],
   },
@@ -376,10 +422,14 @@ const initialAnswers = {
     bathrooms: "",
     storeys: "",
     unitCount: "",
+    unitMix: "",
+    rentalOperations: "",
     businessUse: "",
     parkingNeed: "",
     wallLength: "",
+    gateNeeds: "",
     existingCondition: "",
+    existingSiteUse: "",
   },
   timeline: "",
   budget: "",
@@ -418,8 +468,7 @@ function loadPlannerState() {
             : "",
     };
 
-    return {
-      answers: {
+    const mergedAnswers = {
         ...initialAnswers,
         ...savedAnswers,
         features: Array.isArray(savedAnswers.features)
@@ -438,12 +487,40 @@ function loadPlannerState() {
           ...initialAnswers.clientDetails,
           ...(savedAnswers.clientDetails ?? {}),
         },
-      },
-      currentStep: Math.min(
+      };
+
+    const sanitizedAnswers = mergedAnswers.projectType
+        ? sanitizeAnswersForProject(mergedAnswers, mergedAnswers.projectType)
+        : mergedAnswers;
+    let restoredStep = Math.min(
         Math.max(Number(saved?.currentStep) || 0, 0),
         plannerQuestions.length - 1
-      ),
-      showSummary: Boolean(saved?.showSummary),
+      );
+    if (restoredStep > 1 && !sanitizedAnswers.stageProfile.siteStatus) {
+      restoredStep = 1;
+    } else if (restoredStep > 1 && !sanitizedAnswers.stageProfile.designStatus) {
+      restoredStep = 1;
+    } else if (restoredStep > 2 && !sanitizedAnswers.lifestyle) {
+      restoredStep = 2;
+    } else if (restoredStep > 3 && !sanitizedAnswers.style) {
+      restoredStep = 3;
+    } else if (restoredStep > 4 && !sanitizedAnswers.features.length) {
+      restoredStep = 4;
+    }
+
+    return {
+      answers: sanitizedAnswers,
+      currentStep: restoredStep,
+      showSummary:
+        Boolean(saved?.showSummary) &&
+        Boolean(
+          sanitizedAnswers.projectType &&
+            sanitizedAnswers.stageProfile.siteStatus &&
+            sanitizedAnswers.stageProfile.designStatus &&
+            sanitizedAnswers.lifestyle &&
+            sanitizedAnswers.style &&
+            sanitizedAnswers.features.length
+        ),
     };
   } catch {
     window.localStorage.removeItem(PLANNER_STORAGE_KEY);
@@ -461,12 +538,23 @@ export default function DreamProjectPlanner({ onConsultation }) {
   });
   const [showSummary, setShowSummary] = useState(savedPlannerState.showSummary);
 
-  const question = plannerQuestions[currentStep];
+  const baseQuestion = plannerQuestions[currentStep];
+  const contextualQuestion =
+    baseQuestion.id === "lifestyle"
+      ? getGoalQuestion(answers)
+      : baseQuestion.id === "style"
+        ? getStyleQuestion(answers)
+        : baseQuestion.id === "features"
+          ? getFeatureQuestion(answers)
+          : {};
+  const question = { ...baseQuestion, ...contextualQuestion };
   const currentAnswer = answers[question.id];
   const visibleFields =
     question.fields?.filter(
       (field) =>
-        !field.projectTypes || field.projectTypes.includes(answers.projectType)
+        (!field.projectTypes || field.projectTypes.includes(answers.projectType)) &&
+        (!field.siteStatuses ||
+          field.siteStatuses.includes(answers.stageProfile.siteStatus))
     ) ?? [];
   const requiredFields = question.fields?.filter((field) => field.required) ?? [];
   const canContinue = question.optional
@@ -477,7 +565,10 @@ export default function DreamProjectPlanner({ onConsultation }) {
       ? requiredFields
           .filter(
             (field) =>
-              !field.projectTypes || field.projectTypes.includes(answers.projectType)
+              (!field.projectTypes ||
+                field.projectTypes.includes(answers.projectType)) &&
+              (!field.siteStatuses ||
+                field.siteStatuses.includes(answers.stageProfile.siteStatus))
           )
           .every((field) => Boolean(currentAnswer?.[field.key]?.trim()))
       : question.multi
@@ -525,7 +616,19 @@ export default function DreamProjectPlanner({ onConsultation }) {
     if (currentStep === 0 && !currentAnswer) {
       trackEvent("planner_started");
     }
-    setAnswers((current) => ({ ...current, [question.id]: value }));
+    setAnswers((current) => {
+      if (question.id === "projectType") {
+        return sanitizeAnswersForProject(current, value);
+      }
+      if (question.id === "lifestyle") {
+        return sanitizeAnswersForGoal(current, value);
+      }
+      if (question.id === "stageProfile") {
+        const stagedAnswers = { ...current, stageProfile: value };
+        return sanitizeAnswersForProject(stagedAnswers, current.projectType);
+      }
+      return { ...current, [question.id]: value };
+    });
   };
 
   const goNext = () => {
@@ -639,7 +742,7 @@ export default function DreamProjectPlanner({ onConsultation }) {
         {showSummary ? (
           <PlannerSummary
             answers={answers}
-            designDirection={projectVisionRules.designDirections[answers.lifestyle]}
+            designDirection={getDesignDirection(answers.lifestyle)}
             exportState={exportState}
             heroImage={projectImageByType[answers.projectType]}
             onContact={handleContact}

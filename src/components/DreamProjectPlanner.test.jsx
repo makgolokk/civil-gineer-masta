@@ -110,4 +110,84 @@ describe("DreamProjectPlanner", () => {
     );
     expect(screen.getByText(/tenant privacy, parking/i)).toBeTruthy();
   });
+
+  it("tailors rental goals, design directions, and priorities", () => {
+    render(<DreamProjectPlanner />);
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: /Rental Units.*dependable income/i,
+      })
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Start Shaping My Project" }));
+    fireEvent.click(
+      screen.getByRole("button", { name: /Land secured.*secured the project site/i })
+    );
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: /Sketches.*references, sketches or an early concept/i,
+      })
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Save & Continue" }));
+
+    expect(
+      screen.getByRole("heading", {
+        name: /What must this rental development achieve/i,
+      })
+    ).toBeTruthy();
+    expect(
+      screen.getByRole("button", { name: /Young professional rentals/i })
+    ).toBeTruthy();
+    expect(screen.queryByRole("button", { name: /Growing family/i })).toBeNull();
+    expect(
+      screen.queryByRole("button", { name: /Fixing an existing property/i })
+    ).toBeNull();
+
+    fireEvent.click(
+      screen.getByRole("button", { name: /Young professional rentals/i })
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Save & Continue" }));
+
+    expect(screen.getByRole("button", { name: /Durable Modern/i })).toBeTruthy();
+    expect(
+      screen.queryByRole("button", { name: /Traditional Modern/i })
+    ).toBeNull();
+
+    fireEvent.click(screen.getByRole("button", { name: /Durable Modern/i }));
+    fireEvent.click(screen.getByRole("button", { name: "Save & Continue" }));
+
+    expect(screen.getByRole("button", { name: "Private entrances" })).toBeTruthy();
+    expect(
+      screen.getByRole("button", { name: "Separate utility metering" })
+    ).toBeTruthy();
+    expect(screen.queryByRole("button", { name: "Walk-in closet" })).toBeNull();
+  }, 15000);
+
+  it("returns an older saved brief to the first newly relevant question", () => {
+    window.localStorage.setItem(
+      "cgm-dream-project-planner",
+      JSON.stringify({
+        currentStep: 4,
+        answers: {
+          projectType: "Rental Units",
+          stageProfile: {
+            siteStatus: "Land secured",
+            designStatus: "Sketches / inspiration",
+          },
+          lifestyle: "Growing family",
+          style: "Traditional Modern",
+          features: ["Walk-in closet"],
+        },
+      })
+    );
+
+    render(<DreamProjectPlanner />);
+
+    expect(
+      screen.getByRole("heading", {
+        name: /What must this rental development achieve/i,
+      })
+    ).toBeTruthy();
+    expect(screen.queryByRole("button", { name: /Growing family/i })).toBeNull();
+  });
 });
