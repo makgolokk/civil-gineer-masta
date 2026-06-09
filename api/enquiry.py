@@ -24,6 +24,13 @@ RESEND_API_URL = "https://api.resend.com/emails"
 MAX_REQUEST_BYTES = 100_000
 
 
+class EmailDeliveryError(Exception):
+    def __init__(self, status, provider_message):
+        super().__init__(provider_message)
+        self.status = status
+        self.provider_message = provider_message
+
+
 def _clean(value, maximum):
     return " ".join(str(value or "").split())[:maximum]
 
@@ -38,8 +45,17 @@ def _send_email(api_key, payload):
         },
         method="POST",
     )
-    with urllib.request.urlopen(request, timeout=12) as response:
-        return json.loads(response.read().decode("utf-8"))
+    try:
+        with urllib.request.urlopen(request, timeout=12) as response:
+            return json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as error:
+        response_body = error.read().decode("utf-8", errors="replace")
+        try:
+            provider_error = json.loads(response_body)
+            provider_message = provider_error.get("message") or response_body
+        except json.JSONDecodeError:
+            provider_message = response_body
+        raise EmailDeliveryError(error.code, provider_message[:500]) from error
 
 def build_project_attachment(project_data):
     if not project_data:
@@ -160,8 +176,8 @@ class handler(BaseHTTPRequestHandler):
                         ),
                     },
                 )
-            except (urllib.error.URLError, TimeoutError):
-                pass
+            except (EmailDeliveryError, urllib.error.URLError, TimeoutError) as error:
+                print(f"Resend confirmation email failed: {error}", file=sys.stderr)
 
             self._respond(
                 200,
@@ -173,6 +189,16 @@ class handler(BaseHTTPRequestHandler):
             )
         except (ValueError, json.JSONDecodeError) as error:
             self._respond(400, {"error": str(error)})
+        except EmailDeliveryError as error:
+            print(
+                f"Resend team email failed ({error.status}): "
+                f"{error.provider_message}",
+                file=sys.stderr,
+            )
+            self._respond(
+                502,
+                {"error": "The enquiry service could not deliver your message."},
+            )
         except (urllib.error.URLError, TimeoutError):
             self._respond(
                 502,
