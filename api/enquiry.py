@@ -42,6 +42,7 @@ def _send_email(api_key, payload):
         headers={
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
+            "User-Agent": "Civil-Gineer-Masta/1.0",
         },
         method="POST",
     )

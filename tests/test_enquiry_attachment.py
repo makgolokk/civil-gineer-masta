@@ -1,12 +1,33 @@
 import base64
+import json
 import unittest
+from unittest.mock import patch
 
 import fitz
 
-from api.enquiry import build_project_attachment
+from api.enquiry import _send_email, build_project_attachment
+
+
+class MockResponse:
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_args):
+        return False
+
+    def read(self):
+        return json.dumps({"id": "email-test-id"}).encode("utf-8")
 
 
 class EnquiryAttachmentTests(unittest.TestCase):
+    @patch("api.enquiry.urllib.request.urlopen", return_value=MockResponse())
+    def test_resend_request_identifies_the_application(self, urlopen):
+        result = _send_email("test-key", {"to": ["review@example.com"]})
+
+        request = urlopen.call_args.args[0]
+        self.assertEqual(request.get_header("User-agent"), "Civil-Gineer-Masta/1.0")
+        self.assertEqual(result["id"], "email-test-id")
+
     def test_planner_submission_generates_review_team_pdf_attachment(self):
         project_data = {
             "projectType": "Rental Units",
