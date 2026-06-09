@@ -651,6 +651,14 @@ section[id],
   padding: clamp(20px, 3vw, 30px);
 }
 
+.enquiryHoneypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
 .enquiryForm label {
   min-width: 0;
   display: grid;
@@ -718,6 +726,41 @@ section[id],
     background-color 180ms ease,
     box-shadow 180ms ease,
     transform 180ms ease;
+}
+
+.enquirySubmit:disabled {
+  cursor: wait;
+  opacity: 0.68;
+}
+
+.enquiryStatus {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border: 1px solid #444;
+  border-radius: 8px;
+  color: #eee;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 13px 15px;
+}
+
+.enquiryStatus.success {
+  border-color: rgba(55, 190, 105, 0.55);
+  background: rgba(35, 130, 70, 0.16);
+}
+
+.enquiryStatus.error {
+  border-color: rgba(255, 70, 70, 0.5);
+  background: rgba(192, 0, 0, 0.12);
+}
+
+.enquiryStatus a {
+  flex: 0 0 auto;
+  color: #fff;
+  font-weight: 800;
 }
 
 .enquirySubmit:hover {

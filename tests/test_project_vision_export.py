@@ -23,6 +23,19 @@ class ProjectVisionExportTests(unittest.TestCase):
             "stage": "I own land",
             "timeline": "Within 3 months",
             "budget": "P1M-P2M",
+            "projectDetails": {
+                "location": "Gaborone North",
+                "plotSize": "1,200 m2",
+                "floorArea": "180 m2",
+                "bedrooms": "3 bedrooms",
+                "bathrooms": "2 bathrooms",
+                "storeys": "Single storey",
+            },
+            "clientDetails": {
+                "clientName": "Dineo M.",
+                "phone": "+267 71 000 000",
+                "email": "dineo@example.com",
+            },
         }
 
     def test_reference_generation_is_unique(self):
@@ -35,6 +48,8 @@ class ProjectVisionExportTests(unittest.TestCase):
         formatted = format_project_vision_data(self.base, reference="CGM/PVS/2026/TEST")
         self.assertEqual(80, formatted["readiness_score"])
         self.assertEqual("Consultation-ready stage", formatted["readiness_label"])
+        self.assertEqual("Gaborone North", formatted["project_location"])
+        self.assertEqual("Dineo M.", formatted["client_name"])
 
     def test_missing_optional_values_are_human_readable(self):
         formatted = format_project_vision_data({}, reference="CGM/PVS/2026/TEST")
@@ -55,6 +70,7 @@ class ProjectVisionExportTests(unittest.TestCase):
         self.assertIn("PROJECT VISION SUMMARY", text)
         self.assertIn("Recommended Professional Services", text)
         self.assertIn("Project Readiness Score", text)
+        self.assertIn("Gaborone North", text)
 
     def test_docx_is_valid_and_contains_required_content(self):
         docx_bytes = generate_project_vision_docx(
@@ -66,6 +82,7 @@ class ProjectVisionExportTests(unittest.TestCase):
             document_xml = archive.read("word/document.xml").decode("utf-8")
         self.assertIn("PROJECT VISION SUMMARY", document_xml)
         self.assertIn("Recommended Professional Services", document_xml)
+        self.assertIn("Gaborone North", document_xml)
 
     def test_long_and_special_character_content(self):
         data = {

@@ -1,16 +1,50 @@
-# React + Vite
+# Civil-Gineer Masta
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Civil-Gineer Masta's public website and Dream Project Planner. The application is
+built with React and Vite, with Python serverless functions for project-vision
+document exports and direct enquiry delivery.
 
-Currently, two official plugins are available:
+## Local Development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+Useful checks:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm test
+npm run build
+python -m unittest discover -s tests -v
+```
 
-## Expanding the ESLint configuration
+## Enquiry Delivery
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+The `/api/enquiry` function sends new enquiries through Resend. Configure these
+environment variables in Vercel:
+
+- `RESEND_API_KEY`
+- `ENQUIRY_TO_EMAIL`
+- `ENQUIRY_FROM_EMAIL`
+
+`ENQUIRY_FROM_EMAIL` must use a sender/domain verified in Resend for production
+delivery. See [.env.example](.env.example) for the expected format.
+
+Without these variables, the form presents a direct-email fallback rather than
+silently losing the enquiry.
+
+## Planner Analytics
+
+Planner and enquiry funnel events are emitted in two ways:
+
+- Pushed to `window.dataLayer` when a data layer is available.
+- Dispatched as `cgm:analytics` browser events.
+
+No names, phone numbers, email addresses, locations, or free-text descriptions
+are included in analytics payloads.
+
+## Project Vision Exports
+
+The `/api/project_vision` function creates branded PDF and Word summaries. Export
+formatting and readiness rules are covered by the Python test suite.

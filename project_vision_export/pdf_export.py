@@ -293,6 +293,7 @@ def _build_story(data, styles):
     reference_rows = [
         ("Document Reference", data["reference"]),
         ("Date Generated", data["generated_date"]),
+        ("Prepared For", data["client_name"] or "Prospective Client"),
         ("Project Category", data["project_category"]),
         ("Prepared By", data["prepared_by"]),
         ("Document Status", data["document_status"]),
@@ -324,6 +325,24 @@ def _build_story(data, styles):
             Paragraph(data["timeline"], styles["PVSValue"]),
             Paragraph("BUDGET DIRECTION", styles["PVSLabel"]),
             Paragraph(data["budget"], styles["PVSValue"]),
+        ],
+        [
+            Paragraph("PROJECT LOCATION", styles["PVSLabel"]),
+            Paragraph(data["project_location"], styles["PVSValue"]),
+            Paragraph("PLOT SIZE", styles["PVSLabel"]),
+            Paragraph(data["plot_size"], styles["PVSValue"]),
+        ],
+        [
+            Paragraph("TARGET FLOOR AREA", styles["PVSLabel"]),
+            Paragraph(data["floor_area"], styles["PVSValue"]),
+            Paragraph("BUILDING LEVELS", styles["PVSLabel"]),
+            Paragraph(data["storeys"], styles["PVSValue"]),
+        ],
+        [
+            Paragraph("BEDROOMS / ROOMS", styles["PVSLabel"]),
+            Paragraph(data["bedrooms"], styles["PVSValue"]),
+            Paragraph("BATHROOMS", styles["PVSLabel"]),
+            Paragraph(data["bathrooms"], styles["PVSValue"]),
         ],
     ]
     overview_table = Table(

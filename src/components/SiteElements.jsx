@@ -25,6 +25,7 @@ import {
   whatsappMessage,
   whatsappNumber,
 } from "../siteContent";
+import { trackEvent } from "../analytics";
 
 const navItems = [
   { to: "/", icon: "home", label: "Home" },
@@ -151,58 +152,213 @@ function SiteFooter() {
   );
 }
 
-export function EnquiryForm() {
-  const handleEnquirySubmit = (event) => {
+const emptyEnquiry = {
+  fullName: "",
+  email: "",
+  phone: "",
+  location: "",
+  service: "",
+  description: "",
+};
+
+function projectBriefToEnquiry(projectBrief) {
+  if (!projectBrief) return emptyEnquiry;
+
+  const serviceByProjectType = {
+    "Family Home": "Architectural Design",
+    "Rental Units": "Architectural Design",
+    "Luxury Villa": "Architectural Design",
+    "Commercial Building": "Architectural Design",
+    "Boundary Wall": "Structural Engineering",
+    "Renovation / Extension": "Renovations & Extensions",
+  };
+  const details = [
+    ["Project type", projectBrief.projectType],
+    ["Current stage", projectBrief.stage],
+    ["Lifestyle goal", projectBrief.lifestyle],
+    ["Preferred style", projectBrief.style],
+    ["Important features", projectBrief.features?.join(", ")],
+    ["Preferred timeline", projectBrief.timeline],
+    ["Budget direction", projectBrief.budget],
+  ];
+
+  return {
+    ...emptyEnquiry,
+    fullName: projectBrief.clientDetails?.clientName || "",
+    email: projectBrief.clientDetails?.email || "",
+    phone: projectBrief.clientDetails?.phone || "",
+    location: projectBrief.projectDetails?.location || "",
+    service: serviceByProjectType[projectBrief.projectType] || "Other",
+    description: [
+      ...details,
+      ["Plot size", projectBrief.projectDetails?.plotSize],
+      ["Target floor area", projectBrief.projectDetails?.floorArea],
+      ["Bedrooms / main rooms", projectBrief.projectDetails?.bedrooms],
+      ["Bathrooms", projectBrief.projectDetails?.bathrooms],
+      ["Building levels", projectBrief.projectDetails?.storeys],
+    ]
+      .filter(([, value]) => value)
+      .map(([label, value]) => `${label}: ${value}`)
+      .join("\n"),
+  };
+}
+
+export function EnquiryForm({ initialProjectBrief = null }) {
+  const formKey = initialProjectBrief
+    ? JSON.stringify({
+        projectType: initialProjectBrief.projectType,
+        projectDetails: initialProjectBrief.projectDetails,
+        clientDetails: initialProjectBrief.clientDetails,
+      })
+    : "standard-enquiry";
+
+  return (
+    <EnquiryFormFields
+      initialProjectBrief={initialProjectBrief}
+      key={formKey}
+    />
+  );
+}
+
+function EnquiryFormFields({ initialProjectBrief }) {
+  const [values, setValues] = useState(() =>
+    projectBriefToEnquiry(initialProjectBrief)
+  );
+  const [submission, setSubmission] = useState({
+    state: "idle",
+    message: "",
+  });
+  const fallbackEmailBody = [
+    "Hello Civil-Gineer Masta,",
+    "",
+    "I would like you to review my project brief.",
+    "",
+    `Full Name: ${values.fullName}`,
+    `Email Address: ${values.email}`,
+    `Phone Number: ${values.phone}`,
+    `Project Location: ${values.location}`,
+    `Service Needed: ${values.service}`,
+    "",
+    "Project Brief:",
+    values.description,
+    "",
+    "Thank you.",
+  ].join("\n");
+  const fallbackEmailUrl = `mailto:${enquiryEmail}?subject=${encodeURIComponent(
+    `Project Brief Review - ${values.fullName || "Prospective Client"}`
+  )}&body=${encodeURIComponent(fallbackEmailBody)}`;
+
+  const updateField = (event) => {
+    const { name, value } = event.target;
+    setValues((current) => ({ ...current, [name]: value }));
+  };
+
+  const handleEnquirySubmit = async (event) => {
     event.preventDefault();
-
     const form = new FormData(event.currentTarget);
-    const emailBody = [
-      "Hello Civil-Gineer Masta,",
-      "",
-      "I would like to enquire about a project.",
-      "",
-      `Full Name: ${form.get("fullName")}`,
-      `Email Address: ${form.get("email")}`,
-      `Phone Number: ${form.get("phone")}`,
-      `Project Location: ${form.get("location")}`,
-      `Service Needed: ${form.get("service")}`,
-      "",
-      "Brief Project Description:",
-      `${form.get("description")}`,
-      "",
-      "Thank you.",
-    ].join("\n");
+    trackEvent("enquiry_submission_started", {
+      service: values.service,
+      source: initialProjectBrief ? "planner" : "standard_form",
+    });
+    setSubmission({ state: "sending", message: "" });
 
-    window.location.href = `mailto:${enquiryEmail}?subject=${encodeURIComponent(
-      "Project Enquiry - Civil-Gineer Masta"
-    )}&body=${encodeURIComponent(emailBody)}`;
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_ENQUIRY_API_URL || "/api/enquiry",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...values,
+            website: form.get("website"),
+          }),
+        }
+      );
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(payload.error || "Your enquiry could not be sent.");
+      }
+
+      setSubmission({
+        state: "success",
+        message:
+          "Your project enquiry has been sent. We will review it and contact you.",
+      });
+      trackEvent("enquiry_submission_completed", {
+        service: values.service,
+        source: initialProjectBrief ? "planner" : "standard_form",
+      });
+    } catch (error) {
+      setSubmission({
+        state: "error",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Your enquiry could not be sent.",
+      });
+      trackEvent("enquiry_submission_failed", {
+        service: values.service,
+        source: initialProjectBrief ? "planner" : "standard_form",
+      });
+    }
   };
 
   return (
     <form className="enquiryForm" onSubmit={handleEnquirySubmit}>
+      <label className="enquiryHoneypot" aria-hidden="true">
+        <span>Website</span>
+        <input autoComplete="off" name="website" tabIndex="-1" type="text" />
+      </label>
       <label>
         <span>Full Name</span>
-        <input autoComplete="name" name="fullName" required type="text" />
+        <input
+          autoComplete="name"
+          name="fullName"
+          onChange={updateField}
+          required
+          type="text"
+          value={values.fullName}
+        />
       </label>
 
       <label>
         <span>Email Address</span>
-        <input autoComplete="email" name="email" required type="email" />
+        <input
+          autoComplete="email"
+          name="email"
+          onChange={updateField}
+          required
+          type="email"
+          value={values.email}
+        />
       </label>
 
       <label>
         <span>Phone Number</span>
-        <input autoComplete="tel" name="phone" required type="tel" />
+        <input
+          autoComplete="tel"
+          name="phone"
+          onChange={updateField}
+          required
+          type="tel"
+          value={values.phone}
+        />
       </label>
 
       <label>
         <span>Project Location</span>
-        <input name="location" required type="text" />
+        <input
+          name="location"
+          onChange={updateField}
+          required
+          type="text"
+          value={values.location}
+        />
       </label>
 
       <label className="enquiryWide">
         <span>Service Needed</span>
-        <select defaultValue="" name="service" required>
+        <select name="service" onChange={updateField} required value={values.service}>
           <option disabled value="">
             Select a service
           </option>
@@ -216,13 +372,37 @@ export function EnquiryForm() {
 
       <label className="enquiryWide">
         <span>Brief Project Description</span>
-        <textarea name="description" required rows="4" />
+        <textarea
+          name="description"
+          onChange={updateField}
+          required
+          rows="7"
+          value={values.description}
+        />
       </label>
 
-      <button className="enquirySubmit" type="submit">
+      <button
+        className="enquirySubmit"
+        disabled={submission.state === "sending"}
+        type="submit"
+      >
         <Icon name="mail" />
-        Send Enquiry by Email
+        {submission.state === "sending"
+          ? "Sending Your Brief..."
+          : "Send My Project Brief for Review"}
       </button>
+
+      {submission.message && (
+        <div
+          className={`enquiryStatus ${submission.state}`}
+          role={submission.state === "error" ? "alert" : "status"}
+        >
+          <span>{submission.message}</span>
+          {submission.state === "error" && (
+            <a href={fallbackEmailUrl}>Send the prepared email instead</a>
+          )}
+        </div>
+      )}
     </form>
   );
 }

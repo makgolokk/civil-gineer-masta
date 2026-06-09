@@ -1,0 +1,25 @@
+{
+  "readinessWeights": {
+    "ownsLand": 25,
+    "hasDesign": 20,
+    "nearTermTimeline": 20,
+    "definedBudget": 20,
+    "threeOrMoreFeatures": 15
+  },
+  "serviceRecommendations": {
+    "Family Home": "Architectural Design + Structural Engineering",
+    "Rental Units": "Concept Design + Cost Planning + Council Submission",
+    "Luxury Villa": "Premium Architectural Design + Structural Design",
+    "Commercial Building": "Feasibility + Architectural + Structural Services",
+    "Boundary Wall": "Boundary Wall Design + Construction Support",
+    "Renovation / Extension": "Site Assessment + Renovation Design"
+  },
+  "designDirections": {
+    "Growing family": "A flexible, future-ready layout with connected family and outdoor spaces.",
+    "First home": "A compact, cost-aware design with clear opportunities for future expansion.",
+    "Investment income": "An efficient, durable layout focused on privacy, occupancy and return.",
+    "Prestige / luxury": "A bespoke statement design with generous proportions and refined detailing.",
+    "Business use": "A functional, visible and adaptable commercial environment.",
+    "Fixing an existing property": "A sensitive upgrade that improves flow, safety and property value."
+  }
+}

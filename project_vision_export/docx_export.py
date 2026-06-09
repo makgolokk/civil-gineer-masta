@@ -395,6 +395,7 @@ def generate_project_vision_docx(
         [
             ("Document Reference", data["reference"]),
             ("Date Generated", data["generated_date"]),
+            ("Prepared For", data["client_name"] or "Prospective Client"),
             ("Project Category", data["project_category"]),
             ("Prepared By", data["prepared_by"]),
             ("Document Status", data["document_status"]),
@@ -414,6 +415,12 @@ def generate_project_vision_docx(
             ("Current Project Stage", data["current_stage"]),
             ("Intended Timeline", data["timeline"]),
             ("Budget Direction", data["budget"]),
+            ("Project Location", data["project_location"]),
+            ("Plot Size", data["plot_size"]),
+            ("Target Floor Area", data["floor_area"]),
+            ("Bedrooms / Main Rooms", data["bedrooms"]),
+            ("Bathrooms", data["bathrooms"]),
+            ("Building Levels", data["storeys"]),
         ],
     )
     feature_heading = document.add_paragraph()

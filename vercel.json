@@ -2,6 +2,9 @@
   "functions": {
     "api/project_vision.py": {
       "maxDuration": 60
+    },
+    "api/enquiry.py": {
+      "maxDuration": 30
     }
   }
 }

@@ -1,9 +1,13 @@
 import re
+import json
 from datetime import date, datetime
 from pathlib import Path
 
 from .branding import COMPANY_SETTINGS
 from .reference import generate_project_reference
+
+RULES_PATH = Path(__file__).resolve().parents[1] / "project_vision_rules.json"
+PROJECT_VISION_RULES = json.loads(RULES_PATH.read_text(encoding="utf-8"))
 
 READINESS_LABELS = (
     (30, "Early exploration stage"),
@@ -120,6 +124,7 @@ def _clean_features(value):
 
 
 def calculate_readiness_score(data):
+    weights = PROJECT_VISION_RULES["readinessWeights"]
     score = 0
     stage = data.get("stage", "")
     timeline = data.get("timeline", "")
@@ -127,15 +132,15 @@ def calculate_readiness_score(data):
     features = _clean_features(data.get("features"))
 
     if stage == "I own land":
-        score += 25
+        score += weights["ownsLand"]
     if stage == "I already have a design":
-        score += 20
+        score += weights["hasDesign"]
     if timeline in {"Immediately", "Within 3 months"}:
-        score += 20
+        score += weights["nearTermTimeline"]
     if budget and budget != "Not sure yet":
-        score += 20
+        score += weights["definedBudget"]
     if len(features) >= 3 and features[0] != "To be discussed during consultation":
-        score += 15
+        score += weights["threeOrMoreFeatures"]
     return min(score, 100)
 
 
@@ -219,7 +224,11 @@ def recommended_services(data):
 
 def professional_filename(data, extension, generated_on=None):
     generated_date = generated_on or date.today()
-    client_name = _clean_text(data.get("clientName"), "")
+    client_details = data.get("clientDetails") or {}
+    client_name = _clean_text(
+        client_details.get("clientName") or data.get("clientName"),
+        "",
+    )
     safe_name = re.sub(r"[^A-Za-z0-9]+", "_", client_name).strip("_")
     parts = ["CGM", "Project", "Vision", "Summary"]
     if safe_name:
@@ -231,6 +240,8 @@ def professional_filename(data, extension, generated_on=None):
 def format_project_vision_data(raw_data, company_settings=None, reference=None, now=None):
     current = now or datetime.now()
     company = {**COMPANY_SETTINGS, **(company_settings or {})}
+    project_details = raw_data.get("projectDetails") or {}
+    client_details = raw_data.get("clientDetails") or {}
     features = _clean_features(raw_data.get("features"))
     score = calculate_readiness_score(raw_data)
 
@@ -259,7 +270,18 @@ def format_project_vision_data(raw_data, company_settings=None, reference=None, 
         "current_stage": _clean_text(raw_data.get("stage")),
         "timeline": _clean_text(raw_data.get("timeline")),
         "budget": _clean_text(raw_data.get("budget")),
-        "client_name": _clean_text(raw_data.get("clientName"), ""),
+        "client_name": _clean_text(
+            client_details.get("clientName") or raw_data.get("clientName"),
+            "",
+        ),
+        "client_phone": _clean_text(client_details.get("phone"), ""),
+        "client_email": _clean_text(client_details.get("email"), ""),
+        "project_location": _clean_text(project_details.get("location")),
+        "plot_size": _clean_text(project_details.get("plotSize")),
+        "floor_area": _clean_text(project_details.get("floorArea")),
+        "bedrooms": _clean_text(project_details.get("bedrooms")),
+        "bathrooms": _clean_text(project_details.get("bathrooms")),
+        "storeys": _clean_text(project_details.get("storeys")),
         "document_status": "Preliminary Consultation Brief",
         "prepared_by": company["prepared_by"],
         "introduction": (

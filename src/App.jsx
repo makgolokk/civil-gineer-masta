@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, Route, Routes, useLocation } from "react-router";
 import "./App.css";
 import {
@@ -47,6 +47,7 @@ function RouteScrollTop() {
 }
 
 function HomePage() {
+  const [plannerBrief, setPlannerBrief] = useState(null);
 
   useEffect(() => {
     const revealSections = document.querySelectorAll(".revealSection");
@@ -253,7 +254,7 @@ function HomePage() {
         </div>
       </section>
 
-      <DreamProjectPlanner />
+      <DreamProjectPlanner onConsultation={setPlannerBrief} />
 
       <section className="lightSection revealSection" id="projects">
         <p className="sectionLabel red">
@@ -322,14 +323,14 @@ function HomePage() {
             <Icon name="mail" />
             PROJECT ENQUIRY
           </p>
-          <h2>Tell us what you are planning.</h2>
+          <h2>Let us review the project you have already shaped.</h2>
           <p>
-            Share the essentials and your email app will open with a ready-to-send
-            project enquiry.
+            Send your brief directly to Civil-Gineer Masta. We will review the
+            project direction first, so our response can focus on useful next steps.
           </p>
         </div>
 
-        <EnquiryForm />
+        <EnquiryForm initialProjectBrief={plannerBrief} />
       </section>
 
       <section className="aboutContactWrap revealSection" id="about" style={aboutContactWrap}>
