@@ -23,12 +23,6 @@ const projectImages = {
   commercialBuilding: "/images/planner/commercial-building.webp",
   boundaryWall: "/images/planner/boundary-wall.webp",
   renovationExtension: "/images/planner/renovation-extension.webp",
-  modernMinimalist: "/images/planner/modern-minimalist.webp",
-  contemporaryAfrican: "/images/planner/contemporary-african.webp",
-  luxuryExecutive: "/images/planner/luxury-executive.webp",
-  simpleAffordable: "/images/planner/simple-affordable.webp",
-  boldArchitectural: "/images/planner/bold-architectural.webp",
-  traditionalModern: "/images/planner/traditional-modern.webp",
 };
 
 const projectImageByType = {
@@ -142,38 +136,6 @@ const plannerQuestions = [
     valueMessage:
       "Your goal guides the layout, priorities and long-term value of the design, not just its appearance.",
     visual: true,
-    options: [
-      {
-        title: "Growing family",
-        description: "Flexible, welcoming spaces that can evolve with family life.",
-        image: projectImages.familyHome,
-      },
-      {
-        title: "First home",
-        description: "A confident, practical first step into property ownership.",
-        image: projectImages.simpleAffordable,
-      },
-      {
-        title: "Investment income",
-        description: "Efficient planning that balances tenant appeal and long-term value.",
-        image: projectImages.rentalUnits,
-      },
-      {
-        title: "Prestige / luxury",
-        description: "A statement property with presence, comfort and refined detail.",
-        image: projectImages.luxuryVilla,
-      },
-      {
-        title: "Business use",
-        description: "A credible, functional environment made for clients and growth.",
-        image: projectImages.commercialBuilding,
-      },
-      {
-        title: "Fixing an existing property",
-        description: "Restore confidence, improve function and unlock hidden potential.",
-        image: projectImages.renovationExtension,
-      },
-    ],
   },
   {
     id: "style",
@@ -182,38 +144,6 @@ const plannerQuestions = [
     valueMessage:
       "A clear visual direction makes the first design conversation faster and more focused.",
     visual: true,
-    options: [
-      {
-        title: "Modern Minimalist",
-        description: "Clean forms, calm spaces and purposeful detail.",
-        image: projectImages.modernMinimalist,
-      },
-      {
-        title: "Contemporary African",
-        description: "Modern living shaped by climate, place and local character.",
-        image: projectImages.contemporaryAfrican,
-      },
-      {
-        title: "Luxury Executive",
-        description: "Confident proportions, premium finishes and impressive arrival.",
-        image: projectImages.luxuryExecutive,
-      },
-      {
-        title: "Simple Affordable",
-        description: "Smart planning, practical finishes and value in every square metre.",
-        image: projectImages.simpleAffordable,
-      },
-      {
-        title: "Bold Architectural",
-        description: "Strong geometry and a memorable, individual presence.",
-        image: projectImages.boldArchitectural,
-      },
-      {
-        title: "Traditional Modern",
-        description: "Familiar warmth refined with contemporary comfort.",
-        image: projectImages.traditionalModern,
-      },
-    ],
   },
   {
     id: "features",
@@ -222,18 +152,6 @@ const plannerQuestions = [
     valueMessage:
       "Your priorities help us protect the spaces that matter before budget and site constraints shape the concept.",
     multi: true,
-    options: [
-      { title: "Garage" },
-      { title: "Open-plan kitchen" },
-      { title: "Ensuite bedroom" },
-      { title: "Walk-in closet" },
-      { title: "Outdoor entertainment area" },
-      { title: "Home office" },
-      { title: "Extra rental room" },
-      { title: "Modern exterior" },
-      { title: "Large windows" },
-      { title: "Secure boundary wall" },
-    ],
   },
   {
     id: "projectDetails",
