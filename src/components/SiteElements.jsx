@@ -165,12 +165,12 @@ function projectBriefToEnquiry(projectBrief) {
   if (!projectBrief) return emptyEnquiry;
 
   const serviceByProjectType = {
-    "Family Home": "Architectural Design",
-    "Rental Units": "Architectural Design",
-    "Luxury Villa": "Architectural Design",
-    "Commercial Building": "Architectural Design",
-    "Boundary Wall": "Structural Engineering",
-    "Renovation / Extension": "Renovations & Extensions",
+    "Family Home": "Architectural Design & Approvals",
+    "Rental Units": "Architectural Design & Approvals",
+    "Luxury Villa": "Architectural Design & Approvals",
+    "Commercial Building": "Architectural Design & Approvals",
+    "Boundary Wall": "Structural Engineering & Assessments",
+    "Renovation / Extension": "Architectural Design & Approvals",
   };
   const details = [
     ["Project type", projectBrief.projectType],

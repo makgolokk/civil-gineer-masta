@@ -381,77 +381,58 @@ section[id],
   text-align: left;
 }
 
-/* PROJECT SUPPORT - BIGGER ICONS */
+/* PROJECT HIGHLIGHTS */
 
-.projectGrid {
+.homeProjectHighlights {
   max-width: 1180px;
   margin: 30px auto 0;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
 }
 
-.projectItem {
-  min-height: 165px;
-  padding: 24px 18px;
-  text-align: center;
-  border-right: 1px solid #d0d0d0;
-  font-weight: 900;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transition:
-    background-color 180ms ease,
-    box-shadow 180ms ease,
-    transform 180ms ease;
-}
-
-.projectItem:last-child {
-  border-right: none;
-}
-
-.projectIcon {
-  width: 86px;
-  height: 86px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(17, 17, 17, 0.12);
+.homeProjectHighlights article {
+  border: 1px solid #d8d8d8;
   border-radius: 8px;
   background: #fff;
-  color: #111;
   box-shadow: 0 14px 34px rgba(12, 12, 12, 0.08);
-  margin-bottom: 16px;
-  transition:
-    border-color 180ms ease,
-    box-shadow 180ms ease,
-    color 180ms ease,
-    transform 180ms ease;
+  overflow: hidden;
 }
 
-.projectIcon .uiIcon {
-  width: 54px;
-  height: 54px;
-  stroke-width: 1.55;
+.homeProjectHighlights img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  display: block;
+  object-fit: cover;
 }
 
-.projectItem p {
-  margin: 0;
-  font-size: 15px;
-  line-height: 1.25;
+.homeProjectHighlights article > div {
+  padding: 20px;
 }
 
-.projectItem:hover {
-  background: #fff;
-  box-shadow: 0 20px 40px rgba(12, 12, 12, 0.08);
-  transform: translateY(-3px);
-}
-
-.projectItem:hover .projectIcon {
-  border-color: rgba(192, 0, 0, 0.28);
-  box-shadow: 0 16px 34px rgba(192, 0, 0, 0.16);
+.homeProjectHighlights span {
   color: #c00000;
-  transform: translateY(-2px);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.homeProjectHighlights h3 {
+  margin: 8px 0 7px;
+  color: #111;
+  font-size: 21px;
+  line-height: 1.2;
+}
+
+.homeProjectHighlights p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+#projects > .faqPageLink {
+  margin-top: 28px;
 }
 
 /* CLIENT CONVERSION */
@@ -1078,6 +1059,308 @@ section[id],
   gap: clamp(34px, 5vw, 56px);
 }
 
+.serviceHubIntro {
+  max-width: 820px;
+}
+
+.serviceHubIntro h2,
+.serviceDetailIntro h2,
+.relatedServicesBand h2,
+.portfolioIntro h2 {
+  margin: 0 0 16px;
+  color: #fff;
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.serviceHubIntro > p:not(.sectionLabel),
+.serviceDetailIntro > div > p:not(.sectionLabel) {
+  margin: 0;
+  color: #d8d8d8;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.disciplineGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.disciplineCard {
+  min-height: 340px;
+  display: grid;
+  grid-template-columns: minmax(180px, 0.76fr) minmax(0, 1.24fr);
+  border: 1px solid #373737;
+  border-radius: 8px;
+  background: #151515;
+  overflow: hidden;
+}
+
+.disciplineCard:first-child {
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(280px, 0.95fr) minmax(0, 1.05fr);
+}
+
+.disciplineCard img {
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+  display: block;
+  object-fit: cover;
+}
+
+.disciplineCard > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: clamp(24px, 3vw, 36px);
+}
+
+.disciplineCard > div > span {
+  color: #ff2525;
+  font-size: 14px;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+}
+
+.disciplineCard h2 {
+  margin: 16px 0 12px;
+  color: #fff;
+  font-size: clamp(23px, 2.4vw, 31px);
+  line-height: 1.15;
+}
+
+.disciplineCard p {
+  margin: 0;
+  color: #d0d0d0;
+  line-height: 1.65;
+}
+
+.disciplineLink {
+  margin-top: auto;
+  padding-top: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #fff;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.disciplineLink .uiIcon,
+.relatedServiceLinks .uiIcon {
+  width: 18px;
+  height: 18px;
+  color: #ff2525;
+}
+
+.serviceDetailHero {
+  min-height: 560px;
+  background: #111 var(--service-image) center / cover no-repeat;
+}
+
+.serviceDetailHeroOverlay {
+  min-height: 560px;
+  display: flex;
+  align-items: flex-end;
+  background:
+    linear-gradient(90deg, rgba(4, 4, 4, 0.96), rgba(4, 4, 4, 0.68) 60%, rgba(4, 4, 4, 0.25)),
+    linear-gradient(0deg, rgba(192, 0, 0, 0.2), transparent 55%);
+}
+
+.serviceDetailHeroCopy {
+  width: min(1180px, 88%);
+  margin: 0 auto;
+  padding: clamp(70px, 10vw, 118px) 0;
+}
+
+.serviceDetailHeroCopy > a:first-child,
+.serviceDetailHeroCopy > span,
+.serviceDetailHeroCopy > p:first-of-type {
+  display: inline;
+  color: #eee;
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.serviceDetailHeroCopy > span {
+  margin: 0 8px;
+  color: #ff2525;
+}
+
+.serviceDetailHeroCopy h1 {
+  max-width: 850px;
+  margin: 18px 0;
+  color: #fff;
+  font-size: clamp(38px, 5vw, 68px);
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.serviceDetailHeroCopy > p:last-of-type {
+  max-width: 720px;
+  margin: 0;
+  color: #f0f0f0;
+  font-size: clamp(18px, 2vw, 22px);
+  line-height: 1.6;
+}
+
+.serviceDetailHeroCopy .primaryButton {
+  margin-top: 28px;
+}
+
+.serviceDetailIntro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+  gap: clamp(34px, 6vw, 82px);
+  align-items: start;
+}
+
+.serviceDetailIntro aside {
+  border-left: 4px solid #c00000;
+  background: rgba(255, 255, 255, 0.05);
+  padding: clamp(24px, 3vw, 34px);
+}
+
+.serviceDetailIntro aside h3 {
+  margin: 0 0 16px;
+  color: #fff;
+  font-size: 22px;
+}
+
+.serviceDetailIntro ul,
+.serviceInfoPanels ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.serviceDetailIntro li,
+.serviceInfoPanels li {
+  margin-bottom: 10px;
+  color: #d8d8d8;
+  line-height: 1.55;
+}
+
+.serviceCapabilityBand {
+  background: #f5f5f5;
+}
+
+.serviceCapabilityGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.serviceCapabilityGrid article {
+  min-height: 210px;
+  border: 1px solid #ddd;
+  border-top: 4px solid #c00000;
+  border-radius: 8px;
+  background: #fff;
+  padding: clamp(24px, 3vw, 34px);
+}
+
+.serviceCapabilityGrid h3 {
+  margin: 0 0 11px;
+  color: #111;
+  font-size: 23px;
+}
+
+.serviceCapabilityGrid p {
+  margin: 0;
+  color: #444;
+  line-height: 1.65;
+}
+
+.serviceWorkingGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(340px, 1.1fr);
+  gap: clamp(34px, 6vw, 76px);
+}
+
+.serviceProcessList {
+  margin: 24px 0 0;
+  display: grid;
+  gap: 14px;
+  padding: 0;
+  list-style: none;
+}
+
+.serviceProcessList li {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  align-items: center;
+  gap: 14px;
+}
+
+.serviceProcessList span {
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #c00000;
+  color: #fff;
+  font-weight: 900;
+}
+
+.serviceProcessList p {
+  margin: 0;
+  color: #e3e3e3;
+  line-height: 1.55;
+}
+
+.serviceInfoPanels {
+  display: grid;
+  gap: 16px;
+}
+
+.serviceInfoPanels article {
+  border: 1px solid #383838;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+  padding: clamp(24px, 3vw, 34px);
+}
+
+.serviceInfoPanels h2 {
+  margin: 0 0 15px;
+  color: #fff;
+  font-size: 24px;
+}
+
+.relatedServicesBand {
+  display: grid;
+  gap: 28px;
+}
+
+.relatedServicesBand > div:first-child {
+  max-width: 760px;
+}
+
+.relatedServiceLinks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.relatedServiceLinks > a {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border: 1px solid #383838;
+  border-radius: 8px;
+  color: #fff;
+  padding: 18px 20px;
+  text-decoration: none;
+}
+
 .detailServiceGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1173,8 +1456,8 @@ section[id],
   max-width: 1180px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
 }
 
 .portfolioCard {
@@ -1192,11 +1475,12 @@ section[id],
   object-fit: cover;
 }
 
-.portfolioCard div {
+.portfolioCard > div {
   padding: clamp(18px, 2.5vw, 25px);
 }
 
-.portfolioCard p {
+.portfolioCard > div > p:first-child,
+.portfolioMeta > p {
   margin: 0 0 9px;
   color: #c00000;
   font-size: 14px;
@@ -1212,6 +1496,69 @@ section[id],
   display: block;
   color: #454545;
   line-height: 1.6;
+}
+
+.portfolioBand {
+  display: grid;
+  gap: clamp(32px, 5vw, 52px);
+}
+
+.portfolioIntro {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.72fr);
+  gap: clamp(28px, 5vw, 68px);
+  align-items: end;
+}
+
+.portfolioIntro h2 {
+  color: #111;
+}
+
+.portfolioIntro > p {
+  margin: 0;
+  color: #4a4a4a;
+  line-height: 1.7;
+}
+
+.portfolioMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.portfolioMeta > p {
+  margin-bottom: 0;
+}
+
+.portfolioMeta > span {
+  border: 1px solid #d3d3d3;
+  border-radius: 999px;
+  color: #666;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  padding: 5px 8px;
+  text-transform: uppercase;
+}
+
+.portfolioCard .portfolioLocation {
+  margin: -3px 0 12px;
+  color: #777;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.portfolioCard strong {
+  margin-top: 18px;
+  display: block;
+  border-top: 1px solid #e1e1e1;
+  color: #222;
+  font-size: 13px;
+  line-height: 1.5;
+  padding-top: 15px;
 }
 
 .fullFaqBand {
@@ -1333,7 +1680,9 @@ section[id],
 .floatingWhatsapp:focus-visible,
 .faqPageLink:focus-visible,
 .faqItem summary:focus-visible,
-.enquirySubmit:focus-visible {
+.enquirySubmit:focus-visible,
+.disciplineLink:focus-visible,
+.relatedServiceLinks a:focus-visible {
   outline: 3px solid rgba(255, 255, 255, 0.95);
   outline-offset: 4px;
 }
@@ -1395,17 +1744,8 @@ footer {
     height: 100px;
   }
 
-  .projectGrid {
-    grid-template-columns: repeat(3, 1fr);
-    row-gap: 22px;
-  }
-
-  .projectItem:nth-child(3) {
-    border-right: none;
-  }
-
-  .projectItem:nth-child(6) {
-    border-right: none;
+  .homeProjectHighlights {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .enquirySection {
@@ -1431,6 +1771,20 @@ footer {
   }
 
   .detailServiceGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .disciplineGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .disciplineCard:first-child {
+    grid-column: auto;
+  }
+
+  .serviceDetailIntro,
+  .serviceWorkingGrid,
+  .portfolioIntro {
     grid-template-columns: 1fr;
   }
 
@@ -1582,36 +1936,8 @@ footer {
     text-align: center;
   }
 
-  .projectGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 0 !important;
-    margin-top: 18px !important;
-  }
-
-  .projectItem {
-    min-height: 132px;
-    padding: 18px 10px !important;
-    border-right: none !important;
-    border-bottom: 1px solid #ddd;
-  }
-
-  .projectItem:nth-child(odd) {
-    border-right: 1px solid #ddd !important;
-  }
-
-  .projectItem:nth-last-child(-n + 2) {
-    border-bottom: none;
-  }
-
-  .projectIcon {
-    width: 76px !important;
-    height: 76px !important;
-    margin-bottom: 10px !important;
-  }
-
-  .projectIcon .uiIcon {
-    width: 48px;
-    height: 48px;
+  .homeProjectHighlights {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .enquiryForm {
@@ -1739,8 +2065,65 @@ footer {
 
   .valueStatementGrid,
   .profileFacts,
-  .portfolioGrid {
+  .portfolioGrid,
+  .serviceCapabilityGrid,
+  .relatedServiceLinks {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .disciplineCard,
+  .disciplineCard:first-child {
+    min-height: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .disciplineCard img {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+
+  .disciplineCard > div {
+    min-height: 285px;
+  }
+
+  .serviceDetailHero,
+  .serviceDetailHeroOverlay {
+    min-height: 580px;
+  }
+
+  .serviceDetailHeroOverlay {
+    background:
+      linear-gradient(180deg, rgba(4, 4, 4, 0.58), rgba(4, 4, 4, 0.98) 68%),
+      linear-gradient(0deg, rgba(192, 0, 0, 0.2), transparent 55%);
+  }
+
+  .serviceDetailHeroCopy {
+    width: 88%;
+    padding: 70px 0;
+    text-align: center;
+  }
+
+  .serviceDetailHeroCopy h1 {
+    font-size: 38px;
+  }
+
+  .serviceDetailHeroCopy .primaryButton {
+    margin-inline: auto;
+  }
+
+  .serviceDetailIntro {
+    text-align: left;
+  }
+
+  .serviceDetailIntro .sectionLabel.left,
+  .serviceWorkingGrid .sectionLabel.left,
+  .relatedServicesBand .sectionLabel.left {
+    justify-content: flex-start;
+    text-align: left !important;
+  }
+
+  .portfolioIntro {
+    text-align: left;
   }
 
   .detailService {
@@ -1782,8 +2165,6 @@ footer {
   .secondaryButton,
   .blackButton,
   .serviceCard,
-  .projectItem,
-  .projectIcon,
   .requestTag,
   .faqItem,
   .faqPageLink,

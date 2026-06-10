@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, Navigate, useParams } from "react-router";
 import {
   EnquiryForm,
   Icon,
@@ -10,6 +10,11 @@ import {
   whatsappMessage,
   whatsappNumber,
 } from "../siteContent";
+import {
+  getServiceDiscipline,
+  serviceDisciplines,
+} from "../serviceDisciplines";
+import { sampleProjects } from "../projectPortfolio";
 
 const aboutValues = [
   {
@@ -23,97 +28,6 @@ const aboutValues = [
   {
     title: "Professional care",
     text: "Each project deserves attentive communication, technical discipline and respect for approvals and standards.",
-  },
-];
-
-const serviceDetails = [
-  {
-    image: "/images/temporary/service-architectural-design.jpg",
-    title: "Architectural Design",
-    text: "Concept layouts, house plans, space planning, 3D direction, drawing development and council submission drawing support.",
-    deliverables: ["New homes", "Submission drawing support", "Design revisions"],
-  },
-  {
-    image: "/images/temporary/service-structural-engineering.jpg",
-    title: "Structural Engineering",
-    text: "Engineering input for foundations, slabs, load paths, structural checks and solutions that suit the intended building work.",
-    deliverables: ["Structural design checks", "Foundation guidance", "Safe detailing input"],
-  },
-  {
-    image: "/images/temporary/service-project-management.jpg",
-    title: "Project Management",
-    text: "Planning and coordination support that keeps design intent, contractor activity, budget awareness and quality aligned.",
-    deliverables: ["Programme coordination", "Contractor liaison", "Progress tracking"],
-  },
-  {
-    image: "/images/temporary/service-construction-support.jpg",
-    title: "Construction Support",
-    text: "Technical assistance during construction when questions, drawing interpretation and site decisions need prompt attention.",
-    deliverables: ["Site queries", "Buildability reviews", "Delivery support"],
-  },
-  {
-    image: "/images/temporary/service-property-maintenance.jpg",
-    title: "Property Maintenance",
-    text: "Property condition support for owners planning repairs, maintenance priorities and responsible upkeep.",
-    deliverables: ["Condition observations", "Repair priorities", "Maintenance planning"],
-  },
-  {
-    image: "/images/temporary/service-renovations-extensions.jpg",
-    title: "Renovations & Extensions",
-    text: "Design and structural thinking for alterations that need to work with the existing property and future use.",
-    deliverables: ["Extensions", "Alteration planning", "Existing-building coordination"],
-  },
-  {
-    image: "/images/temporary/service-site-supervision.jpg",
-    title: "Site Supervision",
-    text: "Construction oversight focused on quality checks, progress visibility and helping work follow the agreed information.",
-    deliverables: ["Quality observations", "Site reporting", "Progress review"],
-  },
-  {
-    image: "/images/temporary/service-structural-reports.jpg",
-    title: "Structural Reports",
-    text: "Structural assessments and written reporting based on the project scope, observations and available site information.",
-    deliverables: ["Assessment scope", "Inspection findings", "Technical reporting"],
-  },
-];
-
-// Replace image paths with finished project photography as the portfolio grows.
-const projectCards = [
-  {
-    category: "Residential houses",
-    title: "Family Home Design Support",
-    image: "/images/temporary/project-residential-house.jpg",
-    text: "New-home planning, architectural direction and engineering input for confident residential delivery.",
-  },
-  {
-    category: "Commercial works",
-    title: "Commercial Building Coordination",
-    image: "/images/temporary/project-commercial-works.jpg",
-    text: "Design coordination, technical review and delivery planning for business-focused building work.",
-  },
-  {
-    category: "Renovations",
-    title: "Extension & Alteration Review",
-    image: "/images/temporary/project-renovation-extension.jpg",
-    text: "Renovation and extension support that connects improved spaces with the existing property.",
-  },
-  {
-    category: "Inspections",
-    title: "Structural Inspection Visit",
-    image: "/images/temporary/project-structural-inspection.jpg",
-    text: "Careful observations, reporting scope and next-step technical guidance for building conditions.",
-  },
-  {
-    category: "Structural works",
-    title: "Structural Design Check",
-    image: "/images/temporary/project-structural-works.jpg",
-    text: "Structural detailing and construction-stage review for foundations, slabs and frame elements.",
-  },
-  {
-    category: "Project supervision",
-    title: "Site Progress Oversight",
-    image: "/images/temporary/project-supervision.jpg",
-    text: "Supervision, progress visibility and contractor coordination while work moves on site.",
   },
 ];
 
@@ -267,23 +181,35 @@ export function ServicesPage() {
     <SiteFrame>
       <InteriorHero
         label="Services"
-        title="Engineering support shaped for real building work."
-        text="Choose focused help for design, technical review, approvals preparation, construction coordination and property improvement."
+        title="Choose the discipline your project needs."
+        text="Five focused service areas replace overlapping lists. Open a discipline to understand its scope, process, likely deliverables and the information that helps us advise you properly."
       />
 
       <section className="interiorBand servicesBand">
-        <div className="detailServiceGrid">
-          {serviceDetails.map((service) => (
-            <article className="detailService" key={service.title}>
-              <img src={service.image} alt={service.title} />
+        <div className="serviceHubIntro">
+          <p className="sectionLabel left">
+            <Icon name="ruler" />
+            SERVICE DISCIPLINES
+          </p>
+          <h2>Start broad, then focus on the decisions that matter.</h2>
+          <p>
+            Some projects need one discipline; others need several working together.
+            Each page below explains the service without repeating related work as a
+            separate product.
+          </p>
+        </div>
+        <div className="disciplineGrid">
+          {serviceDisciplines.map((service, index) => (
+            <article className="disciplineCard" key={service.slug}>
+              <img src={service.image} alt="" decoding="async" loading="lazy" />
               <div>
+                <span>0{index + 1}</span>
                 <h2>{service.title}</h2>
-                <p>{service.text}</p>
-                <ul>
-                  {service.deliverables.map((deliverable) => (
-                    <li key={deliverable}>{deliverable}</li>
-                  ))}
-                </ul>
+                <p>{service.summary}</p>
+                <Link className="disciplineLink" to={`/services/${service.slug}`}>
+                  Explore this discipline
+                  <Icon name="arrow" />
+                </Link>
               </div>
             </article>
           ))}
@@ -294,28 +220,163 @@ export function ServicesPage() {
   );
 }
 
+export function ServiceDetailPage() {
+  const { serviceSlug } = useParams();
+  const service = getServiceDiscipline(serviceSlug);
+
+  if (!service) {
+    return <Navigate replace to="/services" />;
+  }
+
+  const relatedServices = serviceDisciplines.filter(
+    (item) => item.slug !== service.slug
+  );
+
+  return (
+    <SiteFrame>
+      <section
+        className="serviceDetailHero"
+        style={{ "--service-image": `url("${service.heroImage}")` }}
+      >
+        <div className="serviceDetailHeroOverlay">
+          <div className="serviceDetailHeroCopy">
+            <Link to="/services">Services</Link>
+            <span aria-hidden="true">/</span>
+            <p>{service.shortTitle}</p>
+            <h1>{service.title}</h1>
+            <p>{service.summary}</p>
+            <Link className="primaryButton" to="/contact">
+              Discuss this service
+              <Icon name="arrow" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="interiorBand serviceDetailIntro">
+        <div>
+          <p className="sectionLabel left">
+            <Icon name="clipboard" />
+            DISCIPLINE OVERVIEW
+          </p>
+          <h2>What this service helps you decide.</h2>
+          <p>{service.introduction}</p>
+        </div>
+        <aside>
+          <h3>This may fit your project if you need:</h3>
+          <ul>
+            {service.suitableFor.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </aside>
+      </section>
+
+      <section className="serviceCapabilityBand">
+        <div className="interiorBand">
+          <p className="sectionLabel red">CAPABILITIES</p>
+          <h2 className="sectionTitle dark">One discipline, clearly organised.</h2>
+          <div className="serviceCapabilityGrid">
+            {service.capabilities.map((capability) => (
+              <article key={capability.title}>
+                <h3>{capability.title}</h3>
+                <p>{capability.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="interiorBand serviceWorkingGrid">
+        <div>
+          <p className="sectionLabel left">HOW THE APPOINTMENT WORKS</p>
+          <ol className="serviceProcessList">
+            {service.process.map((item, index) => (
+              <li key={item}>
+                <span>{index + 1}</span>
+                <p>{item}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div className="serviceInfoPanels">
+          <article>
+            <h2>Possible deliverables</h2>
+            <ul>
+              {service.deliverables.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+          <article>
+            <h2>What to prepare</h2>
+            <ul>
+              {service.prepare.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section className="interiorBand relatedServicesBand">
+        <div>
+          <p className="sectionLabel left">RELATED DISCIPLINES</p>
+          <h2>Bring in another discipline only when the project needs it.</h2>
+        </div>
+        <div className="relatedServiceLinks">
+          {relatedServices.map((item) => (
+            <Link key={item.slug} to={`/services/${item.slug}`}>
+              <span>{item.shortTitle}</span>
+              <Icon name="arrow" />
+            </Link>
+          ))}
+        </div>
+        <PageContactStrip text="Tell us the project stage and the decision you need to make. We will help define an appropriate service scope." />
+      </section>
+    </SiteFrame>
+  );
+}
+
 export function ProjectsPage() {
   return (
     <SiteFrame>
       <InteriorHero
         label="Projects"
-        title="Project support across design, inspection and delivery."
-        text="Representative project categories for residential, commercial, renovation, structural and site supervision work."
+        title="A quieter portfolio, focused on the work."
+        text="A simple project showcase for selected residential, development, commercial and renovation work. Your team's verified project details can replace these sample profiles as the portfolio develops."
       />
 
       <section className="interiorBand lightInteriorBand portfolioBand">
+        <div className="portfolioIntro">
+          <div>
+            <p className="sectionLabel red">SELECTED WORK</p>
+            <h2>Project stories will live here, not another service list.</h2>
+          </div>
+          <p>
+            The profiles below are clearly marked concept samples. They establish the
+            intended portfolio format without presenting unverified work as completed
+            Civil-Gineer Masta projects.
+          </p>
+        </div>
         <div className="portfolioGrid">
-          {projectCards.map((project) => (
+          {sampleProjects.map((project) => (
             <article className="portfolioCard" key={project.title}>
-              <img src={project.image} alt={project.title} />
+              <img src={project.image} alt="" decoding="async" loading="lazy" />
               <div>
-                <p>{project.category}</p>
+                <div className="portfolioMeta">
+                  <p>{project.category}</p>
+                  <span>Sample profile</span>
+                </div>
                 <h2>{project.title}</h2>
+                <p className="portfolioLocation">{project.location}</p>
                 <span>{project.text}</span>
+                <strong>{project.scope}</strong>
               </div>
             </article>
           ))}
         </div>
+        <PageContactStrip text="Portfolio details are being curated. Verified project photography, scope, location and outcomes can be added without redesigning the page." />
       </section>
     </SiteFrame>
   );

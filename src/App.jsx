@@ -6,6 +6,7 @@ import {
   ContactPage,
   FaqPage,
   ProjectsPage,
+  ServiceDetailPage,
   ServicesPage,
 } from "./pages/InteriorPages";
 import {
@@ -19,6 +20,7 @@ import {
   whatsappMessage,
   whatsappNumber,
 } from "./siteContent";
+import { sampleProjects } from "./projectPortfolio";
 
 function App() {
   return (
@@ -28,6 +30,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/services" element={<ServicesPage />} />
+        <Route path="/services/:serviceSlug" element={<ServiceDetailPage />} />
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/contact" element={<ContactPage />} />
@@ -92,33 +95,6 @@ function HomePage() {
       image: "/images/project-management.png",
       title: "Project Management",
       text: "Site supervision, quality control, procurement coordination, budgeting and contractor management.",
-    },
-  ];
-
-  const projects = [
-    {
-      icon: "house",
-      title: "Residential Houses",
-    },
-    {
-      icon: "building",
-      title: "Commercial Buildings",
-    },
-    {
-      icon: "renovation",
-      title: "Renovations & Extensions",
-    },
-    {
-      icon: "clipboard",
-      title: "Structural Inspections",
-    },
-    {
-      icon: "permit",
-      title: "Council Submission Support",
-    },
-    {
-      icon: "hardhat",
-      title: "Construction Supervision",
     },
   ];
 
@@ -259,22 +235,28 @@ function HomePage() {
       <section className="lightSection revealSection" id="projects">
         <p className="sectionLabel red">
           <Icon name="clipboard" />
-          PROJECT SUPPORT
+          PORTFOLIO PREVIEW
         </p>
         <h2 className="sectionTitle dark">
-          From concept and approvals to site execution.
+          A few project stories, with room for the work to speak.
         </h2>
 
-        <div className="projectGrid" style={projectGrid}>
-          {projects.map((project) => (
-            <div className="projectItem" style={projectItem} key={project.title}>
-              <span className="projectIcon" aria-hidden="true">
-                <Icon name={project.icon} />
-              </span>
-              <p>{project.title}</p>
-            </div>
+        <div className="homeProjectHighlights">
+          {sampleProjects.slice(0, 3).map((project) => (
+            <article key={project.title}>
+              <img src={project.image} alt="" decoding="async" loading="lazy" />
+              <div>
+                <span>{project.category}</span>
+                <h3>{project.title}</h3>
+                <p>{project.location}</p>
+              </div>
+            </article>
           ))}
         </div>
+        <Link className="faqPageLink" to="/projects">
+          View portfolio preview
+          <Icon name="arrow" />
+        </Link>
       </section>
 
       <section className="requestSection revealSection">
@@ -437,21 +419,6 @@ const cardText = {
   color: "#d8d8d8",
   lineHeight: "1.55",
   margin: 0,
-};
-
-const projectGrid = {
-  maxWidth: "1180px",
-  margin: "25px auto 0",
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-  gap: "10px",
-};
-
-const projectItem = {
-  textAlign: "center",
-  padding: "20px 15px",
-  borderRight: "1px solid #d0d0d0",
-  fontWeight: "bold",
 };
 
 const aboutContactWrap = {

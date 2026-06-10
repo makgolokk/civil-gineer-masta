@@ -47,7 +47,7 @@ describe("EnquiryForm", () => {
       "Gaborone North"
     );
     expect(screen.getByLabelText("Service Needed").value).toBe(
-      "Architectural Design"
+      "Architectural Design & Approvals"
     );
     expect(screen.getByLabelText("Brief Project Description").value).toContain(
       "Target floor area: 180 m2"

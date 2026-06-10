@@ -6,13 +6,11 @@ export const whatsappMessage =
 export const enquiryEmail = "makgolokk@outlook.com";
 
 export const serviceOptions = [
-  "Architectural Design",
-  "Structural Engineering",
-  "Structural Reports",
-  "Council Submission Support",
-  "Renovations & Extensions",
-  "Site Supervision",
-  "Construction Cost Estimate",
+  "Architectural Design & Approvals",
+  "Structural Engineering & Assessments",
+  "Project Management",
+  "Construction Support & Site Oversight",
+  "Property Maintenance & Improvement",
   "Other",
 ];
 
