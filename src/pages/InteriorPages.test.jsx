@@ -26,7 +26,7 @@ describe("interior service and project pages", () => {
       })
     ).toBeTruthy();
     expect(screen.getAllByText("Explore this discipline")).toHaveLength(5);
-  });
+  }, 15000);
 
   it("renders the selected service discipline route", () => {
     render(

@@ -1084,29 +1084,43 @@ section[id],
 
 .disciplineGrid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(22px, 3vw, 34px);
 }
 
 .disciplineCard {
-  min-height: 340px;
+  min-height: 430px;
   display: grid;
-  grid-template-columns: minmax(180px, 0.76fr) minmax(0, 1.24fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   border: 1px solid #373737;
-  border-radius: 8px;
-  background: #151515;
+  border-radius: 12px;
+  background:
+    linear-gradient(135deg, rgba(192, 0, 0, 0.08), transparent 42%),
+    #151515;
+  box-shadow: 0 24px 54px rgba(0, 0, 0, 0.22);
   overflow: hidden;
 }
 
-.disciplineCard:first-child {
-  grid-column: 1 / -1;
-  grid-template-columns: minmax(280px, 0.95fr) minmax(0, 1.05fr);
+.disciplineCard:nth-child(even) img {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.disciplineCard:nth-child(even) > div {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.disciplineCard:nth-child(even) {
+  background:
+    linear-gradient(225deg, rgba(192, 0, 0, 0.09), transparent 42%),
+    #111;
 }
 
 .disciplineCard img {
   width: 100%;
   height: 100%;
-  min-height: 300px;
+  min-height: 430px;
   display: block;
   object-fit: cover;
 }
@@ -1115,38 +1129,54 @@ section[id],
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: clamp(24px, 3vw, 36px);
+  justify-content: center;
+  padding: clamp(36px, 5vw, 64px);
 }
 
 .disciplineCard > div > span {
   color: #ff2525;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 950;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
 }
 
 .disciplineCard h2 {
-  margin: 16px 0 12px;
+  max-width: 520px;
+  margin: 18px 0 16px;
   color: #fff;
-  font-size: clamp(23px, 2.4vw, 31px);
-  line-height: 1.15;
+  font-size: clamp(28px, 3.1vw, 42px);
+  line-height: 1.08;
+  text-wrap: balance;
 }
 
 .disciplineCard p {
+  max-width: 540px;
   margin: 0;
   color: #d0d0d0;
-  line-height: 1.65;
+  font-size: clamp(16px, 1.4vw, 18px);
+  line-height: 1.72;
 }
 
 .disciplineLink {
-  margin-top: auto;
-  padding-top: 24px;
+  margin-top: 30px;
+  padding: 12px 0 6px;
   display: inline-flex;
   align-items: center;
   gap: 9px;
+  border-bottom: 2px solid rgba(255, 37, 37, 0.72);
   color: #fff;
   font-weight: 850;
   text-decoration: none;
+  transition:
+    border-color 180ms ease,
+    color 180ms ease,
+    gap 180ms ease;
+}
+
+.disciplineLink:hover {
+  gap: 14px;
+  border-color: #ff2525;
+  color: #ffdddd;
 }
 
 .disciplineLink .uiIcon,
@@ -1778,10 +1808,6 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  .disciplineCard:first-child {
-    grid-column: auto;
-  }
-
   .serviceDetailIntro,
   .serviceWorkingGrid,
   .portfolioIntro {
@@ -2071,10 +2097,22 @@ footer {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .disciplineCard,
-  .disciplineCard:first-child {
+  .disciplineCard {
     min-height: 0;
     grid-template-columns: 1fr;
+  }
+
+  .disciplineCard:nth-child(even) img,
+  .disciplineCard:nth-child(even) > div {
+    grid-column: 1;
+  }
+
+  .disciplineCard:nth-child(even) img {
+    grid-row: 1;
+  }
+
+  .disciplineCard:nth-child(even) > div {
+    grid-row: 2;
   }
 
   .disciplineCard img {
@@ -2083,7 +2121,12 @@ footer {
   }
 
   .disciplineCard > div {
-    min-height: 285px;
+    min-height: 0;
+    padding: 32px 25px 36px;
+  }
+
+  .disciplineCard h2 {
+    font-size: 29px;
   }
 
   .serviceDetailHero,
