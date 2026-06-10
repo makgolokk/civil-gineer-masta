@@ -11,28 +11,11 @@ import {
   getFeatureQuestion,
   getGoalQuestion,
   getStyleQuestion,
+  projectTypeImages,
   sanitizeAnswersForGoal,
   sanitizeAnswersForProject,
 } from "./plannerQuestionConfig";
 import "./DreamProjectPlanner.css";
-
-const projectImages = {
-  familyHome: "/images/planner/family-home.webp",
-  rentalUnits: "/images/planner/rental-units.webp",
-  luxuryVilla: "/images/planner/luxury-villa.webp",
-  commercialBuilding: "/images/planner/commercial-building.webp",
-  boundaryWall: "/images/planner/boundary-wall.webp",
-  renovationExtension: "/images/planner/renovation-extension.webp",
-};
-
-const projectImageByType = {
-  "Family Home": projectImages.familyHome,
-  "Rental Units": projectImages.rentalUnits,
-  "Luxury Villa": projectImages.luxuryVilla,
-  "Commercial Building": projectImages.commercialBuilding,
-  "Boundary Wall": projectImages.boundaryWall,
-  "Renovation / Extension": projectImages.renovationExtension,
-};
 
 const plannerQuestions = [
   {
@@ -46,32 +29,32 @@ const plannerQuestions = [
       {
         title: "Family Home",
         description: "A comfortable place for everyday life, growth and lasting memories.",
-        image: projectImages.familyHome,
+        image: projectTypeImages["Family Home"],
       },
       {
         title: "Rental Units",
         description: "A well-planned property designed to create dependable income.",
-        image: projectImages.rentalUnits,
+        image: projectTypeImages["Rental Units"],
       },
       {
         title: "Luxury Villa",
         description: "A distinctive home with generous spaces and an executive finish.",
-        image: projectImages.luxuryVilla,
+        image: projectTypeImages["Luxury Villa"],
       },
       {
         title: "Commercial Building",
         description: "A professional space that supports business growth and visibility.",
-        image: projectImages.commercialBuilding,
+        image: projectTypeImages["Commercial Building"],
       },
       {
         title: "Boundary Wall",
         description: "Security, privacy and a strong first impression for your property.",
-        image: projectImages.boundaryWall,
+        image: projectTypeImages["Boundary Wall"],
       },
       {
         title: "Renovation / Extension",
         description: "Reimagine your existing property and make room for what comes next.",
-        image: projectImages.renovationExtension,
+        image: projectTypeImages["Renovation / Extension"],
       },
     ],
   },
@@ -662,7 +645,7 @@ export default function DreamProjectPlanner({ onConsultation }) {
             answers={answers}
             designDirection={getDesignDirection(answers.lifestyle)}
             exportState={exportState}
-            heroImage={projectImageByType[answers.projectType]}
+            heroImage={projectTypeImages[answers.projectType]}
             onContact={handleContact}
             onDownload={handleDownload}
             readinessScore={readinessScore}

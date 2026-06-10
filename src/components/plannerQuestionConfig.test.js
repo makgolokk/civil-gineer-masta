@@ -3,6 +3,7 @@ import {
   getFeatureOptions,
   getGoalOptions,
   getStyleOptions,
+  projectTypeImages,
   sanitizeAnswersForProject,
 } from "./plannerQuestionConfig";
 
@@ -77,5 +78,36 @@ describe("plannerQuestionConfig", () => {
     expect(rentalAnswers.features).toEqual([]);
     expect(rentalAnswers.projectDetails.location).toBe("Gaborone");
     expect(rentalAnswers.projectDetails.bedrooms).toBe("");
+  });
+
+  it("uses a unique image for every visual choice", () => {
+    const projectImages = Object.values(projectTypeImages);
+    const goalImages = projectTypes.flatMap((projectType) =>
+      getGoalOptions(projectType, {
+        siteStatus: "Land secured",
+        designStatus: "Idea only",
+      }).map(({ image }) => image)
+    );
+    const contextualRentalImages = [
+      getGoalOptions("Rental Units", { siteStatus: "Existing property" })[0].image,
+      getGoalOptions("Rental Units", { siteStatus: "Looking for land" }).at(-1).image,
+    ];
+    const styleImages = projectTypes.flatMap((projectType) =>
+      getStyleOptions(projectType).map(({ image }) => image)
+    );
+    const allImages = [
+      ...projectImages,
+      ...goalImages,
+      ...contextualRentalImages,
+      ...styleImages,
+    ];
+
+    expect(allImages).toHaveLength(72);
+    expect(new Set(allImages).size).toBe(allImages.length);
+    expect(
+      allImages.every((path) =>
+        path.startsWith("/images/planner/contextual/")
+      )
+    ).toBe(true);
   });
 });

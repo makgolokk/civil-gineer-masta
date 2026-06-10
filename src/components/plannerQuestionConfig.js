@@ -1,111 +1,107 @@
-const images = {
-  familyHome: "/images/planner/family-home.webp",
-  rentalUnits: "/images/planner/rental-units.webp",
-  luxuryVilla: "/images/planner/luxury-villa.webp",
-  commercialBuilding: "/images/planner/commercial-building.webp",
-  boundaryWall: "/images/planner/boundary-wall.webp",
-  renovationExtension: "/images/planner/renovation-extension.webp",
-  modernMinimalist: "/images/planner/modern-minimalist.webp",
-  contemporaryAfrican: "/images/planner/contemporary-african.webp",
-  luxuryExecutive: "/images/planner/luxury-executive.webp",
-  simpleAffordable: "/images/planner/simple-affordable.webp",
-  boldArchitectural: "/images/planner/bold-architectural.webp",
-  traditionalModern: "/images/planner/traditional-modern.webp",
+const image = (name) => `/images/planner/contextual/${name}.webp`;
+
+export const projectTypeImages = {
+  "Family Home": image("type-family-home"),
+  "Rental Units": image("type-rental-units"),
+  "Luxury Villa": image("type-luxury-villa"),
+  "Commercial Building": image("type-commercial-building"),
+  "Boundary Wall": image("type-boundary-wall"),
+  "Renovation / Extension": image("type-renovation-extension"),
 };
 
 const option = (title, description, image) => ({ title, description, image });
 
 const goalOptions = {
   "Family Home": [
-    option("Growing family", "Flexible spaces that can adapt as children and routines change.", images.familyHome),
-    option("First home", "A practical, cost-aware home with room to improve over time.", images.simpleAffordable),
-    option("Forever home", "Long-term comfort, accessibility and spaces designed to age well.", images.traditionalModern),
-    option("Multi-generational living", "Privacy and connection for different generations under one roof.", images.contemporaryAfrican),
-    option("Home plus income", "A main home with a rental suite or separable income opportunity.", images.rentalUnits),
+    option("Growing family", "Flexible spaces that can adapt as children and routines change.", image("goal-family-growing")),
+    option("First home", "A practical, cost-aware home with room to improve over time.", image("goal-family-first-home")),
+    option("Forever home", "Long-term comfort, accessibility and spaces designed to age well.", image("goal-family-forever")),
+    option("Multi-generational living", "Privacy and connection for different generations under one roof.", image("goal-family-multigenerational")),
+    option("Home plus income", "A main home with a rental suite or separable income opportunity.", image("goal-family-home-income")),
   ],
   "Rental Units": [
-    option("Long-term family rentals", "Comfortable, private units designed for stable family tenancies.", images.rentalUnits),
-    option("Young professional rentals", "Efficient modern units with parking, security and low-maintenance appeal.", images.modernMinimalist),
-    option("Workforce or student housing", "Compact, robust accommodation with efficient shared services.", images.simpleAffordable),
-    option("Short-stay accommodation", "Guest-ready units shaped around arrival, privacy and easy turnover.", images.contemporaryAfrican),
-    option("Premium rental market", "Higher-spec units designed to command stronger rent and tenant quality.", images.luxuryExecutive),
-    option("Maximum site yield", "Test how many viable units the site can support without weakening access or liveability.", images.boldArchitectural),
+    option("Long-term family rentals", "Comfortable, private units designed for stable family tenancies.", image("goal-rental-family")),
+    option("Young professional rentals", "Efficient modern units with parking, security and low-maintenance appeal.", image("goal-rental-young-professional")),
+    option("Workforce or student housing", "Compact, robust accommodation with efficient shared services.", image("goal-rental-workforce-student")),
+    option("Short-stay accommodation", "Guest-ready units shaped around arrival, privacy and easy turnover.", image("goal-rental-short-stay")),
+    option("Premium rental market", "Higher-spec units designed to command stronger rent and tenant quality.", image("goal-rental-premium")),
+    option("Maximum site yield", "Test how many viable units the site can support without weakening access or liveability.", image("goal-rental-maximum-yield")),
   ],
   "Luxury Villa": [
-    option("Private family retreat", "A generous home balancing togetherness, privacy and calm.", images.luxuryVilla),
-    option("Executive entertaining", "Impressive arrival and social spaces made for hosting confidently.", images.luxuryExecutive),
-    option("Resort-style living", "Indoor-outdoor living, wellness and everyday escape at home.", images.contemporaryAfrican),
-    option("Legacy residence", "A timeless, durable home intended to serve the family for generations.", images.traditionalModern),
-    option("Architectural statement", "A distinctive one-off property with memorable form and presence.", images.boldArchitectural),
+    option("Private family retreat", "A generous home balancing togetherness, privacy and calm.", image("goal-villa-private-retreat")),
+    option("Executive entertaining", "Impressive arrival and social spaces made for hosting confidently.", image("goal-villa-executive-entertaining")),
+    option("Resort-style living", "Indoor-outdoor living, wellness and everyday escape at home.", image("goal-villa-resort")),
+    option("Legacy residence", "A timeless, durable home intended to serve the family for generations.", image("goal-villa-legacy")),
+    option("Architectural statement", "A distinctive one-off property with memorable form and presence.", image("goal-villa-architectural-statement")),
   ],
   "Commercial Building": [
-    option("Professional offices", "A credible workplace supporting staff focus, clients and future growth.", images.commercialBuilding),
-    option("Retail or customer-facing space", "Visibility, easy access and a strong customer experience.", images.boldArchitectural),
-    option("Mixed-use investment", "Compatible business and rental uses planned for flexible income.", images.rentalUnits),
-    option("Hospitality or accommodation", "Guest flow, service operations and a memorable sense of arrival.", images.contemporaryAfrican),
-    option("Workshop or light industrial", "Practical servicing, robust structure and efficient operational flow.", images.simpleAffordable),
-    option("Healthcare or specialist use", "Clear circulation, privacy and fit-for-purpose professional rooms.", images.modernMinimalist),
+    option("Professional offices", "A credible workplace supporting staff focus, clients and future growth.", image("goal-commercial-offices")),
+    option("Retail or customer-facing space", "Visibility, easy access and a strong customer experience.", image("goal-commercial-retail")),
+    option("Mixed-use investment", "Compatible business and rental uses planned for flexible income.", image("goal-commercial-mixed-use")),
+    option("Hospitality or accommodation", "Guest flow, service operations and a memorable sense of arrival.", image("goal-commercial-hospitality")),
+    option("Workshop or light industrial", "Practical servicing, robust structure and efficient operational flow.", image("goal-commercial-workshop")),
+    option("Healthcare or specialist use", "Clear circulation, privacy and fit-for-purpose professional rooms.", image("goal-commercial-healthcare")),
   ],
   "Boundary Wall": [
-    option("Security and privacy", "A secure perimeter that controls views and protects the property.", images.boundaryWall),
-    option("Entrance and street appeal", "A frontage, gate and arrival that strengthen the property's identity.", images.boldArchitectural),
-    option("Cost-effective enclosure", "A practical, durable wall focused on essential coverage and value.", images.simpleAffordable),
-    option("Estate-quality perimeter", "A coordinated premium boundary treatment with refined detailing.", images.luxuryExecutive),
-    option("Access and gate upgrade", "Improve vehicle, pedestrian and service access at the property edge.", images.modernMinimalist),
-    option("Replace a failing wall", "Resolve cracking, leaning, drainage or foundation concerns properly.", images.renovationExtension),
+    option("Security and privacy", "A secure perimeter that controls views and protects the property.", image("goal-wall-security-privacy")),
+    option("Entrance and street appeal", "A frontage, gate and arrival that strengthen the property's identity.", image("goal-wall-street-appeal")),
+    option("Cost-effective enclosure", "A practical, durable wall focused on essential coverage and value.", image("goal-wall-cost-effective")),
+    option("Estate-quality perimeter", "A coordinated premium boundary treatment with refined detailing.", image("goal-wall-estate-quality")),
+    option("Access and gate upgrade", "Improve vehicle, pedestrian and service access at the property edge.", image("goal-wall-gate-upgrade")),
+    option("Replace a failing wall", "Resolve cracking, leaning, drainage or foundation concerns properly.", image("goal-wall-replacement")),
   ],
   "Renovation / Extension": [
-    option("Add more living space", "Create the extra rooms or floor area the property now needs.", images.renovationExtension),
-    option("Improve layout and flow", "Fix awkward circulation, dark rooms or disconnected living spaces.", images.modernMinimalist),
-    option("Modernise an older property", "Upgrade appearance, comfort and services while retaining useful structure.", images.traditionalModern),
-    option("Repair structural concerns", "Investigate and resolve cracking, movement or deteriorated building elements.", images.simpleAffordable),
-    option("Convert for rental income", "Replan the property into practical, private income-generating spaces.", images.rentalUnits),
-    option("Upgrade for resale or value", "Target improvements that strengthen market appeal without wasteful work.", images.luxuryExecutive),
+    option("Add more living space", "Create the extra rooms or floor area the property now needs.", image("goal-renovation-more-space")),
+    option("Improve layout and flow", "Fix awkward circulation, dark rooms or disconnected living spaces.", image("goal-renovation-flow")),
+    option("Modernise an older property", "Upgrade appearance, comfort and services while retaining useful structure.", image("goal-renovation-modernise")),
+    option("Repair structural concerns", "Investigate and resolve cracking, movement or deteriorated building elements.", image("goal-renovation-structural-repair")),
+    option("Convert for rental income", "Replan the property into practical, private income-generating spaces.", image("goal-renovation-rental-conversion")),
+    option("Upgrade for resale or value", "Target improvements that strengthen market appeal without wasteful work.", image("goal-renovation-resale-value")),
   ],
 };
 
 const styleOptions = {
   "Family Home": [
-    option("Modern Minimalist", "Clean family spaces, calm forms and easy everyday upkeep.", images.modernMinimalist),
-    option("Contemporary African", "Climate-aware modern living with local warmth and character.", images.contemporaryAfrican),
-    option("Simple Affordable", "Efficient planning and practical finishes with future flexibility.", images.simpleAffordable),
-    option("Traditional Modern", "Familiar domestic warmth refined for contemporary life.", images.traditionalModern),
-    option("Bold Architectural", "A more individual home with strong geometry and presence.", images.boldArchitectural),
+    option("Modern Minimalist", "Clean family spaces, calm forms and easy everyday upkeep.", image("style-family-modern-minimalist")),
+    option("Contemporary African", "Climate-aware modern living with local warmth and character.", image("style-family-contemporary-african")),
+    option("Simple Affordable", "Efficient planning and practical finishes with future flexibility.", image("style-family-simple-affordable")),
+    option("Traditional Modern", "Familiar domestic warmth refined for contemporary life.", image("style-family-traditional-modern")),
+    option("Bold Architectural", "A more individual home with strong geometry and presence.", image("style-family-bold-architectural")),
   ],
   "Rental Units": [
-    option("Durable Modern", "Clean, repeatable units with robust finishes and broad tenant appeal.", images.modernMinimalist),
-    option("Compact Contemporary", "Space-efficient planning that still feels bright and current.", images.rentalUnits),
-    option("Contemporary African", "Climate-responsive rental living with shade and local character.", images.contemporaryAfrican),
-    option("Simple Cost-Efficient", "Straightforward forms and finishes that protect the development budget.", images.simpleAffordable),
-    option("Premium Urban", "Sharper detailing and finishes for a higher-value rental market.", images.luxuryExecutive),
+    option("Durable Modern", "Clean, repeatable units with robust finishes and broad tenant appeal.", image("style-rental-durable-modern")),
+    option("Compact Contemporary", "Space-efficient planning that still feels bright and current.", image("style-rental-compact-contemporary")),
+    option("Contemporary African", "Climate-responsive rental living with shade and local character.", image("style-rental-contemporary-african")),
+    option("Simple Cost-Efficient", "Straightforward forms and finishes that protect the development budget.", image("style-rental-cost-efficient")),
+    option("Premium Urban", "Sharper detailing and finishes for a higher-value rental market.", image("style-rental-premium-urban")),
   ],
   "Luxury Villa": [
-    option("Luxury Executive", "Confident proportions, premium finishes and impressive arrival.", images.luxuryExecutive),
-    option("Contemporary African", "Resort-like comfort shaped by climate, landscape and place.", images.contemporaryAfrican),
-    option("Modern Minimalist", "Quiet luxury expressed through proportion, light and precise detail.", images.modernMinimalist),
-    option("Bold Architectural", "Sculptural forms and a memorable one-of-one identity.", images.boldArchitectural),
-    option("Timeless Modern", "Enduring materials and balanced forms beyond short-lived trends.", images.traditionalModern),
+    option("Luxury Executive", "Confident proportions, premium finishes and impressive arrival.", image("style-villa-luxury-executive")),
+    option("Contemporary African", "Resort-like comfort shaped by climate, landscape and place.", image("style-villa-contemporary-african")),
+    option("Modern Minimalist", "Quiet luxury expressed through proportion, light and precise detail.", image("style-villa-modern-minimalist")),
+    option("Bold Architectural", "Sculptural forms and a memorable one-of-one identity.", image("style-villa-bold-architectural")),
+    option("Timeless Modern", "Enduring materials and balanced forms beyond short-lived trends.", image("style-villa-timeless-modern")),
   ],
   "Commercial Building": [
-    option("Corporate Contemporary", "A credible, adaptable image for professional organisations.", images.commercialBuilding),
-    option("Retail Showcase", "Visible, welcoming architecture designed to attract customers.", images.boldArchitectural),
-    option("Industrial Practical", "Robust, efficient construction with clear operational logic.", images.simpleAffordable),
-    option("Contemporary African", "Climate-aware commercial design with a distinctive local identity.", images.contemporaryAfrican),
-    option("Premium Business", "Refined materials and arrival for high-value clients and tenants.", images.luxuryExecutive),
+    option("Corporate Contemporary", "A credible, adaptable image for professional organisations.", image("style-commercial-corporate")),
+    option("Retail Showcase", "Visible, welcoming architecture designed to attract customers.", image("style-commercial-retail-showcase")),
+    option("Industrial Practical", "Robust, efficient construction with clear operational logic.", image("style-commercial-industrial")),
+    option("Contemporary African", "Climate-aware commercial design with a distinctive local identity.", image("style-commercial-contemporary-african")),
+    option("Premium Business", "Refined materials and arrival for high-value clients and tenants.", image("style-commercial-premium")),
   ],
   "Boundary Wall": [
-    option("Modern Screened", "A clean wall with controlled openings, screens or slatted accents.", images.modernMinimalist),
-    option("Solid Privacy", "A strong, private enclosure with restrained practical detailing.", images.boundaryWall),
-    option("Contemporary Masonry", "Textured masonry and modern proportions with durable character.", images.contemporaryAfrican),
-    option("Cost-Efficient Secure", "Simple robust construction focused on coverage and security.", images.simpleAffordable),
-    option("Estate Statement", "Premium pillars, gates and lighting for a formal arrival.", images.luxuryExecutive),
+    option("Modern Screened", "A clean wall with controlled openings, screens or slatted accents.", image("style-wall-modern-screened")),
+    option("Solid Privacy", "A strong, private enclosure with restrained practical detailing.", image("style-wall-solid-privacy")),
+    option("Contemporary Masonry", "Textured masonry and modern proportions with durable character.", image("style-wall-contemporary-masonry")),
+    option("Cost-Efficient Secure", "Simple robust construction focused on coverage and security.", image("style-wall-cost-efficient")),
+    option("Estate Statement", "Premium pillars, gates and lighting for a formal arrival.", image("style-wall-estate-statement")),
   ],
   "Renovation / Extension": [
-    option("Seamless Match", "Make the new work feel like a natural continuation of the property.", images.traditionalModern),
-    option("Modern Contrast", "Let the new addition read clearly while complementing the original.", images.modernMinimalist),
-    option("Contemporary African", "Improve shade, ventilation and local character as the property changes.", images.contemporaryAfrican),
-    option("Simple Cost-Efficient", "Prioritise useful change, practical finishes and controlled scope.", images.simpleAffordable),
-    option("Premium Upgrade", "Lift the property with refined finishes and stronger architectural detail.", images.luxuryExecutive),
+    option("Seamless Match", "Make the new work feel like a natural continuation of the property.", image("style-renovation-seamless-match")),
+    option("Modern Contrast", "Let the new addition read clearly while complementing the original.", image("style-renovation-modern-contrast")),
+    option("Contemporary African", "Improve shade, ventilation and local character as the property changes.", image("style-renovation-contemporary-african")),
+    option("Simple Cost-Efficient", "Prioritise useful change, practical finishes and controlled scope.", image("style-renovation-cost-efficient")),
+    option("Premium Upgrade", "Lift the property with refined finishes and stronger architectural detail.", image("style-renovation-premium-upgrade")),
   ],
 };
 
@@ -293,7 +289,7 @@ export function getGoalOptions(projectType, stageProfile = {}) {
       option(
         "Convert an existing property",
         "Assess how the current building can become compliant, private rental units.",
-        images.renovationExtension
+        image("goal-rental-convert-existing")
       )
     );
   }
@@ -302,7 +298,7 @@ export function getGoalOptions(projectType, stageProfile = {}) {
       option(
         "Site-led rental opportunity",
         "Choose land by testing access, demand, services and realistic development yield.",
-        images.commercialBuilding
+        image("goal-rental-site-led")
       )
     );
   }
@@ -411,5 +407,3 @@ export function sanitizeAnswersForGoal(answers, nextGoal) {
     features: answers.features.filter((feature) => validFeatures.includes(feature)),
   };
 }
-
-export { images as plannerImages };
