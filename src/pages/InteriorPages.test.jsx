@@ -50,16 +50,15 @@ describe("interior service and project pages", () => {
     expect(screen.getByText("Possible deliverables")).toBeTruthy();
   });
 
-  it("marks temporary portfolio content as sample profiles", () => {
+  it("shows an expanded, filterable project portfolio", () => {
     render(
       <MemoryRouter>
         <ProjectsPage />
       </MemoryRouter>
     );
 
-    expect(screen.getAllByText("Sample profile")).toHaveLength(4);
-    expect(
-      screen.getByText(/without presenting unverified work as completed/i)
-    ).toBeTruthy();
+    expect(screen.getAllByText("View project story")).toHaveLength(10);
+    expect(screen.getByRole("button", { name: "Interiors" })).toBeTruthy();
+    expect(screen.getByText(/personal details are removed/i)).toBeTruthy();
   });
 });

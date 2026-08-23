@@ -60,7 +60,6 @@ export function Icon({ name }) {
 
   return <IconComponent aria-hidden="true" className="uiIcon" strokeWidth={1.8} />;
 }
-
 export function SiteFrame({ children }) {
   return (
     <div className="page">
@@ -71,24 +70,21 @@ export function SiteFrame({ children }) {
     </div>
   );
 }
-
 function SiteHeader() {
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   return (
-    <header className="header" style={header}>
+    <header className="header">
       <NavLink
         aria-label="Civil-Gineer Masta home"
         className="logoPanel"
         onClick={() => setIsNavOpen(false)}
-        style={logoPanel}
         to="/"
       >
         <img
           className="logoImage"
           src="/images/logo.png"
           alt="Civil-Gineer Masta Logo"
-          style={logoImage}
         />
       </NavLink>
 
@@ -103,14 +99,13 @@ function SiteHeader() {
         <Icon name={isNavOpen ? "close" : "menu"} />
       </button>
 
-      <nav className={`nav${isNavOpen ? " isOpen" : ""}`} id="site-nav" style={nav}>
+      <nav className={`nav${isNavOpen ? " isOpen" : ""}`} id="site-nav">
         {navItems.map((item) => (
           <NavLink
             className={({ isActive }) => (isActive ? "isActive" : undefined)}
             end={item.to === "/"}
             key={item.label}
             onClick={() => setIsNavOpen(false)}
-            style={navLink}
             to={item.to}
           >
             <Icon name={item.icon} />
@@ -121,7 +116,6 @@ function SiteHeader() {
     </header>
   );
 }
-
 function FloatingWhatsapp() {
   return (
     <a
@@ -142,16 +136,34 @@ function FloatingWhatsapp() {
     </a>
   );
 }
-
 function SiteFooter() {
   return (
-    <footer className="footer" style={footer}>
-      &copy; 2026 Civil-Gineer Masta (Pty) Ltd. All Rights Reserved. | Engineering |
-      Design | Project Delivery
+    <footer className="footer">
+      <div className="footerBrand">
+        <img src="/images/logo.png" alt="Civil-Gineer Masta" />
+        <p>Design, engineering judgement and project delivery connected from brief to site.</p>
+      </div>
+      <div>
+        <strong>Explore</strong>
+        <Link to="/projects">Projects</Link>
+        <Link to="/services">Services</Link>
+        <Link to="/about">About</Link>
+      </div>
+      <div>
+        <strong>Start a project</strong>
+        <Link to="/contact">Project enquiry</Link>
+        <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noreferrer">WhatsApp CGM</a>
+        <a href={`mailto:${enquiryEmail}`}>{enquiryEmail}</a>
+      </div>
+      <div>
+        <strong>Service area</strong>
+        <span>Gaborone North</span>
+        <span>Projects across Botswana</span>
+        <small>&copy; 2026 Civil-Gineer Masta (Pty) Ltd.</small>
+      </div>
     </footer>
   );
 }
-
 const emptyEnquiry = {
   fullName: "",
   email: "",
@@ -212,7 +224,6 @@ function projectBriefToEnquiry(projectBrief) {
       .join("\n"),
   };
 }
-
 export function EnquiryForm({ initialProjectBrief = null }) {
   const formKey = initialProjectBrief
     ? JSON.stringify({
@@ -229,7 +240,6 @@ export function EnquiryForm({ initialProjectBrief = null }) {
     />
   );
 }
-
 function EnquiryFormFields({ initialProjectBrief }) {
   const [values, setValues] = useState(() =>
     projectBriefToEnquiry(initialProjectBrief)
@@ -419,54 +429,3 @@ function EnquiryFormFields({ initialProjectBrief }) {
     </form>
   );
 }
-
-const header = {
-  height: "115px",
-  background:
-    "linear-gradient(90deg, #ffffff 0%, #ffffff 24%, #c00000 24%, #b00000 100%)",
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  paddingRight: "55px",
-  position: "sticky",
-  top: 0,
-  zIndex: 20,
-  boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
-};
-
-const logoPanel = {
-  height: "115px",
-  width: "330px",
-  backgroundColor: "white",
-  borderBottomRightRadius: "35px",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-};
-
-const logoImage = {
-  width: "260px",
-  height: "95px",
-  objectFit: "contain",
-};
-
-const nav = {
-  display: "flex",
-  gap: "45px",
-  flexWrap: "wrap",
-};
-
-const navLink = {
-  color: "white",
-  fontWeight: "bold",
-  textDecoration: "none",
-  fontSize: "16px",
-};
-
-const footer = {
-  backgroundColor: "#050505",
-  color: "#aaa",
-  textAlign: "center",
-  padding: "22px",
-  fontSize: "14px",
-};

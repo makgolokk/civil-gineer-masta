@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, Navigate, useParams } from "react-router";
 import {
   EnquiryForm,
@@ -14,7 +15,7 @@ import {
   getServiceDiscipline,
   serviceDisciplines,
 } from "../serviceDisciplines";
-import { sampleProjects } from "../projectPortfolio";
+import { getProject, projectCategories, projects } from "../projectPortfolio";
 
 const aboutValues = [
   {
@@ -150,9 +151,9 @@ export function AboutPage() {
           </p>
           <h2>Design, engineering and site-minded coordination.</h2>
           <p>
-            Capability can include architectural drawing development, structural
-            assessment, project management, inspections, site supervision and
-            construction support matched to the project appointment.
+            CGM brings architectural drawing development, structural judgement,
+            project management, inspections and construction support into one
+            coordinated service pathway matched to the appointment.
           </p>
         </div>
         <div className="profileFacts">
@@ -164,10 +165,10 @@ export function AboutPage() {
             </p>
           </article>
           <article>
-            <h3>Professional placeholders</h3>
+            <h3>Evidence-led appointments</h3>
             <p>
-              Add ERB registration details, engineering credentials, appointment roles
-              and any required professional disclosures here when confirmed.
+              Every project begins with a defined brief, scope and stage. Our portfolio
+              shows the models, drawings and site records behind that practical approach.
             </p>
           </article>
         </div>
@@ -339,44 +340,139 @@ export function ServiceDetailPage() {
 }
 
 export function ProjectsPage() {
+  const [activeCategory, setActiveCategory] = useState("All");
+  const visibleProjects = activeCategory === "All"
+    ? projects
+    : projects.filter((project) => project.category === activeCategory);
+
   return (
     <SiteFrame>
       <InteriorHero
         label="Projects"
-        title="A quieter portfolio, focused on the work."
-        text="A simple project showcase for selected residential, development, commercial and renovation work. Your team's verified project details can replace these sample profiles as the portfolio develops."
+        title="Proof across the full project journey."
+        text="Ten evidence-backed project stories show how Civil-Gineer Masta plans, designs, documents and supports building work across Botswana."
       />
 
       <section className="interiorBand lightInteriorBand portfolioBand">
         <div className="portfolioIntro">
           <div>
             <p className="sectionLabel red">SELECTED WORK</p>
-            <h2>Project stories will live here, not another service list.</h2>
+            <h2>Architecture, technical detail, interiors and site support.</h2>
           </div>
           <p>
-            The profiles below are clearly marked concept samples. They establish the
-            intended portfolio format without presenting unverified work as completed
-            Civil-Gineer Masta projects.
+            These profiles are drawn from CGM models, drawing sets and site records.
+            Personal details are removed, and every status label describes the documented
+            project stage rather than implying completion.
           </p>
         </div>
+
+        <div className="portfolioFilters" aria-label="Filter projects">
+          {projectCategories.map((category) => (
+            <button
+              aria-pressed={activeCategory === category}
+              className={activeCategory === category ? "isActive" : undefined}
+              key={category}
+              onClick={() => setActiveCategory(category)}
+              type="button"
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+
         <div className="portfolioGrid">
-          {sampleProjects.map((project) => (
+          {visibleProjects.map((project) => (
             <article className="portfolioCard" key={project.title}>
-              <img src={project.image} alt="" decoding="async" loading="lazy" />
+              <Link className="portfolioImageLink" to={`/projects/${project.slug}`}>
+                <img
+                  src={project.image}
+                  alt={`${project.title} - ${project.category}`}
+                  decoding="async"
+                  loading="lazy"
+                />
+              </Link>
               <div>
                 <div className="portfolioMeta">
                   <p>{project.category}</p>
-                  <span>Sample profile</span>
+                  <span>{project.stage}</span>
                 </div>
-                <h2>{project.title}</h2>
+                <h2><Link to={`/projects/${project.slug}`}>{project.title}</Link></h2>
                 <p className="portfolioLocation">{project.location}</p>
-                <span>{project.text}</span>
-                <strong>{project.scope}</strong>
+                <span>{project.summary}</span>
+                <Link className="portfolioStoryLink" to={`/projects/${project.slug}`}>
+                  View project story <Icon name="arrow" />
+                </Link>
               </div>
             </article>
           ))}
         </div>
-        <PageContactStrip text="Portfolio details are being curated. Verified project photography, scope, location and outcomes can be added without redesigning the page." />
+        <PageContactStrip text="Planning something similar? Share your location, project stage and the decision you need help making." />
+      </section>
+    </SiteFrame>
+  );
+}
+
+export function ProjectDetailPage() {
+  const { projectSlug } = useParams();
+  const project = getProject(projectSlug);
+
+  if (!project) return <Navigate replace to="/projects" />;
+
+  return (
+    <SiteFrame>
+      <section className="projectDetailHero">
+        <div>
+          <Link className="projectBackLink" to="/projects">
+            <Icon name="arrow" /> All projects
+          </Link>
+          <p className="sectionLabel left">{project.category}</p>
+          <h1>{project.title}</h1>
+          <p>{project.summary}</p>
+        </div>
+        <img src={project.image} alt={`${project.title} project evidence`} />
+      </section>
+
+      <section className="interiorBand lightInteriorBand projectStoryBand">
+        <div className="projectFactGrid">
+          <div><span>Location</span><strong>{project.location}</strong></div>
+          <div><span>Current stage</span><strong>{project.stage}</strong></div>
+          <div><span>Evidence</span><strong>{project.proof}</strong></div>
+        </div>
+
+        <div className="projectNarrativeGrid">
+          <article>
+            <p className="sectionLabel red">THE BRIEF</p>
+            <h2>Challenge</h2>
+            <p>{project.challenge}</p>
+          </article>
+          <article>
+            <p className="sectionLabel red">CGM RESPONSE</p>
+            <h2>Coordinated thinking</h2>
+            <p>{project.response}</p>
+          </article>
+        </div>
+
+        <div className="projectScopeBlock">
+          <p className="sectionLabel red">CGM ROLE</p>
+          <h2>Scope demonstrated</h2>
+          <div className="projectScopeList">
+            {project.scope.map((item) => <span key={item}>{item}</span>)}
+          </div>
+        </div>
+
+        <div className={`projectGallery${project.gallery.length === 1 ? " isSingle" : ""}`}>
+          {project.gallery.map((image, index) => (
+            <img
+              alt={`${project.title} evidence ${index + 1}`}
+              decoding="async"
+              key={image}
+              loading={index === 0 ? "eager" : "lazy"}
+              src={image}
+            />
+          ))}
+        </div>
+
+        <PageContactStrip text="Need this mix of design clarity and technical coordination? Tell us where your project is and what stage it has reached." />
       </section>
     </SiteFrame>
   );
