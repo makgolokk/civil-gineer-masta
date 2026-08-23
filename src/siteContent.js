@@ -23,7 +23,7 @@ export const contactDetails = [
   {
     icon: "mail",
     label: "Email",
-    value: "makgolokk@outlook.com / modiseboago10@gmail.com",
+    value: "makgolokk@outlook.com",
   },
   {
     icon: "pin",

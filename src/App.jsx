@@ -6,6 +6,7 @@ import {
   ContactPage,
   FaqPage,
   ProjectsPage,
+  ProjectDetailPage,
   ServiceDetailPage,
   ServicesPage,
 } from "./pages/InteriorPages";
@@ -20,11 +21,12 @@ import {
   whatsappMessage,
   whatsappNumber,
 } from "./siteContent";
-import { sampleProjects } from "./projectPortfolio";
+import { featuredProjects, projects } from "./projectPortfolio";
 
 function App() {
   return (
     <>
+      <SiteMeta />
       <RouteScrollTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -32,11 +34,68 @@ function App() {
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/services/:serviceSlug" element={<ServiceDetailPage />} />
         <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/projects/:projectSlug" element={<ProjectDetailPage />} />
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/contact" element={<ContactPage />} />
       </Routes>
     </>
   );
+}
+
+function SiteMeta() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const project = pathname.startsWith("/projects/")
+      ? projects.find((item) => `/projects/${item.slug}` === pathname)
+      : null;
+    const metadata = project
+      ? {
+          title: `${project.title} | Civil-Gineer Masta`,
+          description: project.summary,
+          image: project.image,
+        }
+      : {
+          "/": {
+            title: "Civil-Gineer Masta | Design, Engineering & Project Delivery",
+            description: "Botswana architectural design, structural engineering, project management and construction support from one coordinated team.",
+          },
+          "/projects": {
+            title: "Selected Projects | Civil-Gineer Masta Botswana",
+            description: "Explore evidence-backed CGM residential, multi-residential, renovation, interior and technical project work across Botswana.",
+          },
+          "/services": {
+            title: "Building Consultancy Services | Civil-Gineer Masta",
+            description: "Architectural design, structural engineering, project management, construction support and property improvement services in Botswana.",
+          },
+          "/about": {
+            title: "About Civil-Gineer Masta | Botswana Building Consultancy",
+            description: "Meet a Botswana-based design, engineering and project-delivery partner focused on clear technical decisions and practical site outcomes.",
+          },
+          "/contact": {
+            title: "Start a Project | Civil-Gineer Masta",
+            description: "Contact Civil-Gineer Masta about house plans, structural support, renovations, interiors, project management or construction oversight.",
+          },
+        }[pathname] || {
+          title: "Civil-Gineer Masta | Botswana",
+          description: "Professional design, engineering and project delivery support in Botswana.",
+        };
+
+    document.title = metadata.title;
+    const absoluteUrl = `https://civil-gineer-masta.vercel.app${pathname}`;
+    const setMeta = (selector, attribute, value) => {
+      const element = document.querySelector(selector);
+      if (element) element.setAttribute(attribute, value);
+    };
+    setMeta('meta[name="description"]', "content", metadata.description);
+    setMeta('meta[property="og:title"]', "content", metadata.title);
+    setMeta('meta[property="og:description"]', "content", metadata.description);
+    setMeta('meta[property="og:url"]', "content", absoluteUrl);
+    setMeta('meta[property="og:image"]', "content", metadata.image || "/images/hero.png");
+    setMeta('link[rel="canonical"]', "href", absoluteUrl);
+  }, [pathname]);
+
+  return null;
 }
 
 function RouteScrollTop() {
@@ -168,13 +227,13 @@ function HomePage() {
         <div className="heroOverlay">
           <div className="heroContent">
             <h1>
-              <span className="heroLine heroLineLead">Engineering | Design</span>
-              <span className="heroLine">Project Delivery</span>
+              <span className="heroLine heroLineLead">One team from concept</span>
+              <span className="heroLine">to construction.</span>
             </h1>
 
             <p>
-              Professional architectural design, structural engineering and project
-              management solutions for residential and commercial projects in Botswana.
+              CGM connects architectural design, engineering judgement, approvals,
+              project coordination and site support for buildable projects in Botswana.
             </p>
 
             <div className="buttonRow">
@@ -201,6 +260,13 @@ function HomePage() {
             </div>
           </div>
         </div>
+      </section>
+
+      <section className="homeProofStrip" aria-label="Civil-Gineer Masta capabilities">
+        <div><strong>10</strong><span>Evidence-backed project stories</span></div>
+        <div><strong>5</strong><span>Connected professional service areas</span></div>
+        <div><strong>BW</strong><span>Botswana-based project support</span></div>
+        <div><strong>1</strong><span>Coordinated route from brief to site</span></div>
       </section>
 
       <section className="darkSection revealSection" id="services">
@@ -230,6 +296,28 @@ function HomePage() {
         </div>
       </section>
 
+      <section className="capabilityJourney revealSection">
+        <div className="capabilityJourneyIntro">
+          <p className="sectionLabel red">ONE COORDINATED TEAM</p>
+          <h2>Plan. Design. Verify. Deliver.</h2>
+          <p>
+            CGM connects the early brief to technical information and site decisions,
+            so clients do not have to treat architecture, engineering judgement and
+            delivery support as separate conversations.
+          </p>
+        </div>
+        <div className="capabilityJourneyGrid">
+          {[
+            ["01", "Plan", "Briefs, feasibility, site use and a practical route through the project."],
+            ["02", "Design", "Architectural layouts, visualisation, approvals information and detailed coordination."],
+            ["03", "Verify", "Structural thinking, technical review, inspections and documented decisions."],
+            ["04", "Deliver", "Site observations, project coordination, quality visibility and close-out support."],
+          ].map(([number, title, text]) => (
+            <article key={title}><span>{number}</span><h3>{title}</h3><p>{text}</p></article>
+          ))}
+        </div>
+      </section>
+
       <DreamProjectPlanner onConsultation={setPlannerBrief} />
 
       <section className="lightSection revealSection" id="projects">
@@ -242,12 +330,14 @@ function HomePage() {
         </h2>
 
         <div className="homeProjectHighlights">
-          {sampleProjects.slice(0, 3).map((project) => (
+          {featuredProjects.map((project) => (
             <article key={project.title}>
-              <img src={project.image} alt={`${project.title} — ${project.category}`} decoding="async" loading="lazy" />
+              <Link to={`/projects/${project.slug}`}>
+                <img src={project.image} alt={`${project.title} - ${project.category}`} decoding="async" loading="lazy" />
+              </Link>
               <div>
                 <span>{project.category}</span>
-                <h3>{project.title}</h3>
+                <h3><Link to={`/projects/${project.slug}`}>{project.title}</Link></h3>
                 <p>{project.location}</p>
               </div>
             </article>
