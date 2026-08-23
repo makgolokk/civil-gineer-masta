@@ -1099,6 +1099,12 @@ section[id],
     #151515;
   box-shadow: 0 24px 54px rgba(0, 0, 0, 0.22);
   overflow: hidden;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.portfolioCard:hover {
+  box-shadow: 0 22px 48px rgba(12, 12, 12, 0.13);
+  transform: translateY(-4px);
 }
 
 .disciplineCard:nth-child(even) img {
@@ -1503,6 +1509,11 @@ section[id],
   display: block;
   background: #131313;
   object-fit: cover;
+  transition: transform 500ms ease;
+}
+
+.portfolioCard:hover img {
+  transform: scale(1.025);
 }
 
 .portfolioCard > div {

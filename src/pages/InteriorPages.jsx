@@ -343,30 +343,30 @@ export function ProjectsPage() {
     <SiteFrame>
       <InteriorHero
         label="Projects"
-        title="A quieter portfolio, focused on the work."
-        text="A simple project showcase for selected residential, development, commercial and renovation work. Your team's verified project details can replace these sample profiles as the portfolio develops."
+        title="Selected work, from first idea to site."
+        text="Explore recent Civil-Gineer Masta work across residential development, architectural design, structural coordination and considered interiors in Botswana."
       />
 
       <section className="interiorBand lightInteriorBand portfolioBand">
         <div className="portfolioIntro">
           <div>
             <p className="sectionLabel red">SELECTED WORK</p>
-            <h2>Project stories will live here, not another service list.</h2>
+            <h2>Real project stories, grounded in drawings and site work.</h2>
           </div>
           <p>
-            The profiles below are clearly marked concept samples. They establish the
-            intended portfolio format without presenting unverified work as completed
-            Civil-Gineer Masta projects.
+            Each profile is drawn from CGM project records. Client names and sensitive
+            documents are intentionally kept private while the design scope, place and
+            delivery stage remain clear.
           </p>
         </div>
         <div className="portfolioGrid">
           {sampleProjects.map((project) => (
             <article className="portfolioCard" key={project.title}>
-              <img src={project.image} alt="" decoding="async" loading="lazy" />
+              <img src={project.image} alt={`${project.title} — ${project.category}`} decoding="async" loading="lazy" />
               <div>
                 <div className="portfolioMeta">
                   <p>{project.category}</p>
-                  <span>Sample profile</span>
+                  <span>{project.stage}</span>
                 </div>
                 <h2>{project.title}</h2>
                 <p className="portfolioLocation">{project.location}</p>

@@ -238,13 +238,13 @@ function HomePage() {
           PORTFOLIO PREVIEW
         </p>
         <h2 className="sectionTitle dark">
-          A few project stories, with room for the work to speak.
+          Recent CGM work, from design thinking to site delivery.
         </h2>
 
         <div className="homeProjectHighlights">
           {sampleProjects.slice(0, 3).map((project) => (
             <article key={project.title}>
-              <img src={project.image} alt="" decoding="async" loading="lazy" />
+              <img src={project.image} alt={`${project.title} — ${project.category}`} decoding="async" loading="lazy" />
               <div>
                 <span>{project.category}</span>
                 <h3>{project.title}</h3>
@@ -254,7 +254,7 @@ function HomePage() {
           ))}
         </div>
         <Link className="faqPageLink" to="/projects">
-          View portfolio preview
+          Explore selected projects
           <Icon name="arrow" />
         </Link>
       </section>
