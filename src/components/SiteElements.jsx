@@ -18,7 +18,7 @@ import {
   X,
 } from "lucide-react";
 import { useState } from "react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import {
   enquiryEmail,
   serviceOptions,
